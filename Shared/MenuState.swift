@@ -10,19 +10,21 @@ import GameplayKit
 import SpriteKit
 
 class MenuState: GKState {
-    let view: SKView
+    unowned var view: SKView
+    unowned var manager: SceneManager
     
     lazy var scene: SKScene = {
         let size = self.view.bounds.size
-        let scene = MenuScene(size: size)
+        let scene = MenuScene(manager: self.manager, size: size)
         
         scene.scaleMode = .AspectFit
         
         return scene
     }()
     
-    init(view: SKView) {
+    init(view: SKView, manager: SceneManager) {
         self.view = view
+        self.manager = manager
         super.init()
         
         configure()
@@ -32,7 +34,8 @@ class MenuState: GKState {
     
     /// Highlights the sprite representing the state.
     override func didEnterWithPreviousState(previousState: GKState?) {
-        self.view.presentScene(self.scene)
+        let transition = SKTransition.doorsCloseHorizontalWithDuration(0.5)
+        self.view.presentScene(self.scene, transition: transition)
     }
     
     /// Unhighlights the sprite representing the state.

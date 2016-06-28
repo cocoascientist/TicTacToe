@@ -31,7 +31,16 @@ class GameScene: SKScene {
     lazy var boardNode: SKSpriteNode = {
         let node = SKSpriteNode(imageNamed: "board3")
         node.position = CGPoint(x: 0.0, y: 0.0)
+        node.zPosition = -1
+        node.userInteractionEnabled = false
         return node
+    }()
+    
+    lazy var quitButton: MenuButton = {
+        let title = NSLocalizedString("Quit", comment: "Quit")
+        let button = MenuButton(title: title, texture: "smallButton", action: self.quitGameScene)
+        
+        return button
     }()
     
     var board: Board {
@@ -41,13 +50,27 @@ class GameScene: SKScene {
         return board
     }
     
+    private(set) unowned var manager: SceneManager
+    
+    init(manager: SceneManager, size: CGSize) {
+        self.manager = manager
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMoveToView(view: SKView) {
+        self.removeAllChildren()
+        
         self.backgroundColor = Color.grayColor()
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         self.addChild(boardNode)
         
         positionPieces()
+        positionButtons()
     }
     
     override func update(currentTime: CFTimeInterval) {
@@ -62,23 +85,15 @@ class GameScene: SKScene {
         for row in 0..<board.columns {
             for col in 0..<board.rows {
                 let colChar = Array(alphas.characters)[col]
-                let name = "\(colChar)\((board.rows - 1) - row)"
-                let square = SKLabelNode(text: name)
-                square.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+                let square = SKSpriteNode(color: Color.clearColor(), size: size)
+                square.name = "\(colChar)\(2-row)"
+                square.userInteractionEnabled = false
                 
                 let point = CGPoint(x: CGFloat(col) * size.width - offset.x, y: CGFloat(row) * size.height - offset.y)
                 square.position = point
-                square.name = "\(colChar)\(2-row)"
                 
                 self.addChild(square)
             }
-        }
-        
-        ["a1", "b1", "c1"].forEach { (name) in
-            let place = self.childNodeWithName(name)
-            let piece = createPieceX()
-            
-            place?.addChild(piece)
         }
     }
     
@@ -96,25 +111,65 @@ class GameScene: SKScene {
         node.text = text
         node.fontSize = 96.0
         node.verticalAlignmentMode = .Center
+        node.userInteractionEnabled = false
         
         return node
+    }
+    
+    private func positionButtons() {
+        self.quitButton.position = CGPoint(x: -120, y: 260)
+        
+        self.addChild(quitButton)
+    }
+    
+    private func quitGameScene() {
+        manager.stateMachine.enterState(MenuState.self)
+    }
+    
+    private func childNodeName(forTouchPoint touchPoint: CGPoint) -> SKNode? {
+        return nil
     }
 }
 
 extension GameScene {
-    #if os(OSX)
-    
-    override func mouseDown(theEvent: NSEvent) {
-        /* Called when a mouse click occurs */
-    
-    }
-    
-    #elseif os(iOS)
+    #if os(iOS)
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        /* Called when a touch begins */
-        
+        super.touchesBegan(touches, withEvent: event)
     }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+        
+        if containsTouches(touches) {
+            guard let touch = touches.first else { return }
+            guard let scene = scene else { return }
+            
+            let touchPoint = touch.locationInNode(scene)
+            let touchedNode = scene.nodeAtPoint(touchPoint)
+            
+            if let _ = touchedNode.name {
+                let piece = createPieceX()
+                touchedNode.addChild(piece)
+            }
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        super.touchesCancelled(touches, withEvent: event)
+    }
+    
+    private func containsTouches(touches: Set<UITouch>) -> Bool {
+        guard let scene = scene else { fatalError("Button must be used within a scene.") }
+        
+        return touches.contains { touch in
+            let touchPoint = touch.locationInNode(scene)
+            let touchedNode = scene.nodeAtPoint(touchPoint)
+            return touchedNode === self || touchedNode.inParentHierarchy(self)
+        }
+    }
+    
+    #elseif os(OSX)
     
     #endif
 }

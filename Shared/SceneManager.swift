@@ -10,15 +10,15 @@ import SpriteKit
 import GameplayKit
 
 class SceneManager {
-    let view: SKView
+    unowned var view: SKView
     
     private(set) var state: GKState?
     private(set) var scene: SKScene?
     
     lazy var stateMachine: GKStateMachine = {
         let states = [
-            MenuState(view: self.view),
-            GameState(view: self.view)
+            MenuState(view: self.view, manager: self),
+            GameState(view: self.view, manager: self)
         ]
         
         return GKStateMachine(states: states)
@@ -26,17 +26,5 @@ class SceneManager {
     
     init(view: SKView) {
         self.view = view
-    }
-    
-    func configure(view: SKView, forGameSceneSize size: CGSize) {
-        let scene = GameScene(size: size)
-        scene.scaleMode = .AspectFit
-        
-        view.ignoresSiblingOrder = true
-        
-        view.showsFPS = true
-        view.showsNodeCount = true
-        
-        view.presentScene(scene)
     }
 }

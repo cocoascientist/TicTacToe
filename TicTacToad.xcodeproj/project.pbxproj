@@ -34,6 +34,12 @@
 		F786B52B1D224296004706BC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B4F71D21DF5B004706BC /* GameScene.swift */; };
 		F786B52C1D224296004706BC /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B5011D22374F004706BC /* MenuScene.swift */; };
 		F786B52D1D224299004706BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F786B4F51D21DF5B004706BC /* Assets.xcassets */; };
+		F7C8885E1D22D826008271B1 /* ButtonIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C8885D1D22D826008271B1 /* ButtonIdentifier.swift */; };
+		F7C8885F1D22D826008271B1 /* ButtonIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C8885D1D22D826008271B1 /* ButtonIdentifier.swift */; };
+		F7C888601D22D826008271B1 /* ButtonIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C8885D1D22D826008271B1 /* ButtonIdentifier.swift */; };
+		F7D48D051D22A2450086FF35 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D48D041D22A2450086FF35 /* MenuButton.swift */; };
+		F7D48D061D22A2450086FF35 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D48D041D22A2450086FF35 /* MenuButton.swift */; };
+		F7D48D071D22A2450086FF35 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D48D041D22A2450086FF35 /* MenuButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +63,8 @@
 		F786B51B1D224218004706BC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F786B5201D224218004706BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F786B5241D224218004706BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7C8885D1D22D826008271B1 /* ButtonIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonIdentifier.swift; path = Shared/ButtonIdentifier.swift; sourceTree = "<group>"; };
+		F7D48D041D22A2450086FF35 /* MenuButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuButton.swift; path = Shared/MenuButton.swift; sourceTree = "<group>"; };
 		F7EE22D71D21D9BF006C6029 /* TicTacToad-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TicTacToad-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -100,6 +108,7 @@
 		F786B4F41D21DF46004706BC /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				F7C8885C1D22D804008271B1 /* Buttons */,
 				F786B5081D2238F0004706BC /* States */,
 				F786B5041D223879004706BC /* Scenes */,
 				F786B4F51D21DF5B004706BC /* Assets.xcassets */,
@@ -135,6 +144,15 @@
 				F786B5241D224218004706BC /* Info.plist */,
 			);
 			path = "TicTacToad-tvOS";
+			sourceTree = "<group>";
+		};
+		F7C8885C1D22D804008271B1 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				F7D48D041D22A2450086FF35 /* MenuButton.swift */,
+				F7C8885D1D22D826008271B1 /* ButtonIdentifier.swift */,
+			);
+			name = Buttons;
 			sourceTree = "<group>";
 		};
 		F7EE22CE1D21D9BF006C6029 = {
@@ -304,7 +322,9 @@
 				F786B5071D2238A2004706BC /* MenuState.swift in Sources */,
 				F786B4E71D21DF18004706BC /* GameViewController.swift in Sources */,
 				F786B4FD1D21DF5F004706BC /* GameScene.swift in Sources */,
+				F7D48D061D22A2450086FF35 /* MenuButton.swift in Sources */,
 				F786B5001D2236E4004706BC /* SceneManager.swift in Sources */,
+				F7C8885F1D22D826008271B1 /* ButtonIdentifier.swift in Sources */,
 				F786B5031D223752004706BC /* MenuScene.swift in Sources */,
 				F786B4E11D21DF18004706BC /* AppDelegate.swift in Sources */,
 			);
@@ -318,7 +338,9 @@
 				F786B5281D224292004706BC /* MenuState.swift in Sources */,
 				F786B5291D224292004706BC /* GameState.swift in Sources */,
 				F786B52C1D224296004706BC /* MenuScene.swift in Sources */,
+				F7D48D071D22A2450086FF35 /* MenuButton.swift in Sources */,
 				F786B52A1D224296004706BC /* SceneManager.swift in Sources */,
+				F7C888601D22D826008271B1 /* ButtonIdentifier.swift in Sources */,
 				F786B51C1D224218004706BC /* GameViewController.swift in Sources */,
 				F786B5161D224218004706BC /* AppDelegate.swift in Sources */,
 			);
@@ -330,9 +352,11 @@
 			files = (
 				F786B4FA1D21DF5B004706BC /* GameScene.swift in Sources */,
 				F786B4FF1D2235A1004706BC /* SceneManager.swift in Sources */,
+				F7D48D051D22A2450086FF35 /* MenuButton.swift in Sources */,
 				F786B5021D22374F004706BC /* MenuScene.swift in Sources */,
 				F786B50D1D223F6E004706BC /* GameState.swift in Sources */,
 				F786B4D21D21DEDA004706BC /* AppDelegate.swift in Sources */,
+				F7C8885E1D22D826008271B1 /* ButtonIdentifier.swift in Sources */,
 				F786B5061D2238A2004706BC /* MenuState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,6 +580,7 @@
 				F786B4F31D21DF18004706BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F786B5251D224218004706BC /* Build configuration list for PBXNativeTarget "TicTacToad-tvOS" */ = {
 			isa = XCConfigurationList;
@@ -564,6 +589,7 @@
 				F786B5271D224218004706BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F7EE22D21D21D9BF006C6029 /* Build configuration list for PBXProject "TicTacToad" */ = {
 			isa = XCConfigurationList;

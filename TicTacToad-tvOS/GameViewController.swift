@@ -27,7 +27,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.stateMachine.enterState(GameState.self)
+        self.stateMachine.enterState(MenuState.self)
     }
 
     override func didReceiveMemoryWarning() {
