@@ -10,7 +10,7 @@ import SpriteKit
 
 #if os(OSX)
     typealias Color = NSColor
-#elseif os(iOS)
+#elseif os(iOS) || os(tvOS)
     typealias Color = UIColor
 #endif
 
