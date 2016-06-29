@@ -9,12 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-#if os(OSX)
-    typealias Color = NSColor
-#elseif os(iOS) || os(tvOS)
-    typealias Color = UIColor
-#endif
-
 struct Board {
     let columns, rows: Int
     let piece: CGSize
@@ -39,13 +33,22 @@ class GameScene: SKScene {
     
     lazy var quitButton: MenuButton = {
         let title = NSLocalizedString("Quit", comment: "Quit")
-        let button = MenuButton(title: title, texture: "smallButton", action: self.quitGameScene)
+        let size = CGSize(width: 64, height: 34)
+        let action = self.quitGameScene
+        let button = MenuButton(title: title, size: size, action: action)
         
         return button
     }()
     
     lazy var gameStateMachine: GameplayStateMachine = {
-        let machine = GameplayStateMachine(states: [PlayerXTurnState(), PlayerOTurnState()])
+        let states = [
+            PlayerXTurnState(),
+            PlayerOTurnState(),
+            CheckBoardState()
+        ]
+        
+        
+        let machine = GameplayStateMachine(states: [PlayerXTurnState(), PlayerOTurnState(), CheckBoardState()])
         return machine
     }()
     
@@ -70,7 +73,7 @@ class GameScene: SKScene {
     override func didMoveToView(view: SKView) {
         self.removeAllChildren()
         
-        self.backgroundColor = Color.grayColor()
+        self.backgroundColor = Style.Colors.background
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         self.addChild(boardNode)
@@ -97,40 +100,27 @@ extension GameScene {
         
         for row in 0..<board.columns {
             for col in 0..<board.rows {
-                let colChar = Array(alphas.characters)[col]
-                let square = SKSpriteNode(color: Color.clearColor(), size: size)
-                square.name = "\(colChar)\(2-row)"
-                square.userInteractionEnabled = false
+                let name = "\(Array(alphas.characters)[col])\(2-row)"
+                let node = PositionNode(name: name, size: size)
                 
-                let point = CGPoint(x: CGFloat(col) * size.width - offset.x, y: CGFloat(row) * size.height - offset.y)
-                square.position = point
+                let xPos = CGFloat(col) * size.width - offset.x
+                let yPos = CGFloat(row) * size.height - offset.y
+                let point = CGPoint(x: xPos, y: yPos)
                 
-                self.addChild(square)
+                node.position = point
+                
+                self.addChild(node)
             }
         }
     }
     
-    private func createPieceX() -> SKLabelNode {
-        return self.createNode(with: "X")
-    }
-    
-    private func createPieceO() -> SKLabelNode {
-        return self.createNode(with: "O")
-    }
-    
-    private func createNode(with text: String) -> SKLabelNode {
-        let node = SKLabelNode(fontNamed: "MarkerFelt-Wide")
-        
-        node.text = text
-        node.fontSize = 96.0
-        node.verticalAlignmentMode = .Center
-        node.userInteractionEnabled = false
-        
-        return node
-    }
-    
     private func positionButtons() {
-        self.quitButton.position = CGPoint(x: -120, y: 260)
+        guard let frame = self.view?.frame else { return }
+        
+        let xPos = -1 * frame.midX + quitButton.size.width
+        let yPos = 1 * frame.midY - quitButton.size.height
+        
+        self.quitButton.position = CGPoint(x: xPos, y: yPos)
         
         self.addChild(quitButton)
     }
@@ -145,10 +135,14 @@ extension GameScene {
     
     private func placePieceOn(node: SKNode) {
         if node.children.count == 0 {
-            let glyph = self.gameStateMachine.glyphForState
+            let glyph = gameStateMachine.glyphForState
             let piece = GlyphNode(glyph: glyph)
-            // TODO: use accumlated frame?
-//            let mid = CGPoint(x: node.frame.midX, y: node.frame.midY)
+            
+            let color = gameStateMachine.glyphColorForState
+            
+            piece.fillColor = color
+            piece.strokeColor = color
+            
             let frame = piece.calculateAccumulatedFrame()
             
             piece.position = CGPoint(x: -frame.midX, y: -frame.midY)
@@ -188,10 +182,16 @@ extension GameScene {
     #elseif os(OSX)
     
     override func mouseUp(event: NSEvent) {
+        if self.gameStateMachine.currentState is CheckBoardState {
+            return
+        }
+        
         if containsLocationForEvent(event) {
             guard let scene = scene else { return }
             let location = event.locationInNode(scene)
             let node = scene.nodeAtPoint(location)
+            
+            guard node is PositionNode else { return }
             
             placePieceOn(node)
             self.gameStateMachine.moveToNextState()

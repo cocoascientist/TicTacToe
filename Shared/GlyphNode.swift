@@ -9,12 +9,6 @@
 import SpriteKit
 import CoreText
 
-#if os(iOS)
-typealias Font = UIFont
-#elseif os(OSX)
-typealias Font = NSFont
-#endif
-
 class GlyphNode: SKShapeNode {
     let glyph: String
     

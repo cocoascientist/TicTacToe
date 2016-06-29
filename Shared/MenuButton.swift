@@ -12,15 +12,16 @@ typealias Action = () -> Void
 
 class MenuButton: SKNode {
     private(set) var title: String
-    private(set) var texture: SKSpriteNode
+    private(set) var size: CGSize
     private(set) var action: Action
     
     lazy var label: SKLabelNode = {
         let node = SKLabelNode(text: self.title)
         
         node.verticalAlignmentMode = .Center
-        node.fontName = "Helvetica"
+        node.fontName = "MarkerFelt-Wide"
         node.zPosition = 5
+        node.fontColor = Style.Colors.text
         
         return node
     }()
@@ -30,14 +31,27 @@ class MenuButton: SKNode {
         return node
     }()
     
-    init(title: String, texture name: String, action: Action) {
+    lazy var background: SKShapeNode = {
+        let size = self.size
+        let height = size.height / 2
+        let radius = (height % 2 == 0) ? height : height - 1
+        
+        let node = SKShapeNode(rectOfSize: size, cornerRadius: radius)
+        
+        node.fillColor = Style.Colors.button
+        node.strokeColor = Style.Colors.button
+        
+        return node
+    }()
+    
+    init(title: String, size: CGSize, action: Action) {
         
         self.title = title
         self.action = action
-        self.texture = SKSpriteNode(imageNamed: name)
+        self.size = size
         super.init()
         
-        addChild(self.texture)
+        addChild(self.background)
         addChild(self.label)
         
         self.userInteractionEnabled = true

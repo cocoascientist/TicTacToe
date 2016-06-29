@@ -12,16 +12,34 @@ class MenuScene: SKScene {
     
     unowned var manager: SceneManager
     
+    var buttonSize: CGSize {
+        return CGSize(width: 300, height: 50)
+    }
+    
     lazy var onePlayerButton: MenuButton = {
         let title = NSLocalizedString("One Player", comment: "One Player")
-        let button = MenuButton(title: title, texture: "purpleButton", action: self.startOnePlayerGame)
+        let button = MenuButton(title: title, size: self.buttonSize, action: self.startOnePlayerGame)
         
         return button
     }()
     
     lazy var twoPlayerButton: MenuButton = {
         let title = NSLocalizedString("Two Player", comment: "Two Player")
-        let button = MenuButton(title: title, texture: "purpleButton", action: self.startTwoPlayerGame)
+        let button = MenuButton(title: title, size: self.buttonSize, action: self.startTwoPlayerGame)
+        
+        return button
+    }()
+    
+    lazy var highScoresButton: MenuButton = {
+        let title = NSLocalizedString("High Scores", comment: "High Scores")
+        let button = MenuButton(title: title, size: self.buttonSize, action: self.startTwoPlayerGame)
+        
+        return button
+    }()
+    
+    lazy var settingsButton: MenuButton = {
+        let title = NSLocalizedString("Settings", comment: "Settings")
+        let button = MenuButton(title: title, size: self.buttonSize, action: self.startTwoPlayerGame)
         
         return button
     }()
@@ -36,7 +54,7 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        self.backgroundColor = Color.hexColor("#06D6A0")
+        self.backgroundColor = Style.Colors.background
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         self.removeAllChildren()
@@ -52,9 +70,13 @@ extension MenuScene {
     private func positionButtons() {
         onePlayerButton.position = CGPoint(x: 0, y: 150)
         twoPlayerButton.position = CGPoint(x: 0, y: 75)
+        highScoresButton.position = CGPoint(x: 0, y: -25)
+        settingsButton.position = CGPoint(x: 0, y: -100)
         
         self.addChild(onePlayerButton)
         self.addChild(twoPlayerButton)
+        self.addChild(highScoresButton)
+        self.addChild(settingsButton)
     }
     
     private func startOnePlayerGame() {

@@ -40,7 +40,7 @@ class GameState: GKState {
     
     /// Unhighlights the sprite representing the state.
     override func willExitWithNextState(nextState: GKState) {
-        //
+        self.scene.removeAllChildren()
     }
 }
 
