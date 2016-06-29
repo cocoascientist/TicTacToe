@@ -11,20 +11,11 @@ import SpriteKit
 typealias ButtonAction = () -> Void
 
 class ButtonNode: SKNode {
+    private let delay = 0.20
+    
     private(set) var title: String
     private(set) var size: CGSize
     private(set) var action: ButtonAction
-    
-//    lazy var label: SKLabelNode = {
-//        let node = SKLabelNode(text: self.title)
-//        
-//        node.verticalAlignmentMode = .Center
-//        node.fontName = "MarkerFelt-Wide"
-//        node.zPosition = 5
-//        node.fontColor = Style.Colors.text
-//        
-//        return node
-//    }()
     
     lazy var focusRing: SKSpriteNode = {
         let node = SKSpriteNode(imageNamed: "focusRing")
@@ -118,7 +109,12 @@ extension ButtonNode {
         super.touchesEnded(touches, withEvent: event)
         
         isHighlighted = false
-        if containsTouches(touches) { action() }
+        if containsTouches(touches) {
+            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(self.delay * Double(NSEC_PER_SEC)))
+            dispatch_after(delay, dispatch_get_main_queue() ) { [unowned self] in
+                self.action()
+            }
+        }
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
@@ -140,20 +136,25 @@ extension ButtonNode {
     #elseif os(OSX)
     
     override func mouseDown(event: NSEvent) {
-    isHighlighted = true
+        isHighlighted = true
     }
     
     override func mouseUp(event: NSEvent) {
-    isHighlighted = false
-    if containsLocationForEvent(event) { action() }
+        isHighlighted = false
+        if containsLocationForEvent(event) {
+            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(self.delay * Double(NSEC_PER_SEC)))
+            dispatch_after(delay, dispatch_get_main_queue() ) { [unowned self] in
+                self.action()
+            }
+        }
     }
     
     private func containsLocationForEvent(event: NSEvent) -> Bool {
-    guard let scene = scene else { fatalError("Button must be used within a scene.")  }
+        guard let scene = scene else { fatalError("Button must be used within a scene.")  }
     
-    let location = event.locationInNode(scene)
-    let clickedNode = scene.nodeAtPoint(location)
-    return clickedNode === self || clickedNode.inParentHierarchy(self)
+        let location = event.locationInNode(scene)
+        let clickedNode = scene.nodeAtPoint(location)
+        return clickedNode === self || clickedNode.inParentHierarchy(self)
     }
     
     #endif

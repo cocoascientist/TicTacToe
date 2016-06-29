@@ -9,7 +9,7 @@
 import GameplayKit
 
 
-class TTTModel: NSObject, GKGameModel {
+class TTTModel: NSObject {
     private(set) var players: [GKGameModelPlayer]?
     private(set) var activePlayer: GKGameModelPlayer?
     
@@ -27,6 +27,12 @@ class TTTModel: NSObject, GKGameModel {
         return model
     }
     
+    func resetGameBoard() {
+        self.board = TTTBoard()
+    }
+}
+
+extension TTTModel: GKGameModel {
     func setGameModel(model: GKGameModel) {
         guard let model = model as? TTTModel else { return }
         

@@ -25,20 +25,38 @@ class GameScene: SKScene {
     
     lazy var quitButton: GameButton = {
         let title = NSLocalizedString("Quit", comment: "Quit")
-        let size = CGSize(width: 64, height: 34)
+        let size = CGSize(width: 84, height: 34)
         let action = self.quitGameScene
         let button = GameButton(title: title, size: size, action: action)
         
         return button
     }()
     
+    lazy var restartButton: GameButton = {
+        let title = NSLocalizedString("Restart", comment: "Restart")
+        let size = CGSize(width: 84, height: 34)
+        let action = self.restartGameScene
+        let button = GameButton(title: title, size: size, action: action)
+        
+        return button
+    }()
+    
+    lazy var moveLabel: SKLabelNode = {
+        let node = SKLabelNode(text: "")
+        
+        node.fontName = "MarkerFelt-Wide"
+        node.fontSize = 24
+        
+        return node
+    }()
+    
     lazy var gameStateMachine: GameplayStateMachine = {
         let states = [
-            SelectNextPlayerState(),
+            SelectNextPlayerState(scene: self),
             PlayerXTurnState(),
             PlayerOTurnState(),
             CheckBoardState(model: self.model),
-            GameOverState()
+            GameOverState(scene: self)
         ]
         
         let machine = GameplayStateMachine(states: states)
@@ -75,9 +93,10 @@ class GameScene: SKScene {
         
         self.addChild(boardNode)
         
-        resetGamePlayState()
         positionPieces()
         positionButtons()
+        positionLabels()
+        restartGameScene()
     }
     
     override func update(currentTime: CFTimeInterval) {
@@ -86,9 +105,6 @@ class GameScene: SKScene {
 }
 
 extension GameScene {
-    private func resetGamePlayState() {
-        self.gameStateMachine.resetToInitialState()
-    }
     
     private func positionPieces() {
         let size = Board.size
@@ -101,7 +117,7 @@ extension GameScene {
                 let node = PositionNode(row: row, column: column, size: size)
                 node.name = "\(Array(alphas.characters)[column])\(2-row)"
                 
-                let xPos = CGFloat(column) * size.width - offset.x
+                let xPos = (CGFloat(column) * size.width * 1) - offset.x
                 let yPos = (CGFloat(row) * size.height * -1) + offset.y
                 let point = CGPoint(x: xPos, y: yPos)
                 
@@ -115,22 +131,53 @@ extension GameScene {
     private func positionButtons() {
         guard let frame = self.view?.frame else { return }
         
-        let xPos = -1 * frame.midX + quitButton.size.width
+        let xPos = -1 * frame.midX + 54
         let yPos = 1 * frame.midY - quitButton.size.height
         
         self.quitButton.position = CGPoint(x: xPos, y: yPos)
+        self.restartButton.position = CGPoint(x: -xPos, y: yPos)
         
         self.addChild(quitButton)
+        self.addChild(restartButton)
+    }
+    
+    private func positionLabels() {
+        guard let frame = self.view?.frame else { return }
+
+        let yPos = frame.midY - 20
+        self.moveLabel.position = CGPoint(x: 0, y: -yPos)
+        
+        self.addChild(moveLabel)
     }
     
     private func quitGameScene() {
         manager.stateMachine.enterState(MenuState.self)
     }
     
-    // called in response to touch event...
+    private func restartGameScene() {
+        self.model.resetGameBoard()
+        gameStateMachine.resetToInitialState()
+        
+        for node in self.children {
+            if node is PositionNode {
+                node.removeAllChildren()
+            }
+        }
+    }
+    
+    private func canAddPiece() -> Bool {
+        let state = gameStateMachine.currentState
+        return state is PlayerXTurnState || state is PlayerOTurnState
+    }
+    
+    private func isGameOver() -> Bool {
+        return gameStateMachine.currentState is GameOverState
+    }
+    
     internal func placePieceOn(node: SKNode) {
         guard let node = node as? PositionNode else { return }
         guard node.children.count == 0 else { return }
+        guard canAddPiece() else { return }
         
         let glyph = gameStateMachine.glyphForState
         let sprite = GlyphNode(glyph: glyph)
@@ -145,14 +192,7 @@ extension GameScene {
         sprite.position = CGPoint(x: -frame.midX, y: -frame.midY)
         node.addChild(sprite)
         
-        //            let new = model.board.afterMakingMove(with: .X, at: 0)
-        
-        // TODO: maps between nodes and board indexes
-        
-        // columnIndex * numberOfRows + rowIndex.
-        
         let index = node.row * 3 + node.column
-//        let piece = (gameStateMachine.currentState is PlayerXTurnState) ? TTTPiece.X : TTTPiece.O
         
         if let lastPlayerState = gameStateMachine.lastPlayerState {
             if lastPlayerState is PlayerXTurnState.Type {
@@ -164,10 +204,5 @@ extension GameScene {
                 self.model.applyGameModelUpdate(update)
             }
         }
-        
-
-        
-//        let update = TTTMove(index: index, piece: .O)
-//        self.model.applyGameModelUpdate(update)
     }
 }

@@ -6,7 +6,11 @@
 //  Copyright © 2016 Andrew Shepard. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
+#elseif os(OSX)
+import AppKit
+#endif
 
 extension GameScene {
     #if os(iOS)
@@ -56,8 +60,8 @@ extension GameScene {
             
             guard node is PositionNode else { return }
             
-            placePieceOn(node)
-            self.gameStateMachine.moveToNextState()
+            self.placePieceOn(node)
+            self.gameStateMachine.enterState(CheckBoardState.self)
         }
     }
     

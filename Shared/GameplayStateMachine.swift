@@ -21,25 +21,10 @@ class GameplayStateMachine: GKStateMachine {
     func resetToInitialState() {
         self.moveCount = 0
         self.didWin = false
-        self.enterState(PlayerXTurnState.self)
+        self.lastPlayerState = nil
         
-        self.lastPlayerState = PlayerXTurnState.self
+        self.enterState(SelectNextPlayerState.self)
     }
-    
-//    func moveToNextState() {
-//        if currentState is PlayerOTurnState || currentState is PlayerXTurnState {
-//            self.enterState(CheckBoardState.self)
-//        } else {
-//            if lastPlayerState is PlayerXTurnState.Type {
-//                lastPlayerState = PlayerOTurnState.self
-//                self.enterState(PlayerOTurnState.self)
-//            }
-//            else {
-//                lastPlayerState = PlayerXTurnState.self
-//                self.enterState(PlayerXTurnState.self)
-//            }
-//        }
-//    }
     
     var glyphForState: String {
         return currentState is PlayerXTurnState ? "X" : "O"
