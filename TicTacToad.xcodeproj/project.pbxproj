@@ -72,6 +72,9 @@
 		F7B399DE1D246755002FEF9A /* GameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B399DD1D246755002FEF9A /* GameButton.swift */; };
 		F7B399DF1D246755002FEF9A /* GameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B399DD1D246755002FEF9A /* GameButton.swift */; };
 		F7B399E01D246755002FEF9A /* GameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B399DD1D246755002FEF9A /* GameButton.swift */; };
+		F7B399E61D2472FE002FEF9A /* TTTBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B399E51D2472FE002FEF9A /* TTTBoard.swift */; };
+		F7B399E71D2472FE002FEF9A /* TTTBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B399E51D2472FE002FEF9A /* TTTBoard.swift */; };
+		F7B399E81D2472FE002FEF9A /* TTTBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B399E51D2472FE002FEF9A /* TTTBoard.swift */; };
 		F7D0F4FD1D232A6C00B6AF6D /* CheckBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0F4FC1D232A6C00B6AF6D /* CheckBoardState.swift */; };
 		F7D0F4FE1D232A6C00B6AF6D /* CheckBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0F4FC1D232A6C00B6AF6D /* CheckBoardState.swift */; };
 		F7D0F4FF1D232A6C00B6AF6D /* CheckBoardState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0F4FC1D232A6C00B6AF6D /* CheckBoardState.swift */; };
@@ -123,6 +126,7 @@
 		F7B399D51D245817002FEF9A /* SelectNextPlayerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectNextPlayerState.swift; path = Shared/SelectNextPlayerState.swift; sourceTree = "<group>"; };
 		F7B399D91D246642002FEF9A /* ButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ButtonNode.swift; path = Shared/ButtonNode.swift; sourceTree = "<group>"; };
 		F7B399DD1D246755002FEF9A /* GameButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameButton.swift; path = Shared/GameButton.swift; sourceTree = "<group>"; };
+		F7B399E51D2472FE002FEF9A /* TTTBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TTTBoard.swift; path = Shared/TTTBoard.swift; sourceTree = "<group>"; };
 		F7D0F4FC1D232A6C00B6AF6D /* CheckBoardState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckBoardState.swift; path = Shared/CheckBoardState.swift; sourceTree = "<group>"; };
 		F7D0F5041D232F5000B6AF6D /* HexColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HexColors.swift; path = Shared/HexColors.swift; sourceTree = "<group>"; };
 		F7D0F50A1D2371DB00B6AF6D /* SharedTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedTypes.swift; path = Shared/SharedTypes.swift; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 				F7B399BF1D242CA4002FEF9A /* TTTModel.swift */,
 				F7B399C31D242CE6002FEF9A /* TTTPlayer.swift */,
 				F7B399CB1D243709002FEF9A /* TTTMove.swift */,
+				F7B399E51D2472FE002FEF9A /* TTTBoard.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				F7D0F5141D2375E200B6AF6D /* Style.swift in Sources */,
 				F786B5031D223752004706BC /* MenuScene.swift in Sources */,
 				F786B4E11D21DF18004706BC /* AppDelegate.swift in Sources */,
+				F7B399E71D2472FE002FEF9A /* TTTBoard.swift in Sources */,
 				F7B399D31D245806002FEF9A /* GameOverState.swift in Sources */,
 				F7B399DB1D246642002FEF9A /* ButtonNode.swift in Sources */,
 			);
@@ -493,6 +499,7 @@
 				F7D0F5151D2375E200B6AF6D /* Style.swift in Sources */,
 				F786B51C1D224218004706BC /* GameViewController.swift in Sources */,
 				F786B5161D224218004706BC /* AppDelegate.swift in Sources */,
+				F7B399E81D2472FE002FEF9A /* TTTBoard.swift in Sources */,
 				F7B399D41D245806002FEF9A /* GameOverState.swift in Sources */,
 				F7B399DC1D246642002FEF9A /* ButtonNode.swift in Sources */,
 			);
@@ -525,6 +532,7 @@
 				F7B399D21D245806002FEF9A /* GameOverState.swift in Sources */,
 				F7D0F5131D2375E200B6AF6D /* Style.swift in Sources */,
 				F7B399CC1D243709002FEF9A /* TTTMove.swift in Sources */,
+				F7B399E61D2472FE002FEF9A /* TTTBoard.swift in Sources */,
 				F786B5061D2238A2004706BC /* MenuState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

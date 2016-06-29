@@ -149,10 +149,25 @@ extension GameScene {
         
         // TODO: maps between nodes and board indexes
         
-        let index = node.row + node.column
+        // columnIndex * numberOfRows + rowIndex.
+        
+        let index = node.row * 3 + node.column
 //        let piece = (gameStateMachine.currentState is PlayerXTurnState) ? TTTPiece.X : TTTPiece.O
         
-        let update = TTTMove(index: index, piece: .O)
-        self.model.applyGameModelUpdate(update)
+        if let lastPlayerState = gameStateMachine.lastPlayerState {
+            if lastPlayerState is PlayerXTurnState.Type {
+                let update = TTTMove(index: index, piece: .X)
+                self.model.applyGameModelUpdate(update)
+            }
+            else {
+                let update = TTTMove(index: index, piece: .O)
+                self.model.applyGameModelUpdate(update)
+            }
+        }
+        
+
+        
+//        let update = TTTMove(index: index, piece: .O)
+//        self.model.applyGameModelUpdate(update)
     }
 }
