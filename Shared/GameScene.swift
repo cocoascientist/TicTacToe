@@ -9,18 +9,10 @@
 import SpriteKit
 import GameplayKit
 
-struct Board {
-    let columns, rows: Int
-    let piece: CGSize
-    
-    init(columns: Int, rows: Int, piece: CGSize) {
-        self.columns = columns
-        self.rows = rows
-        
-        self.piece = piece
-    }
+private struct Board {
+    static let size = CGSize(width: 100.0, height: 100.0)
+    static let dimension = 3
 }
-    
 
 class GameScene: SKScene {
     lazy var boardNode: SKSpriteNode = {
@@ -31,38 +23,43 @@ class GameScene: SKScene {
         return node
     }()
     
-    lazy var quitButton: MenuButton = {
+    lazy var quitButton: GameButton = {
         let title = NSLocalizedString("Quit", comment: "Quit")
         let size = CGSize(width: 64, height: 34)
         let action = self.quitGameScene
-        let button = MenuButton(title: title, size: size, action: action)
+        let button = GameButton(title: title, size: size, action: action)
         
         return button
     }()
     
     lazy var gameStateMachine: GameplayStateMachine = {
         let states = [
+            SelectNextPlayerState(),
             PlayerXTurnState(),
             PlayerOTurnState(),
-            CheckBoardState()
+            CheckBoardState(model: self.model),
+            GameOverState()
         ]
         
-        
-        let machine = GameplayStateMachine(states: [PlayerXTurnState(), PlayerOTurnState(), CheckBoardState()])
+        let machine = GameplayStateMachine(states: states)
         return machine
     }()
     
-    var board: Board {
-        let size = CGSize(width: 100.0, height: 100.0)
-        let board = Board(columns: 3, rows: 3, piece: size)
-        
-        return board
-    }
+    private(set) var model: TTTModel
+    private(set) var playerX: TTTPlayer
+    private(set) var playerO: TTTPlayer
     
     private(set) unowned var manager: SceneManager
     
+    private let strategist: GKMinmaxStrategist = GKMinmaxStrategist()
+    
     init(manager: SceneManager, size: CGSize) {
         self.manager = manager
+        
+        self.playerX = TTTPlayer(playerId: 1, piece: .X)
+        self.playerO = TTTPlayer(playerId: 2, piece: .O)
+        self.model = TTTModel(players: [playerO, playerX])
+        
         super.init(size: size)
     }
     
@@ -94,17 +91,18 @@ extension GameScene {
     }
     
     private func positionPieces() {
-        let size = board.piece
+        let size = Board.size
+        let dimension = Board.dimension
         let alphas = "abcdefgh"
         let offset = CGPoint(x: 100.0, y: 100.0)
         
-        for row in 0..<board.columns {
-            for col in 0..<board.rows {
-                let name = "\(Array(alphas.characters)[col])\(2-row)"
-                let node = PositionNode(name: name, size: size)
+        for row in 0..<dimension {
+            for column in 0..<dimension {
+                let node = PositionNode(row: row, column: column, size: size)
+                node.name = "\(Array(alphas.characters)[column])\(2-row)"
                 
-                let xPos = CGFloat(col) * size.width - offset.x
-                let yPos = CGFloat(row) * size.height - offset.y
+                let xPos = CGFloat(column) * size.width - offset.x
+                let yPos = (CGFloat(row) * size.height * -1) + offset.y
                 let point = CGPoint(x: xPos, y: yPos)
                 
                 node.position = point
@@ -129,82 +127,32 @@ extension GameScene {
         manager.stateMachine.enterState(MenuState.self)
     }
     
-    private func childNodeName(forTouchPoint touchPoint: CGPoint) -> SKNode? {
-        return nil
-    }
-    
-    private func placePieceOn(node: SKNode) {
-        if node.children.count == 0 {
-            let glyph = gameStateMachine.glyphForState
-            let piece = GlyphNode(glyph: glyph)
-            
-            let color = gameStateMachine.glyphColorForState
-            
-            piece.fillColor = color
-            piece.strokeColor = color
-            
-            let frame = piece.calculateAccumulatedFrame()
-            
-            piece.position = CGPoint(x: -frame.midX, y: -frame.midY)
-            node.addChild(piece)
-        }
-    }
-}
-
-extension GameScene {
-    #if os(iOS)
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    // called in response to touch event...
+    internal func placePieceOn(node: SKNode) {
+        guard let node = node as? PositionNode else { return }
+        guard node.children.count == 0 else { return }
         
-        if containsTouches(touches) {
-            guard let touch = touches.first else { return }
-            guard let scene = scene else { return }
-            
-            let touchPoint = touch.locationInNode(scene)
-            let node = scene.nodeAtPoint(touchPoint)
-            
-            placePieceOn(node)
-            self.gameStateMachine.moveToNextState()
-        }
-    }
-    
-    private func containsTouches(touches: Set<UITouch>) -> Bool {
-        guard let scene = scene else { fatalError("Button must be used within a scene.") }
+        let glyph = gameStateMachine.glyphForState
+        let sprite = GlyphNode(glyph: glyph)
         
-        return touches.contains { touch in
-            let touchPoint = touch.locationInNode(scene)
-            let touchedNode = scene.nodeAtPoint(touchPoint)
-            return touchedNode === self || touchedNode.inParentHierarchy(self)
-        }
-    }
-    
-    #elseif os(OSX)
-    
-    override func mouseUp(event: NSEvent) {
-        if self.gameStateMachine.currentState is CheckBoardState {
-            return
-        }
+        let color = gameStateMachine.glyphColorForState
         
-        if containsLocationForEvent(event) {
-            guard let scene = scene else { return }
-            let location = event.locationInNode(scene)
-            let node = scene.nodeAtPoint(location)
-            
-            guard node is PositionNode else { return }
-            
-            placePieceOn(node)
-            self.gameStateMachine.moveToNextState()
-        }
-    }
-    
-    private func containsLocationForEvent(event: NSEvent) -> Bool {
-        guard let scene = scene else { fatalError("Button must be used within a scene.")  }
+        sprite.fillColor = color
+        sprite.strokeColor = color
         
-        let location = event.locationInNode(scene)
-        let clickedNode = scene.nodeAtPoint(location)
-        return clickedNode === self || clickedNode.inParentHierarchy(self)
+        let frame = sprite.calculateAccumulatedFrame()
+        
+        sprite.position = CGPoint(x: -frame.midX, y: -frame.midY)
+        node.addChild(sprite)
+        
+        //            let new = model.board.afterMakingMove(with: .X, at: 0)
+        
+        // TODO: maps between nodes and board indexes
+        
+        let index = node.row + node.column
+//        let piece = (gameStateMachine.currentState is PlayerXTurnState) ? TTTPiece.X : TTTPiece.O
+        
+        let update = TTTMove(index: index, piece: .O)
+        self.model.applyGameModelUpdate(update)
     }
-    
-    #endif
 }

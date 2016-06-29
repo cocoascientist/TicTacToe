@@ -1,14 +1,14 @@
 //
-//  MenuButton.swift
+//  GameButton.swift
 //  TicTacToad
 //
-//  Created by Andrew Shepard on 6/28/16.
+//  Created by Andrew Shepard on 6/29/16.
 //  Copyright © 2016 Andrew Shepard. All rights reserved.
 //
 
 import SpriteKit
 
-class MenuButton: ButtonNode {
+class GameButton: ButtonNode {
     
     lazy var label: SKLabelNode = {
         let node = SKLabelNode(text: self.title)
@@ -16,6 +16,7 @@ class MenuButton: ButtonNode {
         node.verticalAlignmentMode = .Center
         node.fontName = "MarkerFelt-Wide"
         node.zPosition = 5
+        node.fontSize = 20
         node.fontColor = Style.Colors.text
         
         return node

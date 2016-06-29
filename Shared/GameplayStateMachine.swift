@@ -14,7 +14,9 @@ class GameplayStateMachine: GKStateMachine {
     var didWin: Bool = false
     private(set) var moveCount: Int = 0
     
-    private var lastPlayerState: GKState.Type?
+    // should be private
+    // could be state class instead of type?
+    var lastPlayerState: GKState.Type?
     
     func resetToInitialState() {
         self.moveCount = 0
@@ -24,20 +26,20 @@ class GameplayStateMachine: GKStateMachine {
         self.lastPlayerState = PlayerXTurnState.self
     }
     
-    func moveToNextState() {
-        if currentState is PlayerOTurnState || currentState is PlayerXTurnState {
-            self.enterState(CheckBoardState.self)
-        } else {
-            if lastPlayerState is PlayerXTurnState.Type {
-                lastPlayerState = PlayerOTurnState.self
-                self.enterState(PlayerOTurnState.self)
-            }
-            else {
-                lastPlayerState = PlayerXTurnState.self
-                self.enterState(PlayerXTurnState.self)
-            }
-        }
-    }
+//    func moveToNextState() {
+//        if currentState is PlayerOTurnState || currentState is PlayerXTurnState {
+//            self.enterState(CheckBoardState.self)
+//        } else {
+//            if lastPlayerState is PlayerXTurnState.Type {
+//                lastPlayerState = PlayerOTurnState.self
+//                self.enterState(PlayerOTurnState.self)
+//            }
+//            else {
+//                lastPlayerState = PlayerXTurnState.self
+//                self.enterState(PlayerXTurnState.self)
+//            }
+//        }
+//    }
     
     var glyphForState: String {
         return currentState is PlayerXTurnState ? "X" : "O"

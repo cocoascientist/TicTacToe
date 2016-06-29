@@ -12,7 +12,7 @@ class MenuScene: SKScene {
     
     unowned var manager: SceneManager
     
-    var buttonSize: CGSize {
+    private var buttonSize: CGSize {
         return CGSize(width: 300, height: 50)
     }
     
@@ -30,18 +30,22 @@ class MenuScene: SKScene {
         return button
     }()
     
-    lazy var highScoresButton: MenuButton = {
-        let title = NSLocalizedString("High Scores", comment: "High Scores")
-        let button = MenuButton(title: title, size: self.buttonSize, action: self.startTwoPlayerGame)
-        
-        return button
-    }()
+//    lazy var highScoresButton: MenuButton = {
+//        let title = NSLocalizedString("High Scores", comment: "High Scores")
+//        let button = MenuButton(title: title, size: self.buttonSize, action: self.startTwoPlayerGame)
+//        
+//        return button
+//    }()
+//    
+//    lazy var settingsButton: MenuButton = {
+//        let title = NSLocalizedString("Settings", comment: "Settings")
+//        let button = MenuButton(title: title, size: self.buttonSize, action: self.startTwoPlayerGame)
+//        
+//        return button
+//    }()
     
-    lazy var settingsButton: MenuButton = {
-        let title = NSLocalizedString("Settings", comment: "Settings")
-        let button = MenuButton(title: title, size: self.buttonSize, action: self.startTwoPlayerGame)
-        
-        return button
+    lazy var toadSprite: SKSpriteNode = {
+        return SKSpriteNode(imageNamed: "toad")
     }()
     
     init(manager: SceneManager, size: CGSize) {
@@ -70,13 +74,13 @@ extension MenuScene {
     private func positionButtons() {
         onePlayerButton.position = CGPoint(x: 0, y: 150)
         twoPlayerButton.position = CGPoint(x: 0, y: 75)
-        highScoresButton.position = CGPoint(x: 0, y: -25)
-        settingsButton.position = CGPoint(x: 0, y: -100)
+        
+        toadSprite.position = CGPoint(x: 0, y: -100)
         
         self.addChild(onePlayerButton)
         self.addChild(twoPlayerButton)
-        self.addChild(highScoresButton)
-        self.addChild(settingsButton)
+        
+//        self.addChild(toadSprite)
     }
     
     private func startOnePlayerGame() {

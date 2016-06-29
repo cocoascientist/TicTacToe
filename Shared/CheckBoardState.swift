@@ -10,21 +10,35 @@ import GameplayKit
 
 class CheckBoardState: GKState {
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return true
-    }
+    private let model: TTTModel
     
-    override func willExitWithNextState(nextState: GKState) {
-        //
+    init(model: TTTModel) {
+        self.model = model
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        //
+        // can use previousState to find out whose turn it was
+        // who made the last move
         
-        guard let gameplayStateMachine = stateMachine as? GameplayStateMachine else {
-            return
+        guard let machine = self.stateMachine as? GameplayStateMachine else { return }
+        
+        // refactor
+        var win = false
+        if machine.lastPlayerState is PlayerOTurnState.Type {
+            win = self.model.board.isWin(forPiece: TTTPiece.O)
+        }
+        else if machine.lastPlayerState is PlayerXTurnState.Type {
+            win = self.model.board.isWin(forPiece: TTTPiece.X)
         }
         
-        gameplayStateMachine
+        if win {
+            self.stateMachine?.enterState(GameOverState.self)
+        } else {
+            self.stateMachine?.enterState(SelectNextPlayerState.self)
+        }
+    }
+    
+    override func isValidNextState(stateClass: AnyClass) -> Bool {
+        return (stateClass is GameOverState.Type || stateClass is SelectNextPlayerState.Type)
     }
 }
