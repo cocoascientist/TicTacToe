@@ -36,7 +36,7 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        self.backgroundColor = Color.yellowColor()
+        self.backgroundColor = Color.hexColor("#06D6A0")
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         self.removeAllChildren()

@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 #if os(OSX)
     typealias Color = NSColor
@@ -43,6 +44,11 @@ class GameScene: SKScene {
         return button
     }()
     
+    lazy var gameStateMachine: GameplayStateMachine = {
+        let machine = GameplayStateMachine(states: [PlayerXTurnState(), PlayerOTurnState()])
+        return machine
+    }()
+    
     var board: Board {
         let size = CGSize(width: 100.0, height: 100.0)
         let board = Board(columns: 3, rows: 3, piece: size)
@@ -69,12 +75,19 @@ class GameScene: SKScene {
         
         self.addChild(boardNode)
         
+        resetGamePlayState()
         positionPieces()
         positionButtons()
     }
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+}
+
+extension GameScene {
+    private func resetGamePlayState() {
+        self.gameStateMachine.resetToInitialState()
     }
     
     private func positionPieces() {
@@ -129,14 +142,23 @@ class GameScene: SKScene {
     private func childNodeName(forTouchPoint touchPoint: CGPoint) -> SKNode? {
         return nil
     }
+    
+    private func placePieceOn(node: SKNode) {
+        if node.children.count == 0 {
+            let glyph = self.gameStateMachine.glyphForState
+            let piece = GlyphNode(glyph: glyph)
+            // TODO: use accumlated frame?
+//            let mid = CGPoint(x: node.frame.midX, y: node.frame.midY)
+            let frame = piece.calculateAccumulatedFrame()
+            
+            piece.position = CGPoint(x: -frame.midX, y: -frame.midY)
+            node.addChild(piece)
+        }
+    }
 }
 
 extension GameScene {
     #if os(iOS)
-    
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
-    }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
@@ -146,17 +168,11 @@ extension GameScene {
             guard let scene = scene else { return }
             
             let touchPoint = touch.locationInNode(scene)
-            let touchedNode = scene.nodeAtPoint(touchPoint)
+            let node = scene.nodeAtPoint(touchPoint)
             
-            if let _ = touchedNode.name {
-                let piece = createPieceX()
-                touchedNode.addChild(piece)
-            }
+            placePieceOn(node)
+            self.gameStateMachine.moveToNextState()
         }
-    }
-    
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
     }
     
     private func containsTouches(touches: Set<UITouch>) -> Bool {
@@ -170,6 +186,25 @@ extension GameScene {
     }
     
     #elseif os(OSX)
+    
+    override func mouseUp(event: NSEvent) {
+        if containsLocationForEvent(event) {
+            guard let scene = scene else { return }
+            let location = event.locationInNode(scene)
+            let node = scene.nodeAtPoint(location)
+            
+            placePieceOn(node)
+            self.gameStateMachine.moveToNextState()
+        }
+    }
+    
+    private func containsLocationForEvent(event: NSEvent) -> Bool {
+        guard let scene = scene else { fatalError("Button must be used within a scene.")  }
+        
+        let location = event.locationInNode(scene)
+        let clickedNode = scene.nodeAtPoint(location)
+        return clickedNode === self || clickedNode.inParentHierarchy(self)
+    }
     
     #endif
 }

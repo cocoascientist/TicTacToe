@@ -27,7 +27,6 @@ class MenuButton: SKNode {
     
     lazy var focusRing: SKSpriteNode = {
         let node = SKSpriteNode(imageNamed: "focusRing")
-        
         return node
     }()
     
