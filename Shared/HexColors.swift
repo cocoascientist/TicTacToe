@@ -8,6 +8,10 @@
 
 import Foundation
 
+#if os(iOS)
+    import UIKit
+#endif
+
 extension Color {
     class func hexColor(string: String) -> Color {
         let set = NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet

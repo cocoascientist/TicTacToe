@@ -8,19 +8,31 @@
 
 import SpriteKit
 
+class DebugLabel: SKLabelNode {
+    override init() {
+        super.init()
+        
+        self.fontSize = 12
+        self.fontName = "Helvetica"
+        self.zPosition = 100
+        self.userInteractionEnabled = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class PositionNode: SKSpriteNode {
     
     let row: Int
     let column: Int
     
-    lazy var debugLabel: SKLabelNode = {
-        let text = "\(self.row), \(self.column)"
-        let node = SKLabelNode(text: text)
+    lazy var debugLabel: DebugLabel = {
+        let node = DebugLabel()
         
-        node.fontSize = 12
-        node.fontName = "Helvetica"
-//        node.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        node.zPosition = 100
+        node.text = "\(self.row), \(self.column)"
+        node.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         
         return node
     }()

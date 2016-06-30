@@ -37,6 +37,17 @@ enum TTTPiece {
             return "#FFFFFF"
         }
     }
+    
+    var opposite: TTTPiece {
+        switch self {
+        case .X:
+            return .O
+        case .O:
+            return .X
+        default:
+            return self
+        }
+    }
 }
 
 typealias Placemarker = (value: Int, piece: TTTPiece)

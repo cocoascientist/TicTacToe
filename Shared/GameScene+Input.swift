@@ -18,10 +18,6 @@ extension GameScene {
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         
-        if self.gameStateMachine.currentState is CheckBoardState {
-            return
-        }
-        
         if containsTouches(touches) {
             guard let touch = touches.first else { return }
             guard let scene = scene else { return }
@@ -31,8 +27,7 @@ extension GameScene {
             
             guard node is PositionNode else { return }
             
-            self.placePieceOn(node)
-            self.gameStateMachine.enterState(CheckBoardState.self)
+            self.handleUIEventOn(node)
         }
     }
     
@@ -49,10 +44,6 @@ extension GameScene {
     #elseif os(OSX)
     
     override func mouseUp(event: NSEvent) {
-        if self.gameStateMachine.currentState is CheckBoardState {
-            return
-        }
-        
         if containsLocationForEvent(event) {
             guard let scene = scene else { return }
             let location = event.locationInNode(scene)
@@ -61,7 +52,6 @@ extension GameScene {
             guard node is PositionNode else { return }
             
             self.handleUIEventOn(node)
-            self.gameStateMachine.enterState(CheckBoardState.self)
         }
     }
     

@@ -107,8 +107,6 @@ class GameScene: SKScene {
     
     private(set) unowned var manager: SceneManager
     
-//    private let strategist: GKMinmaxStrategist = GKMinmaxStrategist()
-    
     init(manager: SceneManager, size: CGSize, type: GameType) {
         self.manager = manager
         self.type = type
@@ -148,11 +146,19 @@ class GameScene: SKScene {
 
 extension GameScene {
     func handleUIEventOn(node: SKNode) {
-        placePieceOn(node)
+        guard let node = node as? PositionNode else { return }
+        guard let player = model.activePlayer as? TTTPlayer else { return }
+        
+        let column = node.column
+        let row = node.row
+        
+        let index = column + row * model.board.rows
+        
+        let piece = player.piece
+        let move = TTTMove(index: index, piece: piece)
+        
+        makeMoveForActivePlayer(move)
     }
-    
-    // assumption is this is only called by AI
-    // can this get any uglier?
     
     func makeMoveForActivePlayer(move: GKGameModelUpdate) {
         guard let move = move as? TTTMove else { return }
@@ -160,23 +166,12 @@ extension GameScene {
         let column = move.index % model.board.rows
         let row = move.index / model.board.rows
         
-        print("move it: \(move)")
         print("move it: \(row), \(column)")
         
         placePiece(move.piece, row: row, column: column)
-        self.gameStateMachine.enterState(CheckBoardState.self)
-    }
-    
-    func applyGameMoveToModel(move: GKGameModelUpdate) {
-        guard let move = move as? TTTMove else { return }
         
-//        guard let state = gameStateMachine.lastPlayerState else { return }
-        
-        self.model.applyGameModelUpdate(move)
-    }
-    
-    func buffer() {
- 
+        model.applyGameModelUpdate(move)
+        gameStateMachine.enterState(CheckBoardState.self)
     }
 }
 
@@ -234,11 +229,16 @@ extension GameScene {
         self.model.resetGameBoard()
         gameStateMachine.resetToInitialState()
         
-//        for node in self.children {
-//            if node is PositionNode {
-//                node.removeAllChildren()
-//            }
-//        }
+        // too much work for debug labels..
+        for node in self.children {
+            if node is PositionNode {
+                for child in node.children {
+                    if !(child is DebugLabel) {
+                        child.removeFromParent()
+                    }
+                }
+            }
+        }
     }
     
     private func canAddPiece() -> Bool {
@@ -249,13 +249,6 @@ extension GameScene {
     private func isGameOver() -> Bool {
         return gameStateMachine.currentState is GameOverState
     }
-    
-    // this is placing a piece on the board after handling touch
-    // for placing piece in response to computer/ai move, take a move,
-    // find the move, apply the move, get out
-    
-    // would require refactoring some of this...
-    // should NOT apply game model update here.
     
     private func currentGamePiece() -> TTTPiece {
         guard let player = self.model.activePlayer as? TTTPlayer else { fatalError() }
@@ -295,12 +288,14 @@ extension GameScene {
         node.addChild(sprite)
     }
     
-    internal func placePieceOn(node: SKNode) {
-        guard let node = node as? PositionNode else { return }
-//        guard node.children.count == 0 else { return }
-        guard canAddPiece() else { return }
+    private func placePieceOn(node: SKNode) -> Bool {
+        guard let node = node as? PositionNode else { return false }
+        guard node.children.count == 0 else { return false }
+        guard canAddPiece() else { return false }
         
         let piece = currentGamePiece()
         placePiece(piece, row: node.row, column: node.column)
+        
+        return true
     }
 }

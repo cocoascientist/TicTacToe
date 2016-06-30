@@ -55,6 +55,8 @@ extension TTTModel: GKGameModel {
         
         let moves = empty.map { return TTTMove(index: $0.index, piece: player.piece)}
         
+        print("computer found \(moves.count) possible moves")
+        
         return (moves.count > 0) ? moves: nil
     }
     
@@ -65,7 +67,21 @@ extension TTTModel: GKGameModel {
     }
     
     func scoreForPlayer(player: GKGameModelPlayer) -> Int {
-        // TODO: implement
-        return 10
+        guard let player = player as? TTTPlayer else { return 0 }
+        
+        let piece = player.piece
+        let opponent = piece.opposite
+        
+        var score = 5
+        
+        if board.isWin(forPiece: opponent) {
+            score = 0
+        }
+        else if board.isWin(forPiece: piece) {
+            score = 20
+        }
+        
+        print("scoring board a \(score) for \(piece)")
+        return score
     }
 }
