@@ -23,7 +23,7 @@ enum TTTPiece {
         case .O:
             return "O"
         default:
-            return ""
+            return "+"
         }
     }
     
@@ -121,5 +121,34 @@ struct TTTBoard {
         }
         
         return didWin
+    }
+    
+    func score(forPiece piece: TTTPiece) -> Int {
+        
+        var score = 0
+        
+        for combo in winningCombos {
+            
+            var accumlated = 0
+            var empty = 0
+            
+            for index in combo {
+                let current = self.pieces[index]
+                if current.piece == piece {
+                    accumlated += 1
+                } else if current.piece == .None {
+                    empty += 1
+                }
+            }
+            
+            if accumlated > 2 {
+                score += 20
+            }
+            else if accumlated >= 2 && empty > 0 {
+                score += 10
+            }
+        }
+        
+        return score
     }
 }

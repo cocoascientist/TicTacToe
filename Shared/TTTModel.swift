@@ -32,6 +32,20 @@ class TTTModel: NSObject {
     }
 }
 
+extension TTTModel {
+    func nextPlayerAfter(player: GKGameModelPlayer?) -> GKGameModelPlayer? {
+        guard let players = players as? [TTTPlayer] else { return nil }
+        guard let player = player as? TTTPlayer else { return nil }
+        
+        assert(players.count == 2)
+        
+        let playerX = players.filter { $0.piece == TTTPiece.X }.first!
+        let playerO = players.filter { $0.piece == TTTPiece.O }.first!
+        
+        return (player == playerX) ? playerO : playerX
+    }
+}
+
 extension TTTModel: GKGameModel {
     func setGameModel(model: GKGameModel) {
         guard let model = model as? TTTModel else { return }
@@ -64,24 +78,30 @@ extension TTTModel: GKGameModel {
         guard let move = gameModelUpdate as? TTTMove else { return }
         
         self.board = board.afterMaking(move)
+        self.activePlayer = nextPlayerAfter(activePlayer)
     }
     
     func scoreForPlayer(player: GKGameModelPlayer) -> Int {
         guard let player = player as? TTTPlayer else { return 0 }
         
         let piece = player.piece
-        let opponent = piece.opposite
+//        let opponent = piece.opposite
         
-        var score = 5
+        let score = board.score(forPiece: piece)
+        let opponent = (board.score(forPiece: piece.opposite) - 10) * -1
         
-        if board.isWin(forPiece: opponent) {
-            score = 0
+        let adjusted = score + opponent
+        
+        print("board: \(printBoard()) scores a \(adjusted)")
+        
+        return adjusted
+    }
+    
+    func printBoard() {
+        for obj in board.pieces {
+            print(obj.piece.glyph, terminator: "")
         }
-        else if board.isWin(forPiece: piece) {
-            score = 20
-        }
         
-        print("scoring board a \(score) for \(piece)")
-        return score
+        print("")
     }
 }

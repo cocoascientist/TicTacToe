@@ -91,10 +91,8 @@ class GameScene: SKScene {
     lazy var strategist: GKMinmaxStrategist = {
         let strategist = GKMinmaxStrategist()
         strategist.gameModel = self.model
-        strategist.maxLookAheadDepth = 1
+        strategist.maxLookAheadDepth = 2
         strategist.randomSource = GKMersenneTwisterRandomSource()
-        
-        // none of this matters until you implement scoreForPlayer
         
         return strategist
     }()
