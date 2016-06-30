@@ -6,11 +6,7 @@
 //  Copyright © 2016 Andrew Shepard. All rights reserved.
 //
 
-#if os(iOS)
-    import UIKit
-#elseif os(OSX)
-    import AppKit
-#endif
+import Foundation
 
 extension Color {
     class func hexColor(string: String) -> Color {

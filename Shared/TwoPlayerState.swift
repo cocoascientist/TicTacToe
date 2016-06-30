@@ -1,21 +1,21 @@
 //
-//  GameState.swift
+//  TwoPlayerState.swift
 //  TicTacToad
 //
-//  Created by Andrew Shepard on 6/27/16.
+//  Created by Andrew Shepard on 6/30/16.
 //  Copyright © 2016 Andrew Shepard. All rights reserved.
 //
 
 import GameplayKit
 import SpriteKit
 
-class GameState: GKState {
+class TwoPlayerState: GKState {
     unowned var view: SKView
     private(set) unowned var manager: SceneManager
     
     lazy var scene: SKScene = {
         let size = self.view.bounds.size
-        let scene = GameScene(manager: self.manager, size: size)
+        let scene = GameScene(manager: self.manager, size: size, type: .TwoPlayer)
         
         scene.scaleMode = .AspectFit
         
@@ -44,7 +44,7 @@ class GameState: GKState {
     }
 }
 
-extension GameState {
+extension TwoPlayerState {
     private func configure() {
         self.view.ignoresSiblingOrder = true
         self.view.showsFPS = true

@@ -18,7 +18,8 @@ class SceneManager {
     lazy var stateMachine: GKStateMachine = {
         let states = [
             MenuState(view: self.view, manager: self),
-            GameState(view: self.view, manager: self)
+            OnePlayerState(view: self.view, manager: self),
+            TwoPlayerState(view: self.view, manager: self)
         ]
         
         return GKStateMachine(states: states)

@@ -9,6 +9,11 @@
 import SpriteKit
 import GameplayKit
 
+enum GameType {
+    case OnePlayer
+    case TwoPlayer
+}
+
 private struct Board {
     static let size = CGSize(width: 100.0, height: 100.0)
     static let dimension = 3
@@ -23,6 +28,7 @@ class GameScene: SKScene {
         return node
     }()
     
+    // could refactor, hide these in a different layer... button node layer
     lazy var quitButton: GameButton = {
         let title = NSLocalizedString("Quit", comment: "Quit")
         let size = CGSize(width: 84, height: 34)
@@ -43,37 +49,73 @@ class GameScene: SKScene {
     
     lazy var moveLabel: SKLabelNode = {
         let node = SKLabelNode(text: "")
-        
         node.fontName = "MarkerFelt-Wide"
         node.fontSize = 24
         
         return node
     }()
     
-    lazy var gameStateMachine: GameplayStateMachine = {
+    // seems like you want a player state and computer state?
+    // or should player X and O be configured as different opponent types?
+    
+    lazy var onePlayerStates: [GKState] = {
         let states = [
             SelectNextPlayerState(scene: self),
             PlayerXTurnState(),
-            PlayerOTurnState(),
+            PlayerOTurnState(scene: self, isComputerPlayer: true),
             CheckBoardState(model: self.model),
             GameOverState(scene: self)
         ]
         
+        return states
+    }()
+    
+    lazy var twoPlayerStates: [GKState] = {
+        let states = [
+            SelectNextPlayerState(scene: self),
+            PlayerXTurnState(),
+            PlayerOTurnState(scene: self),
+            CheckBoardState(model: self.model),
+            GameOverState(scene: self)
+        ]
+        
+        return states
+    }()
+    
+    lazy var gameStateMachine: GameplayStateMachine = {
+        let states = (self.type == .OnePlayer) ? self.onePlayerStates : self.twoPlayerStates
         let machine = GameplayStateMachine(states: states)
         return machine
     }()
     
+    lazy var strategist: GKMinmaxStrategist = {
+        let strategist = GKMinmaxStrategist()
+        strategist.gameModel = self.model
+        strategist.maxLookAheadDepth = 1
+        strategist.randomSource = GKMersenneTwisterRandomSource()
+        
+        // none of this matters until you implement scoreForPlayer
+        
+        return strategist
+    }()
+    
     private(set) var model: TTTModel
-    private(set) var playerX: TTTPlayer
-    private(set) var playerO: TTTPlayer
+    
+    let playerX: TTTPlayer
+    let playerO: TTTPlayer
+    let type: GameType
     
     private(set) unowned var manager: SceneManager
     
-    private let strategist: GKMinmaxStrategist = GKMinmaxStrategist()
+//    private let strategist: GKMinmaxStrategist = GKMinmaxStrategist()
     
-    init(manager: SceneManager, size: CGSize) {
+    init(manager: SceneManager, size: CGSize, type: GameType) {
         self.manager = manager
+        self.type = type
         
+        // should the state machine own these?
+        // the AI computer state needs to manipulate model
+        // the model needs to track activePlayer...
         self.playerX = TTTPlayer(playerId: 1, piece: .X)
         self.playerO = TTTPlayer(playerId: 2, piece: .O)
         self.model = TTTModel(players: [playerO, playerX])
@@ -105,17 +147,50 @@ class GameScene: SKScene {
 }
 
 extension GameScene {
+    func handleUIEventOn(node: SKNode) {
+        placePieceOn(node)
+    }
+    
+    // assumption is this is only called by AI
+    // can this get any uglier?
+    
+    func makeMoveForActivePlayer(move: GKGameModelUpdate) {
+        guard let move = move as? TTTMove else { return }
+        
+        let column = move.index % model.board.rows
+        let row = move.index / model.board.rows
+        
+        print("move it: \(move)")
+        print("move it: \(row), \(column)")
+        
+        placePiece(move.piece, row: row, column: column)
+        self.gameStateMachine.enterState(CheckBoardState.self)
+    }
+    
+    func applyGameMoveToModel(move: GKGameModelUpdate) {
+        guard let move = move as? TTTMove else { return }
+        
+//        guard let state = gameStateMachine.lastPlayerState else { return }
+        
+        self.model.applyGameModelUpdate(move)
+    }
+    
+    func buffer() {
+ 
+    }
+}
+
+extension GameScene {
     
     private func positionPieces() {
         let size = Board.size
         let dimension = Board.dimension
-        let alphas = "abcdefgh"
         let offset = CGPoint(x: 100.0, y: 100.0)
         
         for row in 0..<dimension {
             for column in 0..<dimension {
                 let node = PositionNode(row: row, column: column, size: size)
-                node.name = "\(Array(alphas.characters)[column])\(2-row)"
+                node.name = "\(Array("abc".characters)[column])\(2-row)"
                 
                 let xPos = (CGFloat(column) * size.width * 1) - offset.x
                 let yPos = (CGFloat(row) * size.height * -1) + offset.y
@@ -151,6 +226,7 @@ extension GameScene {
     }
     
     private func quitGameScene() {
+        self.restartGameScene()
         manager.stateMachine.enterState(MenuState.self)
     }
     
@@ -158,11 +234,11 @@ extension GameScene {
         self.model.resetGameBoard()
         gameStateMachine.resetToInitialState()
         
-        for node in self.children {
-            if node is PositionNode {
-                node.removeAllChildren()
-            }
-        }
+//        for node in self.children {
+//            if node is PositionNode {
+//                node.removeAllChildren()
+//            }
+//        }
     }
     
     private func canAddPiece() -> Bool {
@@ -174,15 +250,41 @@ extension GameScene {
         return gameStateMachine.currentState is GameOverState
     }
     
-    internal func placePieceOn(node: SKNode) {
-        guard let node = node as? PositionNode else { return }
-        guard node.children.count == 0 else { return }
-        guard canAddPiece() else { return }
+    // this is placing a piece on the board after handling touch
+    // for placing piece in response to computer/ai move, take a move,
+    // find the move, apply the move, get out
+    
+    // would require refactoring some of this...
+    // should NOT apply game model update here.
+    
+    private func currentGamePiece() -> TTTPiece {
+        guard let player = self.model.activePlayer as? TTTPlayer else { fatalError() }
         
-        let glyph = gameStateMachine.glyphForState
-        let sprite = GlyphNode(glyph: glyph)
+        return player.piece
+    }
+    
+    private func placePiece(piece: TTTPiece, row: Int, column: Int) {
+        //FIXME: shouldn't these be board node children?
         
-        let color = gameStateMachine.glyphColorForState
+        let positions = self.children.filter {
+            return $0 is PositionNode
+        }.flatMap {
+            return $0 as? PositionNode
+        }.filter {
+            return $0.column == column && $0.row == row
+        }
+        
+        assert(positions.count == 1)
+        
+        guard let node = positions.first else { return }
+        
+        addPiece(piece, on: node)
+    }
+    
+    private func addPiece(piece: TTTPiece, on node: SKNode) {
+        
+        let sprite = GlyphNode(glyph: piece.glyph)
+        let color = Color.hexColor(piece.hexColor)
         
         sprite.fillColor = color
         sprite.strokeColor = color
@@ -191,18 +293,14 @@ extension GameScene {
         
         sprite.position = CGPoint(x: -frame.midX, y: -frame.midY)
         node.addChild(sprite)
+    }
+    
+    internal func placePieceOn(node: SKNode) {
+        guard let node = node as? PositionNode else { return }
+//        guard node.children.count == 0 else { return }
+        guard canAddPiece() else { return }
         
-        let index = node.row * 3 + node.column
-        
-        if let lastPlayerState = gameStateMachine.lastPlayerState {
-            if lastPlayerState is PlayerXTurnState.Type {
-                let update = TTTMove(index: index, piece: .X)
-                self.model.applyGameModelUpdate(update)
-            }
-            else {
-                let update = TTTMove(index: index, piece: .O)
-                self.model.applyGameModelUpdate(update)
-            }
-        }
+        let piece = currentGamePiece()
+        placePiece(piece, row: node.row, column: node.column)
     }
 }

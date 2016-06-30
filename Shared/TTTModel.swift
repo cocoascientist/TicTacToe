@@ -11,7 +11,7 @@ import GameplayKit
 
 class TTTModel: NSObject {
     private(set) var players: [GKGameModelPlayer]?
-    private(set) var activePlayer: GKGameModelPlayer?
+    var activePlayer: GKGameModelPlayer?
     
     private(set) var board: TTTBoard
     
@@ -45,7 +45,14 @@ extension TTTModel: GKGameModel {
         guard let player = player as? TTTPlayer else { return nil }
         
         let indexed = board.pieces.enumerate().map { return (index: $0, placemarker: $1) }
-        let empty = indexed.filter { return $1.piece == .None }
+        let empty = indexed.filter { (_, placemarker) -> Bool in
+            if placemarker.piece == .None {
+                return true
+            } else {
+                return false
+            }
+        }
+        
         let moves = empty.map { return TTTMove(index: $0.index, piece: player.piece)}
         
         return (moves.count > 0) ? moves: nil
@@ -54,8 +61,11 @@ extension TTTModel: GKGameModel {
     func applyGameModelUpdate(gameModelUpdate: GKGameModelUpdate) {
         guard let move = gameModelUpdate as? TTTMove else { return }
         
-        // don't have connection between TTTPlayer and X or O piece type
-        
-        self.board.afterMakingMove(with: move.piece, at: move.index)
+        self.board = board.afterMaking(move)
+    }
+    
+    func scoreForPlayer(player: GKGameModelPlayer) -> Int {
+        // TODO: implement
+        return 10
     }
 }

@@ -60,7 +60,7 @@ extension GameScene {
             
             guard node is PositionNode else { return }
             
-            self.placePieceOn(node)
+            self.handleUIEventOn(node)
             self.gameStateMachine.enterState(CheckBoardState.self)
         }
     }

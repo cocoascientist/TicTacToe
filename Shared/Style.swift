@@ -6,11 +6,6 @@
 //  Copyright © 2016 Andrew Shepard. All rights reserved.
 //
 
-#if os(iOS)
-    import UIKit
-#elseif os(OSX)
-    import AppKit
-#endif
 
 struct Style {
     struct Colors {

@@ -16,6 +16,9 @@
 		F70B0E6D1D2325CD00E06121 /* GameplayStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70B0E6C1D2325CD00E06121 /* GameplayStateMachine.swift */; };
 		F70B0E6E1D2325DB00E06121 /* GameplayStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70B0E6C1D2325CD00E06121 /* GameplayStateMachine.swift */; };
 		F70B0E6F1D2325DB00E06121 /* GameplayStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70B0E6C1D2325CD00E06121 /* GameplayStateMachine.swift */; };
+		F70C30F21D256C5F00AE0C2A /* TwoPlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70C30F11D256C5F00AE0C2A /* TwoPlayerState.swift */; };
+		F70C30F31D256C5F00AE0C2A /* TwoPlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70C30F11D256C5F00AE0C2A /* TwoPlayerState.swift */; };
+		F70C30F41D256C5F00AE0C2A /* TwoPlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70C30F11D256C5F00AE0C2A /* TwoPlayerState.swift */; };
 		F786B4D21D21DEDA004706BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B4CD1D21DEDA004706BC /* AppDelegate.swift */; };
 		F786B4D91D21DEF6004706BC /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F786B4D71D21DEF6004706BC /* MainMenu.xib */; };
 		F786B4E11D21DF18004706BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B4E01D21DF18004706BC /* AppDelegate.swift */; };
@@ -32,13 +35,13 @@
 		F786B5031D223752004706BC /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B5011D22374F004706BC /* MenuScene.swift */; };
 		F786B5061D2238A2004706BC /* MenuState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B5051D2238A2004706BC /* MenuState.swift */; };
 		F786B5071D2238A2004706BC /* MenuState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B5051D2238A2004706BC /* MenuState.swift */; };
-		F786B50D1D223F6E004706BC /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B50C1D223F6E004706BC /* GameState.swift */; };
-		F786B50E1D223F6E004706BC /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B50C1D223F6E004706BC /* GameState.swift */; };
+		F786B50D1D223F6E004706BC /* OnePlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B50C1D223F6E004706BC /* OnePlayerState.swift */; };
+		F786B50E1D223F6E004706BC /* OnePlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B50C1D223F6E004706BC /* OnePlayerState.swift */; };
 		F786B5161D224218004706BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B5151D224218004706BC /* AppDelegate.swift */; };
 		F786B51C1D224218004706BC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B51B1D224218004706BC /* GameViewController.swift */; };
 		F786B5211D224218004706BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F786B51F1D224218004706BC /* Main.storyboard */; };
 		F786B5281D224292004706BC /* MenuState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B5051D2238A2004706BC /* MenuState.swift */; };
-		F786B5291D224292004706BC /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B50C1D223F6E004706BC /* GameState.swift */; };
+		F786B5291D224292004706BC /* OnePlayerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B50C1D223F6E004706BC /* OnePlayerState.swift */; };
 		F786B52A1D224296004706BC /* SceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B4FE1D2235A1004706BC /* SceneManager.swift */; };
 		F786B52B1D224296004706BC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B4F71D21DF5B004706BC /* GameScene.swift */; };
 		F786B52C1D224296004706BC /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B5011D22374F004706BC /* MenuScene.swift */; };
@@ -97,6 +100,7 @@
 		F70B0E641D23245B00E06121 /* PlayerXTurnState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerXTurnState.swift; path = Shared/PlayerXTurnState.swift; sourceTree = "<group>"; };
 		F70B0E661D23248A00E06121 /* PlayerOTurnState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerOTurnState.swift; path = Shared/PlayerOTurnState.swift; sourceTree = "<group>"; };
 		F70B0E6C1D2325CD00E06121 /* GameplayStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameplayStateMachine.swift; path = Shared/GameplayStateMachine.swift; sourceTree = "<group>"; };
+		F70C30F11D256C5F00AE0C2A /* TwoPlayerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TwoPlayerState.swift; path = Shared/TwoPlayerState.swift; sourceTree = "<group>"; };
 		F786B4CD1D21DEDA004706BC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "TicTacToad-macOS/AppDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		F786B4D11D21DEDA004706BC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "TicTacToad-macOS/Info.plist"; sourceTree = SOURCE_ROOT; };
 		F786B4D81D21DEF6004706BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "TicTacToad-macOS/Base.lproj/MainMenu.xib"; sourceTree = SOURCE_ROOT; };
@@ -111,7 +115,7 @@
 		F786B4FE1D2235A1004706BC /* SceneManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneManager.swift; path = Shared/SceneManager.swift; sourceTree = "<group>"; };
 		F786B5011D22374F004706BC /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuScene.swift; path = Shared/MenuScene.swift; sourceTree = "<group>"; };
 		F786B5051D2238A2004706BC /* MenuState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuState.swift; path = Shared/MenuState.swift; sourceTree = "<group>"; };
-		F786B50C1D223F6E004706BC /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = Shared/GameState.swift; sourceTree = "<group>"; };
+		F786B50C1D223F6E004706BC /* OnePlayerState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnePlayerState.swift; path = Shared/OnePlayerState.swift; sourceTree = "<group>"; };
 		F786B5131D224218004706BC /* TicTacToad-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TicTacToad-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F786B5151D224218004706BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F786B51B1D224218004706BC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -233,7 +237,8 @@
 			isa = PBXGroup;
 			children = (
 				F786B5051D2238A2004706BC /* MenuState.swift */,
-				F786B50C1D223F6E004706BC /* GameState.swift */,
+				F786B50C1D223F6E004706BC /* OnePlayerState.swift */,
+				F70C30F11D256C5F00AE0C2A /* TwoPlayerState.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -444,8 +449,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F7B399C91D2432E8002FEF9A /* GameScene+Input.swift in Sources */,
-				F786B50E1D223F6E004706BC /* GameState.swift in Sources */,
+				F786B50E1D223F6E004706BC /* OnePlayerState.swift in Sources */,
 				F70B0E6E1D2325DB00E06121 /* GameplayStateMachine.swift in Sources */,
+				F70C30F31D256C5F00AE0C2A /* TwoPlayerState.swift in Sources */,
 				F7B399D71D245817002FEF9A /* SelectNextPlayerState.swift in Sources */,
 				F7B399CD1D243709002FEF9A /* TTTMove.swift in Sources */,
 				F786B5071D2238A2004706BC /* MenuState.swift in Sources */,
@@ -479,10 +485,11 @@
 				F7B399CA1D2432E8002FEF9A /* GameScene+Input.swift in Sources */,
 				F786B52B1D224296004706BC /* GameScene.swift in Sources */,
 				F70B0E6F1D2325DB00E06121 /* GameplayStateMachine.swift in Sources */,
+				F70C30F41D256C5F00AE0C2A /* TwoPlayerState.swift in Sources */,
 				F7B399D81D245817002FEF9A /* SelectNextPlayerState.swift in Sources */,
 				F7B399CE1D243709002FEF9A /* TTTMove.swift in Sources */,
 				F786B5281D224292004706BC /* MenuState.swift in Sources */,
-				F786B5291D224292004706BC /* GameState.swift in Sources */,
+				F786B5291D224292004706BC /* OnePlayerState.swift in Sources */,
 				F786B52C1D224296004706BC /* MenuScene.swift in Sources */,
 				F78D808C1D231E7400F7141A /* GlyphNode.swift in Sources */,
 				F7D48D071D22A2450086FF35 /* MenuButton.swift in Sources */,
@@ -526,12 +533,13 @@
 				F786B5021D22374F004706BC /* MenuScene.swift in Sources */,
 				F7B399C01D242CA4002FEF9A /* TTTModel.swift in Sources */,
 				F70B0E651D23245B00E06121 /* PlayerXTurnState.swift in Sources */,
-				F786B50D1D223F6E004706BC /* GameState.swift in Sources */,
+				F786B50D1D223F6E004706BC /* OnePlayerState.swift in Sources */,
 				F786B4D21D21DEDA004706BC /* AppDelegate.swift in Sources */,
 				F7B399DE1D246755002FEF9A /* GameButton.swift in Sources */,
 				F7B399D21D245806002FEF9A /* GameOverState.swift in Sources */,
 				F7D0F5131D2375E200B6AF6D /* Style.swift in Sources */,
 				F7B399CC1D243709002FEF9A /* TTTMove.swift in Sources */,
+				F70C30F21D256C5F00AE0C2A /* TwoPlayerState.swift in Sources */,
 				F7B399E61D2472FE002FEF9A /* TTTBoard.swift in Sources */,
 				F786B5061D2238A2004706BC /* MenuState.swift in Sources */,
 			);

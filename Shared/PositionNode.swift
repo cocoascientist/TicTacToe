@@ -19,7 +19,7 @@ class PositionNode: SKSpriteNode {
         
         node.fontSize = 12
         node.fontName = "Helvetica"
-        node.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+//        node.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         node.zPosition = 100
         
         return node
@@ -31,7 +31,7 @@ class PositionNode: SKSpriteNode {
         
         super.init(texture: nil, color: Color.clearColor(), size: size)
         
-//        self.addChild(debugLabel)
+        self.addChild(debugLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
