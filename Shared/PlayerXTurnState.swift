@@ -10,6 +10,6 @@ import GameplayKit
 
 class PlayerXTurnState: GKState {
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is CheckBoardState.Type
+        return true
     }
 }

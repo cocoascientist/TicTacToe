@@ -49,5 +49,11 @@ class GlyphNode: SKShapeNode {
 extension GlyphNode {
     private func configure() {
         self.path = glyphPath
+        
+        guard let path = glyphPath else { return }
+        let body = SKPhysicsBody(polygonFromPath: path)
+        body.affectedByGravity = false
+        
+        self.physicsBody = body
     }
 }

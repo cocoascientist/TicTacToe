@@ -18,16 +18,22 @@ class GameOverState: GKState {
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        guard let machine = self.stateMachine as? GameplayStateMachine else { return }
         guard let scene = self.scene as? GameScene else { return }
         
-        if machine.lastPlayerState is PlayerXTurnState.Type {
+        let board = scene.model.board
+        
+        if board.isWin(forPiece: .X) {
             let title = NSLocalizedString("Player X wins!", comment: "Player X wins!")
             scene.moveLabel.text = title
             scene.moveLabel.fontColor = Style.Colors.orange
         }
-        else {
+        else if board.isWin(forPiece: .O) {
             let title = NSLocalizedString("Player O wins!", comment: "Player O wins!")
+            scene.moveLabel.text = title
+            scene.moveLabel.fontColor = Style.Colors.blue
+        }
+        else {
+            let title = NSLocalizedString("It's a Draw!", comment: "It's a Draw!")
             scene.moveLabel.text = title
             scene.moveLabel.fontColor = Style.Colors.blue
         }
@@ -35,5 +41,13 @@ class GameOverState: GKState {
         // digging too deep in restart button... hide this?
         let title = NSLocalizedString("Again?", comment: "Again?")
         scene.restartButton.label.text = title
+        
+        guard let winningCombo = board.winningCombo() else { return }
+        
+        winningCombo.forEach { (index) in
+            let column = index % board.rows
+            let row = index / board.rows
+            scene.wiggleNodeAt(row, column: column)
+        }
     }
 }

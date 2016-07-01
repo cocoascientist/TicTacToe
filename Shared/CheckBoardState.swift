@@ -10,28 +10,20 @@ import GameplayKit
 
 class CheckBoardState: GKState {
     
-    private let model: TTTModel
+    private(set) unowned var model: TTTModel
     
     init(model: TTTModel) {
         self.model = model
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        // can use previousState to find out whose turn it was
-        // who made the last move
+        let piece = playerPiece()
         
-        guard let machine = self.stateMachine as? GameplayStateMachine else { return }
+        print("checking win for player: \(piece)")
         
-        // refactor
-        var win = false
-        if machine.lastPlayerState is PlayerOTurnState.Type {
-            win = self.model.board.isWin(forPiece: TTTPiece.O)
-        }
-        else if machine.lastPlayerState is PlayerXTurnState.Type {
-            win = self.model.board.isWin(forPiece: TTTPiece.X)
-        }
-        
-        if win {
+        if model.board.isWin(forPiece: piece) {
+            self.stateMachine?.enterState(GameOverState.self)
+        } else if model.board.hasEmptyPlaces() == false {
             self.stateMachine?.enterState(GameOverState.self)
         } else {
             self.stateMachine?.enterState(SelectNextPlayerState.self)
@@ -40,5 +32,18 @@ class CheckBoardState: GKState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         return (stateClass is GameOverState.Type || stateClass is SelectNextPlayerState.Type)
+    }
+    
+    private func playerPiece() -> TTTPiece {
+        guard let machine = self.stateMachine as? GameplayStateMachine else { fatalError() }
+        
+        switch machine.lastPlayerState {
+        case is PlayerOTurnState.Type:
+            return TTTPiece.O
+        case is PlayerXTurnState.Type:
+            return TTTPiece.X
+        default:
+            return TTTPiece.None
+        }
     }
 }

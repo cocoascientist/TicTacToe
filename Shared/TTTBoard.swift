@@ -87,6 +87,42 @@ struct TTTBoard {
         return TTTBoard(pieces: pieces)
     }
     
+    func hasEmptyPlaces() -> Bool {
+        let empty = self.pieces.filter { (_, piece) -> Bool in
+            return piece == .None
+        }
+        
+        return empty.count > 0
+    }
+    
+    func winningCombo() -> [Int]? {
+        
+        var winners: [Int]? = nil
+        
+        for combo in winningCombos {
+            
+            if isWinCombo(combo, forPiece: .O) || isWinCombo(combo, forPiece: .X) {
+                winners = combo
+                break
+            }
+        }
+        
+        return winners
+    }
+    
+    func isWinCombo(combo: [Int], forPiece piece: TTTPiece) -> Bool {
+        var accumulated: Int = 0
+        
+        for index in combo {
+            let current = self.pieces[index]
+            if current.piece == piece {
+                accumulated += 1
+            }
+        }
+        
+        return (accumulated == 3)
+    }
+    
     private var winningCombos: [[Int]] {
         /*
          0 | 1 | 2
@@ -107,8 +143,8 @@ struct TTTBoard {
         var didWin = false
         
         for combo in winningCombos {
-            
             var accumulated = 0
+            
             for index in combo {
                 let current = self.pieces[index]
                 if current.piece == piece {
@@ -124,28 +160,28 @@ struct TTTBoard {
     }
     
     func score(forPiece piece: TTTPiece) -> Int {
-        
         var score = 0
         
         for combo in winningCombos {
-            
-            var accumlated = 0
+            var matches = 0
             var empty = 0
             
             for index in combo {
                 let current = self.pieces[index]
                 if current.piece == piece {
-                    accumlated += 1
+                    matches += 1
                 } else if current.piece == .None {
                     empty += 1
                 }
             }
             
-            if accumlated > 2 {
-                score += 20
-            }
-            else if accumlated >= 2 && empty > 0 {
+            if matches == 3 {
+                score += 100
+            } else if matches == 2 && empty == 1 {
                 score += 10
+            }
+            else {
+                score += 1
             }
         }
         

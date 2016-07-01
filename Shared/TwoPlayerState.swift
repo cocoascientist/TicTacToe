@@ -34,20 +34,30 @@ class TwoPlayerState: GKState {
     
     /// Highlights the sprite representing the state.
     override func didEnterWithPreviousState(previousState: GKState?) {
-        let transition = SKTransition.doorsOpenHorizontalWithDuration(0.5)
+        let scene = sceneForView(view, manager: manager)
+        let transition = SKTransition.crossFadeWithDuration(0.5)
         self.view.presentScene(scene, transition: transition)
     }
     
     /// Unhighlights the sprite representing the state.
     override func willExitWithNextState(nextState: GKState) {
-        self.scene.removeAllChildren()
+//        self.scene.removeAllChildren()
     }
 }
 
 extension TwoPlayerState {
     private func configure() {
         self.view.ignoresSiblingOrder = true
-        self.view.showsFPS = true
-        self.view.showsNodeCount = true
+//        self.view.showsFPS = true
+//        self.view.showsNodeCount = true
     }
+}
+
+private func sceneForView(view: SKView, manager: SceneManager) -> SKScene {
+    let size = view.bounds.size
+    let scene = GameScene(manager: manager, size: size, type: .TwoPlayer)
+    
+    scene.scaleMode = .AspectFit
+    
+    return scene
 }

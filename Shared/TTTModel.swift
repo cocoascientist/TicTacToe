@@ -29,6 +29,7 @@ class TTTModel: NSObject {
     
     func resetGameBoard() {
         self.board = TTTBoard()
+        self.activePlayer = nil
     }
 }
 

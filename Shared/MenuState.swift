@@ -34,7 +34,7 @@ class MenuState: GKState {
     
     /// Highlights the sprite representing the state.
     override func didEnterWithPreviousState(previousState: GKState?) {
-        let transition = SKTransition.doorwayWithDuration(0.5)
+        let transition = SKTransition.crossFadeWithDuration(0.5)
         self.view.presentScene(self.scene, transition: transition)
     }
     
@@ -47,7 +47,7 @@ class MenuState: GKState {
 extension MenuState {
     private func configure() {
         self.view.ignoresSiblingOrder = true
-        self.view.showsFPS = true
-        self.view.showsNodeCount = true
+//        self.view.showsFPS = true
+//        self.view.showsNodeCount = true
     }
 }

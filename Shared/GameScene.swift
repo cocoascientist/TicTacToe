@@ -124,17 +124,14 @@ class GameScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        self.removeAllChildren()
-        
         self.backgroundColor = Style.Colors.background
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
+        self.physicsWorld.gravity = CGVector(dx: 0.0, dy: -30.0)
+        
         self.addChild(boardNode)
         
-        positionPieces()
-        positionButtons()
-        positionLabels()
-        restartGameScene()
+        setupEmptyGame()
     }
     
     override func update(currentTime: CFTimeInterval) {
@@ -164,12 +161,43 @@ extension GameScene {
         let column = move.index % model.board.rows
         let row = move.index / model.board.rows
         
-        print("move it: \(row), \(column)")
-        
         placePiece(move.piece, row: row, column: column)
         
         model.applyGameModelUpdate(move)
         gameStateMachine.enterState(CheckBoardState.self)
+    }
+    
+    func wiggleNodeAt(row: Int, column: Int) {
+        let node = nodeAt(row, column: column)
+        
+        let wiggleInX = SKAction.scaleXTo(1.0, duration: 0.2)
+        let wiggleOutX = SKAction.scaleXTo(1.2, duration: 0.2)
+        
+        let wiggleInY = SKAction.scaleYTo(1.0, duration: 0.2)
+        let wiggleOutY = SKAction.scaleYTo(1.2, duration: 0.2)
+        
+        let wiggleX = SKAction.sequence([wiggleInX, wiggleOutX])
+        let wiggleY = SKAction.sequence([wiggleInY, wiggleOutY])
+        
+        let wiggle = SKAction.group([wiggleX, wiggleY])
+        let wiggleRepeat = SKAction.repeatActionForever(wiggle)
+        
+        node.runAction(wiggleRepeat, withKey: "wiggleRepeat")
+    }
+    
+    func animateNodesOffScreen() {
+        for child in self.children {
+            if let positionNode = child as? PositionNode {
+                for child in positionNode.children {
+                    if child is GlyphNode {
+                        child.physicsBody?.affectedByGravity = true
+                        
+                        child.physicsBody?.applyTorque(0.32)
+                        child.physicsBody?.applyAngularImpulse(0.0001)
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -219,24 +247,39 @@ extension GameScene {
     }
     
     private func quitGameScene() {
-        self.restartGameScene()
         manager.stateMachine.enterState(MenuState.self)
     }
     
     private func restartGameScene() {
-        self.model.resetGameBoard()
-        gameStateMachine.resetToInitialState()
+        self.moveLabel.text = ""
+        animateNodesOffScreen()
         
-        // too much work for debug labels..
-        for node in self.children {
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.55 * Double(NSEC_PER_SEC)))
+        dispatch_after(delay, dispatch_get_main_queue()) { [unowned self] in
+            self.removeGamePieces()
+            self.model.resetGameBoard()
+            self.gameStateMachine.resetToInitialState()
+        }
+    }
+    
+    private func removeGamePieces() {
+        self.children.forEach { (node) in
             if node is PositionNode {
-                for child in node.children {
-                    if !(child is DebugLabel) {
-                        child.removeFromParent()
-                    }
-                }
+                node.removeAllChildren()
+                node.removeAllActions()
+                node.xScale = 1.0
+                node.yScale = 1.0
             }
         }
+    }
+    
+    private func setupEmptyGame() {
+        positionPieces()
+        positionButtons()
+        positionLabels()
+        
+        self.model.resetGameBoard()
+        gameStateMachine.resetToInitialState()
     }
     
     private func canAddPiece() -> Bool {
@@ -255,21 +298,27 @@ extension GameScene {
     }
     
     private func placePiece(piece: TTTPiece, row: Int, column: Int) {
+        let node = nodeAt(row, column: column)
+        
+        addPiece(piece, on: node)
+    }
+    
+    private func nodeAt(row: Int, column: Int) -> PositionNode {
         //FIXME: shouldn't these be board node children?
         
         let positions = self.children.filter {
             return $0 is PositionNode
-        }.flatMap {
-            return $0 as? PositionNode
-        }.filter {
-            return $0.column == column && $0.row == row
+            }.flatMap {
+                return $0 as? PositionNode
+            }.filter {
+                return $0.column == column && $0.row == row
         }
         
         assert(positions.count == 1)
         
-        guard let node = positions.first else { return }
+        guard let node = positions.first else { fatalError() }
         
-        addPiece(piece, on: node)
+        return node
     }
     
     private func addPiece(piece: TTTPiece, on node: SKNode) {

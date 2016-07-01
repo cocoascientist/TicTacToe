@@ -84,14 +84,10 @@ extension MenuScene {
     }
     
     private func startOnePlayerGame() {
-        print("start one player")
-        
         manager.stateMachine.enterState(OnePlayerState.self)
     }
     
     private func startTwoPlayerGame() {
-        print("start two player")
-        
         manager.stateMachine.enterState(TwoPlayerState.self)
     }
 }
