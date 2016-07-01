@@ -19,8 +19,6 @@ class CheckBoardState: GKState {
     override func didEnterWithPreviousState(previousState: GKState?) {
         let piece = playerPiece()
         
-        print("checking win for player: \(piece)")
-        
         if model.board.isWin(forPiece: piece) {
             self.stateMachine?.enterState(GameOverState.self)
         } else if model.board.hasEmptyPlaces() == false {

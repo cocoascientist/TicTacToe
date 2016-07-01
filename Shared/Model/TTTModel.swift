@@ -70,7 +70,7 @@ extension TTTModel: GKGameModel {
         
         let moves = empty.map { return TTTMove(index: $0.index, piece: player.piece)}
         
-        print("computer found \(moves.count) possible moves")
+//        print("computer found \(moves.count) possible moves")
         
         return (moves.count > 0) ? moves: nil
     }
@@ -86,14 +86,13 @@ extension TTTModel: GKGameModel {
         guard let player = player as? TTTPlayer else { return 0 }
         
         let piece = player.piece
-//        let opponent = piece.opposite
         
         let score = board.score(forPiece: piece)
-        let opponent = (board.score(forPiece: piece.opposite) - 10) * -1
+        let opponent = (board.score(forPiece: piece.opposite) - 20) * -1
         
         let adjusted = score + opponent
         
-        print("board: \(printBoard()) scores a \(adjusted)")
+//        print("board: \(printBoard()) scores a \(adjusted)")
         
         return adjusted
     }

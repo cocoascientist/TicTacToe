@@ -91,7 +91,7 @@ class GameScene: SKScene {
     lazy var strategist: GKMinmaxStrategist = {
         let strategist = GKMinmaxStrategist()
         strategist.gameModel = self.model
-        strategist.maxLookAheadDepth = 2
+        strategist.maxLookAheadDepth = 3
         strategist.randomSource = GKMersenneTwisterRandomSource()
         
         return strategist
@@ -247,6 +247,9 @@ extension GameScene {
     }
     
     private func quitGameScene() {
+        self.removeGamePieces()
+        self.model.resetGameBoard()
+        self.gameStateMachine.resetToInitialState()
         manager.stateMachine.enterState(MenuState.self)
     }
     
@@ -322,7 +325,6 @@ extension GameScene {
     }
     
     private func addPiece(piece: TTTPiece, on node: SKNode) {
-        
         let sprite = GlyphNode(glyph: piece.glyph)
         let color = Color.hexColor(piece.hexColor)
         

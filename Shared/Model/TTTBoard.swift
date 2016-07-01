@@ -139,6 +139,14 @@ struct TTTBoard {
         ]
     }
     
+    private var corners: [Int] {
+        return [0,2,6,8]
+    }
+    
+    private var middle: Int {
+        return 4
+    }
+    
     func isWin(forPiece piece: TTTPiece) -> Bool {
         var didWin = false
         
@@ -162,6 +170,24 @@ struct TTTBoard {
     func score(forPiece piece: TTTPiece) -> Int {
         var score = 0
         
+        // checking for opponant winning combos
+        for combo in winningCombos {
+            var matches = 0
+            for index in combo {
+                let current = self.pieces[index]
+                if current.piece == piece.opposite {
+                    matches += 1
+                }
+            }
+            
+            if matches == 3 {
+                score -= 10
+            }
+        }
+        
+        if score < 0 { return score }
+        
+        // checking winning combos
         for combo in winningCombos {
             var matches = 0
             var empty = 0
@@ -178,11 +204,22 @@ struct TTTBoard {
             if matches == 3 {
                 score += 100
             } else if matches == 2 && empty == 1 {
-                score += 10
+                score += 50
             }
-            else {
-                score += 1
+        }
+        
+        // check the corners
+        for index in corners {
+            let current = self.pieces[index]
+            if current.piece == piece {
+                score += 20
             }
+        }
+        
+        // check middle piece
+        let current = self.pieces[middle]
+        if current.piece == piece {
+            score += 30
         }
         
         return score
