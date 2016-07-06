@@ -103,10 +103,10 @@ class GameScene: SKScene {
     let playerO: TTTPlayer
     let type: GameType
     
-    private(set) unowned var manager: SceneManager
+//    private(set) unowned var manager: SceneManager
     
-    init(manager: SceneManager, size: CGSize, type: GameType) {
-        self.manager = manager
+    init(size: CGSize, type: GameType) {
+//        self.manager = manager
         self.type = type
         
         // should the state machine own these?
@@ -250,7 +250,9 @@ extension GameScene {
         self.removeGamePieces()
         self.model.resetGameBoard()
         self.gameStateMachine.resetToInitialState()
-        manager.stateMachine.enterState(MenuState.self)
+        
+        
+//        manager.stateMachine.enterState(MenuState.self)
     }
     
     private func restartGameScene() {

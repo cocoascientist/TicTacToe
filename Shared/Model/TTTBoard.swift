@@ -181,7 +181,27 @@ struct TTTBoard {
             }
             
             if matches == 3 {
-                score -= 10
+                score -= 100
+            }
+        }
+        
+        if score < 0 { return score }
+        
+        // checking for opponant 2-in-a-row with empty place
+        for combo in winningCombos {
+            var matches = 0
+            var empty = 0
+            for index in combo {
+                let current = self.pieces[index]
+                if current.piece == piece.opposite {
+                    matches += 1
+                } else if current.piece == TTTPiece.None {
+                    empty += 1
+                }
+            }
+            
+            if matches == 2 && empty == 1 {
+                score -= 90
             }
         }
         

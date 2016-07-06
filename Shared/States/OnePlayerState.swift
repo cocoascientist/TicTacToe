@@ -11,11 +11,10 @@ import SpriteKit
 
 class OnePlayerState: GKState {
     unowned var view: SKView
-    private(set) unowned var manager: SceneManager
+//    private(set) unowned var manager: SceneManager
     
-    init(view: SKView, manager: SceneManager) {
+    init(view: SKView) {
         self.view = view
-        self.manager = manager
         super.init()
         
         configure()
@@ -25,7 +24,7 @@ class OnePlayerState: GKState {
     
     /// Highlights the sprite representing the state.
     override func didEnterWithPreviousState(previousState: GKState?) {
-        let scene = sceneForView(view, manager: manager)
+        let scene = sceneForView(view)
         let transition = SKTransition.crossFadeWithDuration(0.5)
         self.view.presentScene(scene, transition: transition)
     }
@@ -44,9 +43,9 @@ extension OnePlayerState {
     }
 }
 
-private func sceneForView(view: SKView, manager: SceneManager) -> SKScene {
+private func sceneForView(view: SKView) -> SKScene {
     let size = view.bounds.size
-    let scene = GameScene(manager: manager, size: size, type: .OnePlayer)
+    let scene = GameScene(size: size, type: .OnePlayer)
     
     scene.scaleMode = .AspectFit
     

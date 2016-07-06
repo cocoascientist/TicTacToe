@@ -11,20 +11,20 @@ import SpriteKit
 
 class MenuState: GKState {
     unowned var view: SKView
-    unowned var manager: SceneManager
     
     lazy var scene: SKScene = {
+        guard let machine = self.stateMachine else { fatalError() }
+        
         let size = self.view.bounds.size
-        let scene = MenuScene(manager: self.manager, size: size)
+        let scene = MenuScene(size: size, stateMachine: machine)
         
         scene.scaleMode = .AspectFit
         
         return scene
     }()
     
-    init(view: SKView, manager: SceneManager) {
+    init(view: SKView) {
         self.view = view
-        self.manager = manager
         super.init()
         
         configure()

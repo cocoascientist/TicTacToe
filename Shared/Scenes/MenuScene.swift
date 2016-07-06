@@ -7,10 +7,11 @@
 //
 
 import SpriteKit
+import GameplayKit
 
 class MenuScene: SKScene {
     
-    unowned var manager: SceneManager
+    unowned var stateMachine: GKStateMachine
     
     private var buttonSize: CGSize {
         return CGSize(width: 300, height: 50)
@@ -48,8 +49,8 @@ class MenuScene: SKScene {
         return SKSpriteNode(imageNamed: "toad")
     }()
     
-    init(manager: SceneManager, size: CGSize) {
-        self.manager = manager
+    init(size: CGSize, stateMachine: GKStateMachine) {
+        self.stateMachine = stateMachine
         super.init(size: size)
     }
     
@@ -84,10 +85,10 @@ extension MenuScene {
     }
     
     private func startOnePlayerGame() {
-        manager.stateMachine.enterState(OnePlayerState.self)
+        self.stateMachine.enterState(OnePlayerState.self)
     }
     
     private func startTwoPlayerGame() {
-        manager.stateMachine.enterState(TwoPlayerState.self)
+        self.stateMachine.enterState(TwoPlayerState.self)
     }
 }

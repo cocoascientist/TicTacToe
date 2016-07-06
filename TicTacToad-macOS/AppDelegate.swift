@@ -17,9 +17,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var skView: SKView!
     
-    lazy var sceneManager: SceneManager = {
-        return SceneManager(view: self.skView)
-    }()
+//    lazy var sceneManager: SceneManager = {
+//        return SceneManager(view: self.skView)
+//    }()
     
     lazy var stateMachine: GKStateMachine = {
         return self.sceneManager.stateMachine
