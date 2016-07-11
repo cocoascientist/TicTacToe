@@ -82,6 +82,9 @@
 		F786B51C1D224218004706BC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B51B1D224218004706BC /* GameViewController.swift */; };
 		F786B5211D224218004706BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F786B51F1D224218004706BC /* Main.storyboard */; };
 		F786B52D1D224299004706BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F786B4F51D21DF5B004706BC /* Assets.xcassets */; };
+		F788B00C1D344A3800B7A06B /* GameStateDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F788B00B1D344A3800B7A06B /* GameStateDescribable.swift */; };
+		F788B00D1D344A3E00B7A06B /* GameStateDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F788B00B1D344A3800B7A06B /* GameStateDescribable.swift */; };
+		F788B00E1D344A3F00B7A06B /* GameStateDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F788B00B1D344A3800B7A06B /* GameStateDescribable.swift */; };
 		F7AEA51A1D23845C00CC4F81 /* HexColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0F5041D232F5000B6AF6D /* HexColors.swift */; };
 		F7AEA51B1D23845D00CC4F81 /* HexColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0F5041D232F5000B6AF6D /* HexColors.swift */; };
 		F7D0F5051D232F5000B6AF6D /* HexColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D0F5041D232F5000B6AF6D /* HexColors.swift */; };
@@ -130,6 +133,7 @@
 		F786B51B1D224218004706BC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		F786B5201D224218004706BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F786B5241D224218004706BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F788B00B1D344A3800B7A06B /* GameStateDescribable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameStateDescribable.swift; path = Shared/States/GameStateDescribable.swift; sourceTree = "<group>"; };
 		F7D0F5041D232F5000B6AF6D /* HexColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HexColors.swift; path = Shared/HexColors.swift; sourceTree = "<group>"; };
 		F7D0F50A1D2371DB00B6AF6D /* SharedTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SharedTypes.swift; path = Shared/SharedTypes.swift; sourceTree = "<group>"; };
 		F7D0F5121D2375E200B6AF6D /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Style.swift; path = Shared/Style.swift; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 		F786B5081D2238F0004706BC /* States */ = {
 			isa = PBXGroup;
 			children = (
+				F788B00B1D344A3800B7A06B /* GameStateDescribable.swift */,
 				F77021F21D26EBF600CEFFF5 /* CheckBoardState.swift */,
 				F77021F31D26EBF600CEFFF5 /* GameOverState.swift */,
 				F77021F41D26EBF600CEFFF5 /* GameplayStateMachine.swift */,
@@ -341,11 +346,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Andrew Shepard";
 				TargetAttributes = {
 					F786B4DD1D21DF18004706BC = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					F786B5121D224218004706BC = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -419,6 +425,7 @@
 				F770221D1D26EC9E00CEFFF5 /* MenuState.swift in Sources */,
 				F77021ED1D26EBC900CEFFF5 /* TTTPlayer.swift in Sources */,
 				F77022201D26EC9E00CEFFF5 /* PlayerXTurnState.swift in Sources */,
+				F788B00D1D344A3E00B7A06B /* GameStateDescribable.swift in Sources */,
 				F7D0F50C1D2371DB00B6AF6D /* SharedTypes.swift in Sources */,
 				F770221F1D26EC9E00CEFFF5 /* PlayerOTurnState.swift in Sources */,
 				F7AEA51A1D23845C00CC4F81 /* HexColors.swift in Sources */,
@@ -452,6 +459,7 @@
 				F77022261D26EC9E00CEFFF5 /* MenuState.swift in Sources */,
 				F7D0F50D1D2371DB00B6AF6D /* SharedTypes.swift in Sources */,
 				F77022291D26EC9E00CEFFF5 /* PlayerXTurnState.swift in Sources */,
+				F788B00E1D344A3F00B7A06B /* GameStateDescribable.swift in Sources */,
 				F7AEA51B1D23845D00CC4F81 /* HexColors.swift in Sources */,
 				F77022281D26EC9E00CEFFF5 /* PlayerOTurnState.swift in Sources */,
 				F77021E91D26EBC500CEFFF5 /* PositionNode.swift in Sources */,
@@ -499,6 +507,7 @@
 				F77021DA1D26EB9D00CEFFF5 /* TTTBoard.swift in Sources */,
 				F77021DD1D26EB9D00CEFFF5 /* TTTPlayer.swift in Sources */,
 				F77022031D26EBF600CEFFF5 /* TwoPlayerState.swift in Sources */,
+				F788B00C1D344A3800B7A06B /* GameStateDescribable.swift in Sources */,
 				F77021E21D26EBB600CEFFF5 /* GlyphNode.swift in Sources */,
 				F77022111D26EC9300CEFFF5 /* MenuButton.swift in Sources */,
 				F77021FB1D26EBF600CEFFF5 /* CheckBoardState.swift in Sources */,
@@ -554,6 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.andyshep.TicTacToad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -569,6 +579,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.andyshep.TicTacToad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -599,6 +611,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.andyshep.TicTacToad-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				VALIDATE_PRODUCT = YES;
@@ -711,6 +724,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.andyshep.TicTacToad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
 			name = Release;
 		};

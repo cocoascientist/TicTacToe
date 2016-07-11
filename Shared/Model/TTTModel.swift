@@ -21,7 +21,7 @@ class TTTModel: NSObject {
         super.init()
     }
     
-    func copyWithZone(zone: NSZone) -> AnyObject {
+    @objc(copyWithZone:) func copy(with zone: NSZone?) -> AnyObject {
         let model = TTTModel(players: players)
         model.setGameModel(self)
         return model
@@ -34,34 +34,34 @@ class TTTModel: NSObject {
 }
 
 extension TTTModel {
-    func nextPlayerAfter(player: GKGameModelPlayer?) -> GKGameModelPlayer? {
+    func nextPlayerAfter(_ player: GKGameModelPlayer?) -> GKGameModelPlayer? {
         guard let players = players as? [TTTPlayer] else { return nil }
         guard let player = player as? TTTPlayer else { return nil }
         
         assert(players.count == 2)
         
-        let playerX = players.filter { $0.piece == TTTPiece.X }.first!
-        let playerO = players.filter { $0.piece == TTTPiece.O }.first!
+        let playerX = players.filter { $0.piece == TTTPiece.x }.first!
+        let playerO = players.filter { $0.piece == TTTPiece.o }.first!
         
         return (player == playerX) ? playerO : playerX
     }
 }
 
 extension TTTModel: GKGameModel {
-    func setGameModel(model: GKGameModel) {
+    func setGameModel(_ model: GKGameModel) {
         guard let model = model as? TTTModel else { return }
         
         self.board = model.board
         self.activePlayer = model.activePlayer
     }
     
-    func gameModelUpdatesForPlayer(player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
+    func gameModelUpdates(for player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
         
         guard let player = player as? TTTPlayer else { return nil }
         
-        let indexed = board.pieces.enumerate().map { return (index: $0, placemarker: $1) }
+        let indexed = board.pieces.enumerated().map { return (index: $0, placemarker: $1) }
         let empty = indexed.filter { (_, placemarker) -> Bool in
-            if placemarker.piece == .None {
+            if placemarker.piece == .none {
                 return true
             } else {
                 return false
@@ -75,14 +75,14 @@ extension TTTModel: GKGameModel {
         return (moves.count > 0) ? moves: nil
     }
     
-    func applyGameModelUpdate(gameModelUpdate: GKGameModelUpdate) {
+    func apply(_ gameModelUpdate: GKGameModelUpdate) {
         guard let move = gameModelUpdate as? TTTMove else { return }
         
         self.board = board.afterMaking(move)
         self.activePlayer = nextPlayerAfter(activePlayer)
     }
     
-    func scoreForPlayer(player: GKGameModelPlayer) -> Int {
+    func score(for player: GKGameModelPlayer) -> Int {
         guard let player = player as? TTTPlayer else { return 0 }
         
         let piece = player.piece

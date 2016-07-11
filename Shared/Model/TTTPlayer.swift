@@ -14,7 +14,7 @@ import GameplayKit
     private(set) var piece: TTTPiece
     
     init(playerId: Int, piece: TTTPiece) {
-        assert(piece != TTTPiece.None)
+        assert(piece != TTTPiece.none)
         
         self.playerId = playerId
         self.piece = piece

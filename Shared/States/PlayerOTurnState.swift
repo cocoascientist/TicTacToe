@@ -19,11 +19,11 @@ class PlayerOTurnState: GKState {
         self.isComputerPlayer = isComputerPlayer
     }
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return true
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(withPreviousState previousState: GKState?) {
         if isComputerPlayer {
             guard let scene = scene as? GameScene else { return }
             guard let player = scene.model.activePlayer as? TTTPlayer else { return }
@@ -32,9 +32,9 @@ class PlayerOTurnState: GKState {
             scene.moveLabel.text = title
             scene.moveLabel.fontColor = Style.Colors.blue
             
-            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-            dispatch_after(delay, dispatch_get_main_queue() ) {
-                if let move = scene.strategist.bestMoveForPlayer(player) {
+            let delay = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.after(when: delay) {
+                if let move = scene.strategist.bestMove(for: player) {
                     scene.makeMoveForActivePlayer(move)
                 }
                 else {
@@ -44,7 +44,7 @@ class PlayerOTurnState: GKState {
         }
     }
     
-    override func updateWithDeltaTime(seconds: NSTimeInterval) {
+    override func update(withDeltaTime seconds: TimeInterval) {
         print("update!")
     }
 }

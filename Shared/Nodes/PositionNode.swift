@@ -15,7 +15,7 @@ class DebugLabel: SKLabelNode {
         self.fontSize = 12
         self.fontName = "Helvetica"
         self.zPosition = 100
-        self.userInteractionEnabled = false
+        self.isUserInteractionEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,7 +41,7 @@ class PositionNode: SKSpriteNode {
         self.row = row
         self.column = column
         
-        super.init(texture: nil, color: Color.clearColor(), size: size)
+        super.init(texture: nil, color: Color.clear(), size: size)
         
 //        self.addChild(debugLabel)
     }

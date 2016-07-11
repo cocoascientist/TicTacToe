@@ -13,7 +13,7 @@ class GameButton: ButtonNode {
     lazy var label: SKLabelNode = {
         let node = SKLabelNode(text: self.title)
         
-        node.verticalAlignmentMode = .Center
+        node.verticalAlignmentMode = .center
         node.fontName = "MarkerFelt-Wide"
         node.zPosition = 5
         node.fontSize = 20

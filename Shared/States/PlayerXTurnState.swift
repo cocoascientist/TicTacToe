@@ -9,7 +9,7 @@
 import GameplayKit
 
 class PlayerXTurnState: GKState {
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return true
     }
 }

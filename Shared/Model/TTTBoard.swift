@@ -11,16 +11,16 @@ import Foundation
 // TODO: remove .None case, use optionals. None is not a piece...
 
 enum TTTPiece {
-    case None
+    case none
     
-    case X
-    case O
+    case x
+    case o
     
     var glyph: String {
         switch self {
-        case .X:
+        case .x:
             return "X"
-        case .O:
+        case .o:
             return "O"
         default:
             return "+"
@@ -29,9 +29,9 @@ enum TTTPiece {
     
     var hexColor: String {
         switch self {
-        case .X:
+        case .x:
             return "#EF946C"
-        case .O:
+        case .o:
             return "#00FCDB"
         default:
             return "#FFFFFF"
@@ -40,10 +40,10 @@ enum TTTPiece {
     
     var opposite: TTTPiece {
         switch self {
-        case .X:
-            return .O
-        case .O:
-            return .X
+        case .x:
+            return .o
+        case .o:
+            return .x
         default:
             return self
         }
@@ -57,7 +57,7 @@ private func emptyBoardPlaces() -> [Placemarker] {
     let magicSquares = [8, 1, 6, 3, 5, 7, 4, 9, 2]
     
     let pieces = magicSquares.map({ (value) -> Placemarker in
-        return (value: value, piece: .None)
+        return (value: value, piece: .none)
     })
     
     return pieces
@@ -75,7 +75,7 @@ struct TTTBoard {
         self.pieces = pieces
     }
     
-    func afterMaking(move: TTTMove) -> TTTBoard {
+    func afterMaking(_ move: TTTMove) -> TTTBoard {
         return afterMakingMove(with: move.piece, at: move.index)
     }
     
@@ -89,7 +89,7 @@ struct TTTBoard {
     
     func hasEmptyPlaces() -> Bool {
         let empty = self.pieces.filter { (_, piece) -> Bool in
-            return piece == .None
+            return piece == .none
         }
         
         return empty.count > 0
@@ -101,7 +101,7 @@ struct TTTBoard {
         
         for combo in winningCombos {
             
-            if isWinCombo(combo, forPiece: .O) || isWinCombo(combo, forPiece: .X) {
+            if isWinCombo(combo, forPiece: .o) || isWinCombo(combo, forPiece: .x) {
                 winners = combo
                 break
             }
@@ -110,7 +110,7 @@ struct TTTBoard {
         return winners
     }
     
-    func isWinCombo(combo: [Int], forPiece piece: TTTPiece) -> Bool {
+    func isWinCombo(_ combo: [Int], forPiece piece: TTTPiece) -> Bool {
         var accumulated: Int = 0
         
         for index in combo {
@@ -195,7 +195,7 @@ struct TTTBoard {
                 let current = self.pieces[index]
                 if current.piece == piece.opposite {
                     matches += 1
-                } else if current.piece == TTTPiece.None {
+                } else if current.piece == TTTPiece.none {
                     empty += 1
                 }
             }
@@ -216,7 +216,7 @@ struct TTTBoard {
                 let current = self.pieces[index]
                 if current.piece == piece {
                     matches += 1
-                } else if current.piece == .None {
+                } else if current.piece == .none {
                     empty += 1
                 }
             }

@@ -15,15 +15,15 @@ import AppKit
 extension GameScene {
     #if os(iOS)
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         
         if containsTouches(touches) {
             guard let touch = touches.first else { return }
             guard let scene = scene else { return }
             
-            let touchPoint = touch.locationInNode(scene)
-            let node = scene.nodeAtPoint(touchPoint)
+            let touchPoint = touch.location(in: scene)
+            let node = scene.atPoint(touchPoint)
             
             guard node is PositionNode else { return }
             
@@ -31,12 +31,12 @@ extension GameScene {
         }
     }
     
-    private func containsTouches(touches: Set<UITouch>) -> Bool {
+    private func containsTouches(_ touches: Set<UITouch>) -> Bool {
         guard let scene = scene else { fatalError("Button must be used within a scene.") }
         
         return touches.contains { touch in
-            let touchPoint = touch.locationInNode(scene)
-            let touchedNode = scene.nodeAtPoint(touchPoint)
+            let touchPoint = touch.location(in: scene)
+            let touchedNode = scene.atPoint(touchPoint)
             return touchedNode === self || touchedNode.inParentHierarchy(self)
         }
     }

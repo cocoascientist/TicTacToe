@@ -17,17 +17,17 @@ class GameOverState: GKState {
         super.init()
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(withPreviousState previousState: GKState?) {
         guard let scene = self.scene as? GameScene else { return }
         
         let board = scene.model.board
         
-        if board.isWin(forPiece: .X) {
+        if board.isWin(forPiece: .x) {
             let title = NSLocalizedString("Player X wins!", comment: "Player X wins!")
             scene.moveLabel.text = title
             scene.moveLabel.fontColor = Style.Colors.orange
         }
-        else if board.isWin(forPiece: .O) {
+        else if board.isWin(forPiece: .o) {
             let title = NSLocalizedString("Player O wins!", comment: "Player O wins!")
             scene.moveLabel.text = title
             scene.moveLabel.fontColor = Style.Colors.blue

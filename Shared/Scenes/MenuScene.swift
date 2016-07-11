@@ -58,7 +58,7 @@ class MenuScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         self.backgroundColor = Style.Colors.background
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
@@ -66,7 +66,7 @@ class MenuScene: SKScene {
         positionButtons()
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
 }

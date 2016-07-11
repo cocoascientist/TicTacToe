@@ -25,9 +25,9 @@ class ButtonNode: SKNode {
     lazy var background: SKShapeNode = {
         let size = self.size
         let height = size.height / 2
-        let radius = (height % 2 == 0) ? height : height - 1
+        let radius = (height.truncatingRemainder(dividingBy: 2) == 0) ? height : height - 1
         
-        let node = SKShapeNode(rectOfSize: size, cornerRadius: radius)
+        let node = SKShapeNode(rectOf: size, cornerRadius: radius)
         
         node.fillColor = Style.Colors.button
         node.strokeColor = Style.Colors.button
@@ -44,7 +44,7 @@ class ButtonNode: SKNode {
         
         addChild(self.background)
         
-        self.userInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -62,14 +62,14 @@ class ButtonNode: SKNode {
             
             // Create a scale action to make the button look like it is slightly depressed.
             let newScale: CGFloat = isHighlighted ? 0.99 : 1.01
-            let scaleAction = SKAction.scaleBy(newScale, duration: 0.15)
+            let scaleAction = SKAction.scale(by: newScale, duration: 0.15)
             
             // Create a color blend action to darken the button slightly when it is depressed.
             let newColorBlendFactor: CGFloat = isHighlighted ? 1.0 : 0.0
-            let colorBlendAction = SKAction.colorizeWithColorBlendFactor(newColorBlendFactor, duration: 0.15)
+            let colorBlendAction = SKAction.colorize(withColorBlendFactor: newColorBlendFactor, duration: 0.15)
             
             // Run the two actions at the same time.
-            runAction(SKAction.group([scaleAction, colorBlendAction]))
+            run(SKAction.group([scaleAction, colorBlendAction]))
         }
     }
     
@@ -81,16 +81,16 @@ class ButtonNode: SKNode {
     var isFocused = false {
         didSet {
             if isFocused {
-                runAction(SKAction.scaleTo(1.08, duration: 0.20))
+                run(SKAction.scale(to: 1.08, duration: 0.20))
                 
                 focusRing.alpha = 0.0
-                focusRing.hidden = false
-                focusRing.runAction(SKAction.fadeInWithDuration(0.2))
+                focusRing.isHidden = false
+                focusRing.run(SKAction.fadeIn(withDuration: 0.2))
             }
             else {
-                runAction(SKAction.scaleTo(1.0, duration: 0.20))
+                run(SKAction.scale(to: 1.0, duration: 0.20))
                 
-                focusRing.hidden = true
+                focusRing.isHidden = true
             }
         }
     }
@@ -99,36 +99,36 @@ class ButtonNode: SKNode {
 extension ButtonNode {
     #if os(iOS) || os(tvOS)
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
         isHighlighted = true
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         
         isHighlighted = false
         if containsTouches(touches) {
-            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(self.delay * Double(NSEC_PER_SEC)))
-            dispatch_after(delay, dispatch_get_main_queue() ) { [unowned self] in
+            let delay = DispatchTime.now() + Double(Int64(self.delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.after(when: delay) { [unowned self] in
                 self.action()
             }
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
         
         isHighlighted = false
     }
     
-    private func containsTouches(touches: Set<UITouch>) -> Bool {
+    private func containsTouches(_ touches: Set<UITouch>) -> Bool {
         guard let scene = scene else { fatalError("Button must be used within a scene.") }
         
         return touches.contains { touch in
-            let touchPoint = touch.locationInNode(scene)
-            let touchedNode = scene.nodeAtPoint(touchPoint)
+            let touchPoint = touch.location(in: scene)
+            let touchedNode = scene.atPoint(touchPoint)
             return touchedNode === self || touchedNode.inParentHierarchy(self)
         }
     }

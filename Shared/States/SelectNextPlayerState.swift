@@ -18,13 +18,13 @@ class SelectNextPlayerState: GKState {
         super.init()
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(withPreviousState previousState: GKState?) {
         guard let machine = self.stateMachine as? GameplayStateMachine else { return }
         guard let scene = self.scene as? GameScene else { return }
         
         guard let players = scene.model.players as? [TTTPlayer] else { return }
-        let playerX = players.filter { $0.piece == TTTPiece.X }.first!
-        let playerO = players.filter { $0.piece == TTTPiece.O }.first!
+        let playerX = players.filter { $0.piece == TTTPiece.x }.first!
+        let playerO = players.filter { $0.piece == TTTPiece.o }.first!
         
         if let previousState = previousState {
             if previousState is GameOverState {
@@ -55,7 +55,7 @@ class SelectNextPlayerState: GKState {
         }
     }
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return stateClass is PlayerXTurnState.Type || stateClass is PlayerOTurnState.Type
     }
 }

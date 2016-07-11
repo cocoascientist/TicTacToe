@@ -16,7 +16,7 @@ class CheckBoardState: GKState {
         self.model = model
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(withPreviousState previousState: GKState?) {
         let piece = playerPiece()
         
         if model.board.isWin(forPiece: piece) {
@@ -28,7 +28,7 @@ class CheckBoardState: GKState {
         }
     }
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return (stateClass is GameOverState.Type || stateClass is SelectNextPlayerState.Type)
     }
     
@@ -37,11 +37,11 @@ class CheckBoardState: GKState {
         
         switch machine.lastPlayerState {
         case is PlayerOTurnState.Type:
-            return TTTPiece.O
+            return TTTPiece.o
         case is PlayerXTurnState.Type:
-            return TTTPiece.X
+            return TTTPiece.x
         default:
-            return TTTPiece.None
+            return TTTPiece.none
         }
     }
 }

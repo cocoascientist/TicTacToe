@@ -10,8 +10,8 @@ import SpriteKit
 import GameplayKit
 
 enum GameType {
-    case OnePlayer
-    case TwoPlayer
+    case onePlayer
+    case twoPlayer
 }
 
 private struct Board {
@@ -24,7 +24,7 @@ class GameScene: SKScene {
         let node = SKSpriteNode(imageNamed: "board3")
         node.position = CGPoint(x: 0.0, y: 0.0)
         node.zPosition = -1
-        node.userInteractionEnabled = false
+        node.isUserInteractionEnabled = false
         return node
     }()
     
@@ -83,7 +83,7 @@ class GameScene: SKScene {
     }()
     
     lazy var gameStateMachine: GameplayStateMachine = {
-        let states = (self.type == .OnePlayer) ? self.onePlayerStates : self.twoPlayerStates
+        let states = (self.type == .onePlayer) ? self.onePlayerStates : self.twoPlayerStates
         let machine = GameplayStateMachine(states: states)
         return machine
     }()
@@ -103,17 +103,17 @@ class GameScene: SKScene {
     let playerO: TTTPlayer
     let type: GameType
     
-//    private(set) unowned var manager: SceneManager
+    private(set) unowned var stateMachine: GKStateMachine
     
-    init(size: CGSize, type: GameType) {
-//        self.manager = manager
+    init(size: CGSize, stateMachine: GKStateMachine, type: GameType) {
         self.type = type
+        self.stateMachine = stateMachine
         
         // should the state machine own these?
         // the AI computer state needs to manipulate model
         // the model needs to track activePlayer...
-        self.playerX = TTTPlayer(playerId: 1, piece: .X)
-        self.playerO = TTTPlayer(playerId: 2, piece: .O)
+        self.playerX = TTTPlayer(playerId: 1, piece: .x)
+        self.playerO = TTTPlayer(playerId: 2, piece: .o)
         self.model = TTTModel(players: [playerO, playerX])
         
         super.init(size: size)
@@ -123,7 +123,7 @@ class GameScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         self.backgroundColor = Style.Colors.background
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
@@ -134,13 +134,13 @@ class GameScene: SKScene {
         setupEmptyGame()
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
 }
 
 extension GameScene {
-    func handleUIEventOn(node: SKNode) {
+    func handleUIEventOn(_ node: SKNode) {
         guard let node = node as? PositionNode else { return }
         guard let player = model.activePlayer as? TTTPlayer else { return }
         
@@ -155,7 +155,7 @@ extension GameScene {
         makeMoveForActivePlayer(move)
     }
     
-    func makeMoveForActivePlayer(move: GKGameModelUpdate) {
+    func makeMoveForActivePlayer(_ move: GKGameModelUpdate) {
         guard let move = move as? TTTMove else { return }
         
         let column = move.index % model.board.rows
@@ -163,26 +163,26 @@ extension GameScene {
         
         placePiece(move.piece, row: row, column: column)
         
-        model.applyGameModelUpdate(move)
+        model.apply(move)
         gameStateMachine.enterState(CheckBoardState.self)
     }
     
-    func wiggleNodeAt(row: Int, column: Int) {
+    func wiggleNodeAt(_ row: Int, column: Int) {
         let node = nodeAt(row, column: column)
         
-        let wiggleInX = SKAction.scaleXTo(1.0, duration: 0.2)
-        let wiggleOutX = SKAction.scaleXTo(1.2, duration: 0.2)
+        let wiggleInX = SKAction.scaleX(to: 1.0, duration: 0.2)
+        let wiggleOutX = SKAction.scaleX(to: 1.2, duration: 0.2)
         
-        let wiggleInY = SKAction.scaleYTo(1.0, duration: 0.2)
-        let wiggleOutY = SKAction.scaleYTo(1.2, duration: 0.2)
+        let wiggleInY = SKAction.scaleY(to: 1.0, duration: 0.2)
+        let wiggleOutY = SKAction.scaleY(to: 1.2, duration: 0.2)
         
         let wiggleX = SKAction.sequence([wiggleInX, wiggleOutX])
         let wiggleY = SKAction.sequence([wiggleInY, wiggleOutY])
         
         let wiggle = SKAction.group([wiggleX, wiggleY])
-        let wiggleRepeat = SKAction.repeatActionForever(wiggle)
+        let wiggleRepeat = SKAction.repeatForever(wiggle)
         
-        node.runAction(wiggleRepeat, withKey: "wiggleRepeat")
+        node.run(wiggleRepeat, withKey: "wiggleRepeat")
     }
     
     func animateNodesOffScreen() {
@@ -251,16 +251,15 @@ extension GameScene {
         self.model.resetGameBoard()
         self.gameStateMachine.resetToInitialState()
         
-        
-//        manager.stateMachine.enterState(MenuState.self)
+        self.stateMachine.enterState(MenuState.self)
     }
     
     private func restartGameScene() {
         self.moveLabel.text = ""
         animateNodesOffScreen()
         
-        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.55 * Double(NSEC_PER_SEC)))
-        dispatch_after(delay, dispatch_get_main_queue()) { [unowned self] in
+        let delay = DispatchTime.now() + Double(Int64(0.55 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.after(when: delay) { [unowned self] in
             self.removeGamePieces()
             self.model.resetGameBoard()
             self.gameStateMachine.resetToInitialState()
@@ -302,13 +301,13 @@ extension GameScene {
         return player.piece
     }
     
-    private func placePiece(piece: TTTPiece, row: Int, column: Int) {
+    private func placePiece(_ piece: TTTPiece, row: Int, column: Int) {
         let node = nodeAt(row, column: column)
         
         addPiece(piece, on: node)
     }
     
-    private func nodeAt(row: Int, column: Int) -> PositionNode {
+    private func nodeAt(_ row: Int, column: Int) -> PositionNode {
         //FIXME: shouldn't these be board node children?
         
         let positions = self.children.filter {
@@ -326,7 +325,7 @@ extension GameScene {
         return node
     }
     
-    private func addPiece(piece: TTTPiece, on node: SKNode) {
+    private func addPiece(_ piece: TTTPiece, on node: SKNode) {
         let sprite = GlyphNode(glyph: piece.glyph)
         let color = Color.hexColor(piece.hexColor)
         
@@ -339,7 +338,7 @@ extension GameScene {
         node.addChild(sprite)
     }
     
-    private func placePieceOn(node: SKNode) -> Bool {
+    private func placePieceOn(_ node: SKNode) -> Bool {
         guard let node = node as? PositionNode else { return false }
         guard node.children.count == 0 else { return false }
         guard canAddPiece() else { return false }

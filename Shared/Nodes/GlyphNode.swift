@@ -36,7 +36,7 @@ class GlyphNode: SKShapeNode {
         guard self.glyph.characters.count > 0 else { return nil }
         
         var unichars = [UniChar](self.glyph.utf16)
-        var glyphs = [CGGlyph](count: unichars.count, repeatedValue: 0)
+        var glyphs = [CGGlyph](repeating: 0, count: unichars.count)
         let foundGlyphs = CTFontGetGlyphsForCharacters(self.font, &unichars, &glyphs, unichars.count)
         
         guard foundGlyphs else { return nil }
@@ -51,7 +51,7 @@ extension GlyphNode {
         self.path = glyphPath
         
         guard let path = glyphPath else { return }
-        let body = SKPhysicsBody(polygonFromPath: path)
+        let body = SKPhysicsBody(polygonFrom: path)
         body.affectedByGravity = false
         
         self.physicsBody = body
