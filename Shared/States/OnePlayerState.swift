@@ -9,6 +9,4 @@
 import GameplayKit
 import SpriteKit
 
-class OnePlayerState: GameState {
-    
-}
+

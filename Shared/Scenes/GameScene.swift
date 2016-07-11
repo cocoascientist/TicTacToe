@@ -82,9 +82,9 @@ class GameScene: SKScene {
         return states
     }()
     
-    lazy var gameStateMachine: GameplayStateMachine = {
+    lazy var gameStateMachine: InPlayStateMachine = {
         let states = (self.type == .onePlayer) ? self.onePlayerStates : self.twoPlayerStates
-        let machine = GameplayStateMachine(states: states)
+        let machine = InPlayStateMachine(states: states)
         return machine
     }()
     

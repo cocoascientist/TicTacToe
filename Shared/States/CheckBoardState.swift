@@ -33,7 +33,7 @@ class CheckBoardState: GKState {
     }
     
     private func playerPiece() -> TTTPiece {
-        guard let machine = self.stateMachine as? GameplayStateMachine else { fatalError() }
+        guard let machine = self.stateMachine as? InPlayStateMachine else { fatalError() }
         
         switch machine.lastPlayerState {
         case is PlayerOTurnState.Type:

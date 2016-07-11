@@ -19,7 +19,7 @@ class SelectNextPlayerState: GKState {
     }
     
     override func didEnter(withPreviousState previousState: GKState?) {
-        guard let machine = self.stateMachine as? GameplayStateMachine else { return }
+        guard let machine = self.stateMachine as? InPlayStateMachine else { return }
         guard let scene = self.scene as? GameScene else { return }
         
         guard let players = scene.model.players as? [TTTPlayer] else { return }

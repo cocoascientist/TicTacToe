@@ -1,5 +1,5 @@
 //
-//  GameplayStateMachine.swift
+//  InPlayStateMachine.swift
 //  TicTacToad
 //
 //  Created by Andrew Shepard on 6/28/16.
@@ -9,7 +9,7 @@
 import GameplayKit
 
 
-class GameplayStateMachine: GKStateMachine {
+class InPlayStateMachine: GKStateMachine {
     
     var didWin: Bool = false
     private(set) var moveCount: Int = 0

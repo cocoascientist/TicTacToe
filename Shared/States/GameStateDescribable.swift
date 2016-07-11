@@ -41,19 +41,3 @@ extension GameStateDescribable where Self: GKState {
         }
     }
 }
-
-class GameState: GKState, GameStateDescribable {
-    unowned var view: SKView
-    
-    required init(view: SKView) {
-        self.view = view
-        super.init()
-        
-        self.view.ignoresSiblingOrder = true
-    }
-    
-    override func didEnter(withPreviousState previousState: GKState?) {
-        let transition = SKTransition.crossFade(withDuration: 0.5)
-        self.view.presentScene(scene(for: view), transition: transition)
-    }
-}
