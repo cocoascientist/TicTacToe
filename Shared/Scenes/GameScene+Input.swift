@@ -43,11 +43,11 @@ extension GameScene {
     
     #elseif os(OSX)
     
-    override func mouseUp(event: NSEvent) {
-        if containsLocationForEvent(event) {
+    override func mouseUp(_ event: NSEvent) {
+        if containsLocationForEvent(event: event) {
             guard let scene = scene else { return }
-            let location = event.locationInNode(scene)
-            let node = scene.nodeAtPoint(location)
+            let location = event.location(in: scene)
+            let node = scene.atPoint(location)
             
             guard node is PositionNode else { return }
             
@@ -58,8 +58,8 @@ extension GameScene {
     private func containsLocationForEvent(event: NSEvent) -> Bool {
         guard let scene = scene else { fatalError("Button must be used within a scene.")  }
         
-        let location = event.locationInNode(scene)
-        let clickedNode = scene.nodeAtPoint(location)
+        let location = event.location(in: scene)
+        let clickedNode = scene.atPoint(location)
         return clickedNode === self || clickedNode.inParentHierarchy(self)
     }
     

@@ -135,15 +135,15 @@ extension ButtonNode {
     
     #elseif os(OSX)
     
-    override func mouseDown(event: NSEvent) {
+    override func mouseDown(_ event: NSEvent) {
         isHighlighted = true
     }
     
-    override func mouseUp(event: NSEvent) {
+    override func mouseUp(_ event: NSEvent) {
         isHighlighted = false
-        if containsLocationForEvent(event) {
-            let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(self.delay * Double(NSEC_PER_SEC)))
-            dispatch_after(delay, dispatch_get_main_queue() ) { [unowned self] in
+        if containsLocationForEvent(event: event) {
+            let delay = DispatchTime.now() + Double(Int64(self.delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.after(when: delay) { [unowned self] in
                 self.action()
             }
         }
@@ -152,8 +152,8 @@ extension ButtonNode {
     private func containsLocationForEvent(event: NSEvent) -> Bool {
         guard let scene = scene else { fatalError("Button must be used within a scene.")  }
     
-        let location = event.locationInNode(scene)
-        let clickedNode = scene.nodeAtPoint(location)
+        let location = event.location(in: scene)
+        let clickedNode = scene.atPoint(location)
         return clickedNode === self || clickedNode.inParentHierarchy(self)
     }
     

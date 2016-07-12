@@ -17,19 +17,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var skView: SKView!
     
-//    lazy var sceneManager: SceneManager = {
-//        return SceneManager(view: self.skView)
-//    }()
-    
-    lazy var stateMachine: GKStateMachine = {
-        return self.sceneManager.stateMachine
+    lazy var sceneStateMachine: GKStateMachine = {
+        let states = [
+            MenuState(view: self.skView),
+            OnePlayerState(view: self.skView),
+            TwoPlayerState(view: self.skView)
+        ]
+        
+        return GKStateMachine(states: states)
     }()
     
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
-        self.stateMachine.enterState(MenuState.self)
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        self.sceneStateMachine.enterState(MenuState.self)
     }
     
-    func applicationShouldTerminateAfterLastWindowClosed(sender: NSApplication) -> Bool {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
 }

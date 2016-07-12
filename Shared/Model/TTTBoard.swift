@@ -8,10 +8,8 @@
 
 import Foundation
 
-// TODO: remove .None case, use optionals. None is not a piece...
-
 enum TTTPiece {
-    case none
+    case empty
     
     case x
     case o
@@ -57,7 +55,7 @@ private func emptyBoardPlaces() -> [Placemarker] {
     let magicSquares = [8, 1, 6, 3, 5, 7, 4, 9, 2]
     
     let pieces = magicSquares.map({ (value) -> Placemarker in
-        return (value: value, piece: .none)
+        return (value: value, piece: .empty)
     })
     
     return pieces
@@ -89,7 +87,7 @@ struct TTTBoard {
     
     func hasEmptyPlaces() -> Bool {
         let empty = self.pieces.filter { (_, piece) -> Bool in
-            return piece == .none
+            return piece == .empty
         }
         
         return empty.count > 0
@@ -195,7 +193,7 @@ struct TTTBoard {
                 let current = self.pieces[index]
                 if current.piece == piece.opposite {
                     matches += 1
-                } else if current.piece == TTTPiece.none {
+                } else if current.piece == TTTPiece.empty {
                     empty += 1
                 }
             }
@@ -216,7 +214,7 @@ struct TTTBoard {
                 let current = self.pieces[index]
                 if current.piece == piece {
                     matches += 1
-                } else if current.piece == .none {
+                } else if current.piece == .empty {
                     empty += 1
                 }
             }
@@ -243,5 +241,15 @@ struct TTTBoard {
         }
         
         return score
+    }
+}
+
+extension TTTBoard: CustomStringConvertible {
+    var description: String {
+        let string = pieces.reduce("") { (accumulated, obj: Placemarker) -> String in
+            return accumulated + obj.piece.glyph
+        }
+        
+        return string
     }
 }

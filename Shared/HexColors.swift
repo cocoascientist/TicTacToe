@@ -8,13 +8,13 @@
 
 import Foundation
 
-#if os(iOS)
-    import UIKit
+#if os(iOS) || os(tvOS)
+import UIKit
 #endif
 
-extension UIColor {
+extension Color {
     
-    class func hexColor(_ string: String) -> UIColor {
+    class func hexColor(_ string: String) -> Color {
         let set = CharacterSet.whitespacesAndNewlines
         var colorString = string.trimmingCharacters(in: set).uppercased()
         
@@ -24,13 +24,13 @@ extension UIColor {
         }
         
         if (colorString.characters.count != 6) {
-            return UIColor.gray()
+            return Color.gray()
         }
         
         var rgbValue: UInt32 = 0
         Scanner(string: colorString).scanHexInt32(&rgbValue)
         
-        return UIColor(
+        return Color(
             red:   CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
             blue:  CGFloat(rgbValue & 0x0000FF) / 255.0,

@@ -16,4 +16,9 @@ struct Style {
         static let orange = Color.hexColor("#EF946C")
         static let blue = Color.hexColor("#00FCDB")
     }
+    
+    struct Font {
+        static let piece = (name: "MarkerFelt-Wide", size: 24.0)
+        static let debug = (name: "Helvetica", size: 12.0)
+    }
 }

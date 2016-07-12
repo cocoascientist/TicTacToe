@@ -9,13 +9,7 @@
 import GameplayKit
 import SpriteKit
 
-class GameOverState: GKState {
-    private(set) unowned var scene: SKScene
-    
-    init(scene: SKScene) {
-        self.scene = scene
-        super.init()
-    }
+class GameOverState: InPlayState {
     
     override func didEnter(withPreviousState previousState: GKState?) {
         guard let scene = self.scene as? GameScene else { return }

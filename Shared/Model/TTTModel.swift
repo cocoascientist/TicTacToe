@@ -34,7 +34,7 @@ class TTTModel: NSObject {
 }
 
 extension TTTModel {
-    func nextPlayerAfter(_ player: GKGameModelPlayer?) -> GKGameModelPlayer? {
+    private func nextPlayerAfter(_ player: GKGameModelPlayer?) -> GKGameModelPlayer? {
         guard let players = players as? [TTTPlayer] else { return nil }
         guard let player = player as? TTTPlayer else { return nil }
         
@@ -56,22 +56,14 @@ extension TTTModel: GKGameModel {
     }
     
     func gameModelUpdates(for player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
-        
         guard let player = player as? TTTPlayer else { return nil }
         
         let indexed = board.pieces.enumerated().map { return (index: $0, placemarker: $1) }
         let empty = indexed.filter { (_, placemarker) -> Bool in
-            if placemarker.piece == .none {
-                return true
-            } else {
-                return false
-            }
+            return (placemarker.piece == .empty) ? true : false
         }
         
         let moves = empty.map { return TTTMove(index: $0.index, piece: player.piece)}
-        
-//        print("computer found \(moves.count) possible moves")
-        
         return (moves.count > 0) ? moves: nil
     }
     
@@ -84,24 +76,12 @@ extension TTTModel: GKGameModel {
     
     func score(for player: GKGameModelPlayer) -> Int {
         guard let player = player as? TTTPlayer else { return 0 }
-        
         let piece = player.piece
         
         let score = board.score(forPiece: piece)
         let opponent = (board.score(forPiece: piece.opposite) - 20) * -1
-        
         let adjusted = score + opponent
         
-//        print("board: \(printBoard()) scores a \(adjusted)")
-        
         return adjusted
-    }
-    
-    func printBoard() {
-        for obj in board.pieces {
-            print(obj.piece.glyph, terminator: "")
-        }
-        
-        print("")
     }
 }

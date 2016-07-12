@@ -1,5 +1,5 @@
 //
-//  GameStateDescribable.swift
+//  GameStateType.swift
 //  TicTacToad
 //
 //  Created by Andrew Shepard on 7/11/16.
@@ -10,13 +10,13 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-protocol GameStateDescribable {
+protocol GameStateType {
     unowned var view: SKView { get set }
     
     init(view: SKView)
 }
 
-extension GameStateDescribable where Self: GKState {
+extension GameStateType where Self: GKState {
     func scene(for view: SKView) -> SKScene {
         let size = view.frame.size
         let scene = sceneWithSize(size)

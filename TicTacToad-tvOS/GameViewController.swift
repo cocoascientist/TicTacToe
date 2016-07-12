@@ -12,22 +12,25 @@ import GameplayKit
 
 class GameViewController: UIViewController {
     
-    lazy var sceneManager: SceneManager = {
-        guard let skView = self.view as? SKView else {
-            fatalError("missing SKView")
-        }
-        
-        return SceneManager(view: skView)
+    lazy var skView: SKView = {
+        guard let skView = self.view as? SKView else { fatalError() }
+        return skView
     }()
     
-    lazy var stateMachine: GKStateMachine = {
-        return self.sceneManager.stateMachine
+    lazy var sceneStateMachine: GKStateMachine = {
+        let states = [
+            MenuState(view: self.skView),
+            OnePlayerState(view: self.skView),
+            TwoPlayerState(view: self.skView)
+        ]
+        
+        return GKStateMachine(states: states)
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.stateMachine.enterState(MenuState.self)
+        self.sceneStateMachine.enterState(MenuState.self)
     }
 
     override func didReceiveMemoryWarning() {

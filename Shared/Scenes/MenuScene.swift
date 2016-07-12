@@ -81,7 +81,7 @@ extension MenuScene {
         self.addChild(onePlayerButton)
         self.addChild(twoPlayerButton)
         
-//        self.addChild(toadSprite)
+        self.addChild(toadSprite)
     }
     
     private func startOnePlayerGame() {

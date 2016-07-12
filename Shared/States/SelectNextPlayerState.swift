@@ -9,14 +9,7 @@
 import GameplayKit
 import SpriteKit
 
-class SelectNextPlayerState: GKState {
-    
-    private(set) unowned var scene: SKScene
-    
-    init(scene: SKScene) {
-        self.scene = scene
-        super.init()
-    }
+class SelectNextPlayerState: InPlayState {
     
     override func didEnter(withPreviousState previousState: GKState?) {
         guard let machine = self.stateMachine as? InPlayStateMachine else { return }

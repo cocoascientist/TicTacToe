@@ -1,22 +1,25 @@
 //
-//  PlayerOTurnState.swift
+//  PlayerState.swift
 //  TicTacToad
 //
-//  Created by Andrew Shepard on 6/28/16.
+//  Created by Andrew Shepard on 7/11/16.
 //  Copyright © 2016 Andrew Shepard. All rights reserved.
 //
 
+import Foundation
 import GameplayKit
-import SpriteKit
 
-class PlayerOTurnState: GKState {
-    
+class PlayerState: InPlayState {
     private let isComputerPlayer: Bool
-    private(set) unowned var scene: SKScene
     
-    init(scene: SKScene, isComputerPlayer: Bool = false) {
-        self.scene = scene
+    required init(scene: SKScene, isComputerPlayer: Bool = false) {
         self.isComputerPlayer = isComputerPlayer
+        super.init(scene: scene)
+    }
+    
+    required init(scene: SKScene) {
+        self.isComputerPlayer = false
+        super.init(scene: scene)
     }
     
     override func isValidNextState(_ stateClass: AnyClass) -> Bool {
@@ -27,8 +30,9 @@ class PlayerOTurnState: GKState {
         if isComputerPlayer {
             guard let scene = scene as? GameScene else { return }
             guard let player = scene.model.activePlayer as? TTTPlayer else { return }
+            let glyph = player.piece.glyph
             
-            let title = NSLocalizedString("Player O is making a move...", comment: "")
+            let title = NSLocalizedString("Player \(glyph) is making a move...", comment: "")
             scene.moveLabel.text = title
             scene.moveLabel.fontColor = Style.Colors.blue
             
@@ -42,9 +46,12 @@ class PlayerOTurnState: GKState {
                 }
             }
         }
-    }
-    
-    override func update(withDeltaTime seconds: TimeInterval) {
-        print("update!")
+        else {
+            // if the player isn't artificial, the UI will transition
+            // states when the user makes a move.
+        }
     }
 }
+
+class PlayerOTurnState: PlayerState { }
+class PlayerXTurnState: PlayerState { }

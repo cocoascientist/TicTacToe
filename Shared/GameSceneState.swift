@@ -1,5 +1,5 @@
 //
-//  GameState.swift
+//  GameSceneState.swift
 //  TicTacToad
 //
 //  Created by Andrew Shepard on 7/11/16.
@@ -9,7 +9,7 @@
 import GameplayKit
 import SpriteKit
 
-class GameState: GKState, GameStateDescribable {
+class GameSceneState: GKState, GameStateType {
     unowned var view: SKView
     
     required init(view: SKView) {
@@ -25,6 +25,6 @@ class GameState: GKState, GameStateDescribable {
     }
 }
 
-class TwoPlayerState: GameState { }
-class MenuState: GameState { }
-class OnePlayerState: GameState { }
+class TwoPlayerState: GameSceneState { }
+class MenuState: GameSceneState { }
+class OnePlayerState: GameSceneState { }

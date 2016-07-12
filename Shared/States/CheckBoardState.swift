@@ -8,13 +8,7 @@
 
 import GameplayKit
 
-class CheckBoardState: GKState {
-    
-    private(set) unowned var model: TTTModel
-    
-    init(model: TTTModel) {
-        self.model = model
-    }
+class CheckBoardState: InPlayState {
     
     override func didEnter(withPreviousState previousState: GKState?) {
         let piece = playerPiece()
@@ -41,7 +35,7 @@ class CheckBoardState: GKState {
         case is PlayerXTurnState.Type:
             return TTTPiece.x
         default:
-            return TTTPiece.none
+            return TTTPiece.empty
         }
     }
 }

@@ -12,8 +12,8 @@ class DebugLabel: SKLabelNode {
     override init() {
         super.init()
         
-        self.fontSize = 12
-        self.fontName = "Helvetica"
+        self.fontSize = CGFloat(Style.Font.debug.size)
+        self.fontName = Style.Font.debug.name
         self.zPosition = 100
         self.isUserInteractionEnabled = false
     }
