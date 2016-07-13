@@ -89,6 +89,6 @@ extension MenuScene {
     }
     
     private func startTwoPlayerGame() {
-        self.stateMachine.enterState(TwoPlayerState.self)
+        self.stateMachine.enterState(GameSelectionState.self)
     }
 }

@@ -36,6 +36,8 @@ extension GameStateType where Self: GKState {
             return GameScene(size: size, stateMachine: stateMachine, type: .onePlayer)
         case is TwoPlayerState:
             return GameScene(size: size, stateMachine: stateMachine, type: .twoPlayer)
+        case is GameSelectionState:
+            return GameSelectionScene(size: size)
         default:
             fatalError("unsupported scene")
         }

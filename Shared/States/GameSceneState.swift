@@ -28,3 +28,5 @@ class GameSceneState: GKState, GameStateType {
 class TwoPlayerState: GameSceneState { }
 class MenuState: GameSceneState { }
 class OnePlayerState: GameSceneState { }
+
+class GameSelectionState: GameSceneState { }

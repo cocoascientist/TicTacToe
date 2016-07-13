@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GameKit
 
 class GameViewController: UIViewController {
     
@@ -20,6 +21,7 @@ class GameViewController: UIViewController {
     lazy var sceneStateMachine: GKStateMachine = {
         let states = [
             MenuState(view: self.skView),
+            GameSelectionState(view: self.skView),
             OnePlayerState(view: self.skView),
             TwoPlayerState(view: self.skView)
         ]
@@ -31,6 +33,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         self.sceneStateMachine.enterState(MenuState.self)
+        
+        GameCenterController.shared.authenticateLocalUser()
     }
 
     override func shouldAutorotate() -> Bool {
