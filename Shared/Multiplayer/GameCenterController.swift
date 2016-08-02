@@ -218,7 +218,7 @@ extension GameCenterController: GKMatchDelegate {
         }
     }
     
-    public func match(_ match: GKMatch, didFailWithError error: NSError?) {
+    public func match(_ match: GKMatch, didFailWithError error: Error?) {
         if self.match != match { return }
         
         print("Match failed with error: \(error?.localizedDescription)")

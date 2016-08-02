@@ -58,9 +58,9 @@ extension TTTModel: GKGameModel {
     func gameModelUpdates(for player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
         guard let player = player as? TTTPlayer else { return nil }
         
-        let indexed = board.pieces.enumerated().map { return (index: $0, placemarker: $1) }
-        let empty = indexed.filter { (_, placemarker) -> Bool in
-            return (placemarker.piece == .empty) ? true : false
+        let indexed = board.positions.enumerated().map { return (index: $0, marker: $1) }
+        let empty = indexed.filter { (_, marker) -> Bool in
+            return (marker.position == .empty) ? true : false
         }
         
         let moves = empty.map { return TTTMove(index: $0.index, piece: player.piece)}

@@ -9,8 +9,6 @@
 import Foundation
 
 enum TTTPiece {
-    case empty
-    
     case x
     case o
     
@@ -20,8 +18,6 @@ enum TTTPiece {
             return "X"
         case .o:
             return "O"
-        default:
-            return "+"
         }
     }
     
@@ -31,8 +27,6 @@ enum TTTPiece {
             return "#EF946C"
         case .o:
             return "#00FCDB"
-        default:
-            return "#FFFFFF"
         }
     }
     
@@ -42,35 +36,48 @@ enum TTTPiece {
             return .o
         case .o:
             return .x
-        default:
-            return self
         }
     }
 }
 
-typealias Placemarker = (value: Int, piece: TTTPiece)
+enum TTTPosition {
+    case empty
+    case piece(TTTPiece)
+}
 
-private func emptyBoardPlaces() -> [Placemarker] {
+func ==(lhs: TTTPosition, rhs: TTTPosition) -> Bool {
+    switch (lhs, rhs) {
+    case (.empty, .empty):
+        return true
+    case (let .piece(p1), let .piece(p2)):
+        return p1 == p2
+    default: return false
+    }
+}
+
+typealias PositionMarker = (value: Int, position: TTTPosition)
+
+private func emptyBoardPositions() -> [PositionMarker] {
     // http://mathworld.wolfram.com/MagicSquare.html
     let magicSquares = [8, 1, 6, 3, 5, 7, 4, 9, 2]
     
-    let pieces = magicSquares.map({ (value) -> Placemarker in
-        return (value: value, piece: .empty)
+    let positions = magicSquares.map({ (value) -> PositionMarker in
+        return (value: value, position: .empty)
     })
     
-    return pieces
+    return positions
 }
 
 struct TTTBoard {
     let rows = 3
     let columns = 3
-    var pieces: [Placemarker]
+    var positions: [PositionMarker]
     
     // http://mathworld.wolfram.com/MagicSquare.html
     private let magicSquares = [8, 1, 6, 3, 5, 7, 4, 9, 2]
     
-    init(pieces: [Placemarker] = emptyBoardPlaces()) {
-        self.pieces = pieces
+    init(positions: [PositionMarker] = emptyBoardPositions()) {
+        self.positions = positions
     }
     
     func afterMaking(_ move: TTTMove) -> TTTBoard {
@@ -78,16 +85,16 @@ struct TTTBoard {
     }
     
     func afterMakingMove(with piece: TTTPiece, at index: Int) -> TTTBoard {
-        var pieces = self.pieces
-        let placemarker = pieces[index]
-        pieces[index] = (value: placemarker.value, piece: piece)
+        var positions = self.positions
+        let placemarker = positions[index]
+        positions[index] = (value: placemarker.value, position: .piece(piece))
         
-        return TTTBoard(pieces: pieces)
+        return TTTBoard(positions: positions)
     }
     
     func hasEmptyPlaces() -> Bool {
-        let empty = self.pieces.filter { (_, piece) -> Bool in
-            return piece == .empty
+        let empty = self.positions.filter { (value, position) -> Bool in
+            return position == TTTPosition.empty
         }
         
         return empty.count > 0
@@ -112,8 +119,8 @@ struct TTTBoard {
         var accumulated: Int = 0
         
         for index in combo {
-            let current = self.pieces[index]
-            if current.piece == piece {
+            let position = self.positions[index].position
+            if case .piece(let current) = position, current == piece {
                 accumulated += 1
             }
         }
@@ -152,9 +159,9 @@ struct TTTBoard {
             var accumulated = 0
             
             for index in combo {
-                let current = self.pieces[index]
-                if current.piece == piece {
-                    accumulated += current.value
+                let position = self.positions[index].position
+                if case .piece(let current) = position, current == piece {
+                    accumulated += self.positions[index].value
                 }
             }
             
@@ -172,8 +179,8 @@ struct TTTBoard {
         for combo in winningCombos {
             var matches = 0
             for index in combo {
-                let current = self.pieces[index]
-                if current.piece == piece.opposite {
+                let position = self.positions[index].position
+                if case .piece(let current) = position, current == piece.opposite {
                     matches += 1
                 }
             }
@@ -190,10 +197,10 @@ struct TTTBoard {
             var matches = 0
             var empty = 0
             for index in combo {
-                let current = self.pieces[index]
-                if current.piece == piece.opposite {
+                let position = self.positions[index].position
+                if case .piece(let current) = position, current == piece.opposite {
                     matches += 1
-                } else if current.piece == TTTPiece.empty {
+                } else if case .empty = position {
                     empty += 1
                 }
             }
@@ -211,10 +218,10 @@ struct TTTBoard {
             var empty = 0
             
             for index in combo {
-                let current = self.pieces[index]
-                if current.piece == piece {
+                let position = self.positions[index].position
+                if case .piece(let current) = position, current == piece.opposite {
                     matches += 1
-                } else if current.piece == .empty {
+                } else if case .empty = position {
                     empty += 1
                 }
             }
@@ -228,15 +235,15 @@ struct TTTBoard {
         
         // check the corners
         for index in corners {
-            let current = self.pieces[index]
-            if current.piece == piece {
+            let position = self.positions[index].position
+            if case .piece(let current) = position, current == piece {
                 score += 20
             }
         }
         
         // check middle piece
-        let current = self.pieces[middle]
-        if current.piece == piece {
+        let position = self.positions[middle].position
+        if case .piece(let current) = position,  current == piece {
             score += 30
         }
         
@@ -244,12 +251,12 @@ struct TTTBoard {
     }
 }
 
-extension TTTBoard: CustomStringConvertible {
-    var description: String {
-        let string = pieces.reduce("") { (accumulated, obj: Placemarker) -> String in
-            return accumulated + obj.piece.glyph
-        }
-        
-        return string
-    }
-}
+//extension TTTBoard: CustomStringConvertible {
+//    var description: String {
+//        let string = positions.reduce("") { (accumulated, obj: PositionMarker) -> String in
+//            return accumulated + obj.piece.glyph
+//        }
+//        
+//        return string
+//    }
+//}

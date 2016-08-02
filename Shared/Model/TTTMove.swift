@@ -16,8 +16,6 @@ class TTTMove: NSObject, GKGameModelUpdate {
     private(set) var index: Int
     
     required init(index: Int, piece: TTTPiece) {
-        assert(piece != TTTPiece.empty)
-        
         self.index = index
         self.piece = piece
     }
