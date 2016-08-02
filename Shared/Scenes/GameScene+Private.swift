@@ -15,7 +15,7 @@ extension GameScene {
         self.model.resetGameBoard()
         self.gameStateMachine.resetToInitialState()
         
-        self.stateMachine.enterState(MenuState.self)
+        self.presentationDelegate?.shouldDismissScene(self)
     }
     
     internal func restartGameScene() {
@@ -23,7 +23,7 @@ extension GameScene {
         animateNodesOffScreen()
         
         let delay = DispatchTime.now() + Double(Int64(0.55 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.after(when: delay) { [unowned self] in
+        DispatchQueue.main.asyncAfter(deadline: delay) { [unowned self] in
             self.removeGamePieces()
             self.model.resetGameBoard()
             self.gameStateMachine.resetToInitialState()

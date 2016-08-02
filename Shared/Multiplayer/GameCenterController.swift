@@ -106,8 +106,8 @@ public class GameCenterController: NSObject {
         request.minPlayers = minPlayers
         request.maxPlayers = maxPlayers
         
-        let mmvc = GKMatchmakerViewController(matchRequest: request)!
-        mmvc.matchmakerDelegate = self
+        let mmvc = GKTurnBasedMatchmakerViewController(matchRequest: request)
+//        mmvc.turnBasedMatchmakerDelegate = self
         
         presentingViewController.present(mmvc, animated: true, completion: nil)
     }
@@ -178,7 +178,7 @@ extension GameCenterController: GKMatchmakerViewControllerDelegate {
         presentingViewController.dismiss(animated: true, completion: nil)
     }
     
-    public func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: NSError) {
+    public func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: Error) {
         presentingViewController.dismiss(animated: true, completion: nil)
         print("Error finding match: \(error.localizedDescription)")
     }
@@ -233,8 +233,4 @@ extension GameCenterController: GKLocalPlayerListener {
         mmvc.matchmakerDelegate = self
         presentingViewController.present(mmvc, animated: true, completion: nil)
     }
-}
-
-extension GameCenterController: GKTurnBasedEventListener {
-    
 }

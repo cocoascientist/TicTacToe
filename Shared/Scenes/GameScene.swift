@@ -97,17 +97,16 @@ class GameScene: SKScene {
         return strategist
     }()
     
+    var presentationDelegate: ScenePresentationDelegate?
+    
     private(set) var model: TTTModel
     
     let playerX: TTTPlayer
     let playerO: TTTPlayer
     let type: GameType
     
-    private(set) unowned var stateMachine: GKStateMachine
-    
-    init(size: CGSize, stateMachine: GKStateMachine, type: GameType) {
+    init(size: CGSize, type: GameType) {
         self.type = type
-        self.stateMachine = stateMachine
         
         // should the state machine own these?
         // the AI computer state needs to manipulate model

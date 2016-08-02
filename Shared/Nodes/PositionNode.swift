@@ -41,7 +41,7 @@ class PositionNode: SKSpriteNode {
         self.row = row
         self.column = column
         
-        super.init(texture: nil, color: Color.clear(), size: size)
+        super.init(texture: nil, color: Color.clear, size: size)
         
 //        self.addChild(debugLabel)
     }

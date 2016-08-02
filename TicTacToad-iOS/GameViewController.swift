@@ -13,48 +13,51 @@ import GameKit
 
 class GameViewController: UIViewController {
     
+    var type: GameType? = nil
+    
     lazy var skView: SKView = {
         guard let skView = self.view as? SKView else { fatalError() }
         return skView
-    }()
-    
-    lazy var sceneStateMachine: GKStateMachine = {
-        let states = [
-            MenuState(view: self.skView),
-            GameSelectionState(view: self.skView),
-            OnePlayerState(view: self.skView),
-            TwoPlayerState(view: self.skView)
-        ]
-        
-        return GKStateMachine(states: states)
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.sceneStateMachine.enterState(MenuState.self)
+        guard let type = type else { fatalError("expected game type") }
         
-        GameCenterController.shared.authenticateLocalUser()
+        self.navigationController?.navigationBar.isHidden = true
+        
+        switch type {
+        case .onePlayer:
+            let size = skView.frame.size
+            let scene = GameScene(size: size, type: .onePlayer)
+            scene.presentationDelegate = self
+            
+            self.skView.presentScene(scene)
+        default:
+            print("nothing")
+        }
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate: Bool {
         return true
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.current().userInterfaceIdiom == .phone {
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
         } else {
             return .all
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension GameViewController: ScenePresentationDelegate {
+    func shouldDismissScene(_ scene: SKScene) {
+        let _ = self.navigationController?.popViewController(animated: true)
     }
 }

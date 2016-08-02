@@ -111,7 +111,7 @@ extension ButtonNode {
         isHighlighted = false
         if containsTouches(touches) {
             let delay = DispatchTime.now() + Double(Int64(self.delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.after(when: delay) { [unowned self] in
+            DispatchQueue.main.asyncAfter(deadline: delay) { [unowned self] in
                 self.action()
             }
         }

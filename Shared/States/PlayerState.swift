@@ -37,7 +37,7 @@ class PlayerState: InPlayState {
             scene.moveLabel.fontColor = Style.Colors.blue
             
             let delay = DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.after(when: delay) {
+            DispatchQueue.main.asyncAfter(deadline: delay) {
                 if let move = scene.strategist.bestMove(for: player) {
                     scene.makeMoveForActivePlayer(move)
                 }

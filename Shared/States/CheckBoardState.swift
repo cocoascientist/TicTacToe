@@ -35,7 +35,7 @@ class CheckBoardState: InPlayState {
         case is PlayerXTurnState.Type:
             return TTTPiece.x
         default:
-            return TTTPiece.empty
+            fatalError()
         }
     }
 }

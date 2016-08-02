@@ -24,7 +24,7 @@ extension Color {
         }
         
         if (colorString.characters.count != 6) {
-            return Color.gray()
+            return Color.gray
         }
         
         var rgbValue: UInt32 = 0
