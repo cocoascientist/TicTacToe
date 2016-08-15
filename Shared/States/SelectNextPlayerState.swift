@@ -11,7 +11,7 @@ import SpriteKit
 
 class SelectNextPlayerState: InPlayState {
     
-    override func didEnter(withPreviousState previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         guard let machine = self.stateMachine as? InPlayStateMachine else { return }
         guard let scene = self.scene as? GameScene else { return }
         
@@ -34,7 +34,7 @@ class SelectNextPlayerState: InPlayState {
             scene.model.activePlayer = playerO
             
             machine.lastPlayerState = PlayerOTurnState.self
-            machine.enterState(PlayerOTurnState.self)
+            machine.enter(PlayerOTurnState.self)
         }
         else {
             let title = NSLocalizedString("Next move, Player X", comment: "Next move, Player X")
@@ -44,7 +44,7 @@ class SelectNextPlayerState: InPlayState {
             scene.model.activePlayer = playerX
             
             machine.lastPlayerState = PlayerXTurnState.self
-            machine.enterState(PlayerXTurnState.self)
+            machine.enter(PlayerXTurnState.self)
         }
     }
     

@@ -37,32 +37,32 @@ public protocol GameCenterControllerDelegate: class {
     func matchStarted()
     
     /// Method called when the device received data about the match from another device in the match.
-    func match(match: GKMatch, didReceiveData: NSData, fromPlayer: String)
+    func match(_ match: GKMatch, didReceiveData: Data, fromPlayer: String)
     
     /// Method called when the match has ended.
     func matchEnded()
 }
 
-public class GameCenterController: NSObject {
+open class GameCenterController: NSObject {
     
-    public static let shared = GameCenterController()
+    open static let shared = GameCenterController()
     
     /// The match object provided by GameKit.
-    private(set) var match: GKMatch!
+    fileprivate(set) var match: GKMatch!
     
-    private weak var delegate: GameCenterControllerDelegate?
-    private var invite: GKInvite!
-    private var invitedPlayer: GKPlayer!
-    private var playersDict = [String: AnyObject]()
-    private weak var presentingViewController: UIViewController!
+    fileprivate weak var delegate: GameCenterControllerDelegate?
+    fileprivate var invite: GKInvite!
+    fileprivate var invitedPlayer: GKPlayer!
+    fileprivate var playersDict = [String: AnyObject]()
+    fileprivate weak var presentingViewController: UIViewController!
     
-    private var authenticated = false
-    private var matchStarted = false
+    fileprivate var authenticated = false
+    fileprivate var matchStarted = false
     
     override init() {
         super.init()
         
-        let name = "GKPlayerAuthenticationDidChangeNotificationName" as NSNotification.Name
+        let name = Notification.Name(rawValue: "GKPlayerAuthenticationDidChangeNotificationName")
         let selector = #selector(GameCenterController.authenticationChanged(sender:))
         NotificationCenter.default.addObserver(self, selector: selector, name: name, object: nil)
     }
@@ -139,7 +139,7 @@ extension GameCenterController {
         }
     }
     
-    private func lookupPlayers() {
+    fileprivate func lookupPlayers() {
         let playerIDs = match.players.map { $0.playerID } as! [String]
         
         GKPlayer.loadPlayers(forIdentifiers: playerIDs) { (players, error) -> Void in
@@ -200,7 +200,7 @@ extension GameCenterController: GKMatchDelegate {
         if self.match != match { return }
         guard let playerID = player.playerID else { return }
         
-        delegate?.match(match: match, didReceiveData: data, fromPlayer: playerID)
+        delegate?.match(match, didReceiveData: data, fromPlayer: playerID)
     }
     
     public func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState) {

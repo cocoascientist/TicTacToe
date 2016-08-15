@@ -43,7 +43,7 @@ class PositionNode: SKSpriteNode {
         
         super.init(texture: nil, color: Color.clear, size: size)
         
-//        self.addChild(debugLabel)
+        self.addChild(debugLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {

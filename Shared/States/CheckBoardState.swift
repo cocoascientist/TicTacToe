@@ -10,15 +10,15 @@ import GameplayKit
 
 class CheckBoardState: InPlayState {
     
-    override func didEnter(withPreviousState previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         let piece = playerPiece()
         
         if model.board.isWin(forPiece: piece) {
-            self.stateMachine?.enterState(GameOverState.self)
+            self.stateMachine?.enter(GameOverState.self)
         } else if model.board.hasEmptyPlaces() == false {
-            self.stateMachine?.enterState(GameOverState.self)
+            self.stateMachine?.enter(GameOverState.self)
         } else {
-            self.stateMachine?.enterState(SelectNextPlayerState.self)
+            self.stateMachine?.enter(SelectNextPlayerState.self)
         }
     }
     
@@ -26,7 +26,7 @@ class CheckBoardState: InPlayState {
         return (stateClass is GameOverState.Type || stateClass is SelectNextPlayerState.Type)
     }
     
-    private func playerPiece() -> TTTPiece {
+    fileprivate func playerPiece() -> TTTPiece {
         guard let machine = self.stateMachine as? InPlayStateMachine else { fatalError() }
         
         switch machine.lastPlayerState {

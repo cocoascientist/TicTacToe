@@ -10,7 +10,7 @@ import Foundation
 import GameplayKit
 
 class PlayerState: InPlayState {
-    private let isComputerPlayer: Bool
+    fileprivate let isComputerPlayer: Bool
     
     required init(scene: SKScene, isComputerPlayer: Bool = false) {
         self.isComputerPlayer = isComputerPlayer
@@ -26,7 +26,7 @@ class PlayerState: InPlayState {
         return true
     }
     
-    override func didEnter(withPreviousState previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         if isComputerPlayer {
             guard let scene = scene as? GameScene else { return }
             guard let player = scene.model.activePlayer as? TTTPlayer else { return }

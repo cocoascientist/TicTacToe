@@ -47,7 +47,7 @@ class GlyphNode: SKShapeNode {
 }
 
 extension GlyphNode {
-    private func configure() {
+    fileprivate func configure() {
         self.path = glyphPath
         
         guard let path = glyphPath else { return }

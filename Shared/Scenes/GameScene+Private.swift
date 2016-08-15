@@ -65,19 +65,20 @@ extension GameScene {
 
 extension GameScene {
     
-    private func positionPieces() {
-        let size = Board.size
+    fileprivate func positionPieces() {
+        let size = Board.pieceSize
         let dimension = Board.dimension
-        let offset = CGPoint(x: 100.0, y: 100.0)
         
         for row in 0..<dimension {
             for column in 0..<dimension {
                 let node = PositionNode(row: row, column: column, size: size)
                 node.name = "\(Array("abc".characters)[column])\(2-row)"
                 
-                let xPos = (CGFloat(column) * size.width * 1) - offset.x
-                let yPos = (CGFloat(row) * size.height * -1) + offset.y
+                let xPos = (CGFloat(column) * size.width * 1) - size.width
+                let yPos = (CGFloat(row) * size.height * -1) + size.height
                 let point = CGPoint(x: xPos, y: yPos)
+                
+                print(point)
                 
                 node.position = point
                 
@@ -86,7 +87,7 @@ extension GameScene {
         }
     }
     
-    private func positionButtons() {
+    fileprivate func positionButtons() {
         guard let frame = self.view?.frame else { return }
         
         let xPos = -1 * frame.midX + 54
@@ -99,7 +100,7 @@ extension GameScene {
         self.addChild(restartButton)
     }
     
-    private func positionLabels() {
+    fileprivate func positionLabels() {
         guard let frame = self.view?.frame else { return }
         
         let yPos = frame.midY - 20
@@ -108,7 +109,7 @@ extension GameScene {
         self.addChild(moveLabel)
     }
     
-    private func removeGamePieces() {
+    fileprivate func removeGamePieces() {
         self.children.forEach { (node) in
             if node is PositionNode {
                 node.removeAllChildren()
@@ -119,22 +120,22 @@ extension GameScene {
         }
     }
     
-    private func canAddPiece() -> Bool {
+    fileprivate func canAddPiece() -> Bool {
         let state = gameStateMachine.currentState
         return state is PlayerXTurnState || state is PlayerOTurnState
     }
     
-    private func isGameOver() -> Bool {
+    fileprivate func isGameOver() -> Bool {
         return gameStateMachine.currentState is GameOverState
     }
     
-    private func currentGamePiece() -> TTTPiece {
+    fileprivate func currentGamePiece() -> TTTPiece {
         guard let player = self.model.activePlayer as? TTTPlayer else { fatalError() }
         
         return player.piece
     }
     
-    private func addPiece(_ piece: TTTPiece, on node: SKNode) {
+    fileprivate func addPiece(_ piece: TTTPiece, on node: SKNode) {
         let sprite = GlyphNode(glyph: piece.glyph)
         let color = Color.hexColor(piece.hexColor)
         
@@ -147,7 +148,7 @@ extension GameScene {
         node.addChild(sprite)
     }
     
-    private func placePieceOn(_ node: SKNode) -> Bool {
+    fileprivate func placePieceOn(_ node: SKNode) -> Bool {
         guard let node = node as? PositionNode else { return false }
         guard node.children.count == 0 else { return false }
         guard canAddPiece() else { return false }

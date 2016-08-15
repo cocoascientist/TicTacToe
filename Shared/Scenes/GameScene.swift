@@ -15,7 +15,7 @@ enum GameType {
 }
 
 internal struct Board {
-    static let size = CGSize(width: 100.0, height: 100.0)
+    static let pieceSize = CGSize(width: 100.0, height: 100.0)
     static let dimension = 3
 }
 
@@ -99,7 +99,7 @@ class GameScene: SKScene {
     
     var presentationDelegate: ScenePresentationDelegate?
     
-    private(set) var model: TTTModel
+    fileprivate(set) var model: TTTModel
     
     let playerX: TTTPlayer
     let playerO: TTTPlayer
@@ -160,7 +160,7 @@ extension GameScene {
         self.placePiece(move.piece, row: row, column: column)
         
         model.apply(move)
-        gameStateMachine.enterState(CheckBoardState.self)
+        gameStateMachine.enter(CheckBoardState.self)
     }
     
     func wiggleNodeAt(_ row: Int, column: Int) {

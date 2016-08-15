@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameOverState: InPlayState {
     
-    override func didEnter(withPreviousState previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         guard let scene = self.scene as? GameScene else { return }
         
         let board = scene.model.board

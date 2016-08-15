@@ -74,7 +74,7 @@ struct TTTBoard {
     var positions: [PositionMarker]
     
     // http://mathworld.wolfram.com/MagicSquare.html
-    private let magicSquares = [8, 1, 6, 3, 5, 7, 4, 9, 2]
+    fileprivate let magicSquares = [8, 1, 6, 3, 5, 7, 4, 9, 2]
     
     init(positions: [PositionMarker] = emptyBoardPositions()) {
         self.positions = positions
@@ -128,7 +128,7 @@ struct TTTBoard {
         return (accumulated == 3)
     }
     
-    private var winningCombos: [[Int]] {
+    fileprivate var winningCombos: [[Int]] {
         /*
          0 | 1 | 2
          ---------
@@ -144,11 +144,11 @@ struct TTTBoard {
         ]
     }
     
-    private var corners: [Int] {
+    fileprivate var corners: [Int] {
         return [0,2,6,8]
     }
     
-    private var middle: Int {
+    fileprivate var middle: Int {
         return 4
     }
     

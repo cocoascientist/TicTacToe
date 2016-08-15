@@ -25,7 +25,7 @@ extension InPlayStateType where Self: GKState {
 }
 
 class InPlayState: GKState, InPlayStateType {
-    private(set) unowned var scene: SKScene
+    fileprivate(set) unowned var scene: SKScene
     
     required init(scene: SKScene) {
         self.scene = scene

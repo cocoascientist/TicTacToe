@@ -13,18 +13,12 @@ class TTTModel: NSObject {
     private(set) var players: [GKGameModelPlayer]?
     var activePlayer: GKGameModelPlayer?
     
-    private(set) var board: TTTBoard
+    fileprivate(set) var board: TTTBoard
     
     init(players: [GKGameModelPlayer]?) {
         self.players = players
         self.board = TTTBoard()
         super.init()
-    }
-    
-    @objc(copyWithZone:) func copy(with zone: NSZone?) -> AnyObject {
-        let model = TTTModel(players: players)
-        model.setGameModel(self)
-        return model
     }
     
     func resetGameBoard() {
@@ -33,8 +27,16 @@ class TTTModel: NSObject {
     }
 }
 
+extension TTTModel: NSCopying {
+    func copy(with zone: NSZone? = nil) -> Any {
+        let model = TTTModel(players: players)
+        model.setGameModel(self)
+        return model
+    }
+}
+
 extension TTTModel {
-    private func nextPlayerAfter(_ player: GKGameModelPlayer?) -> GKGameModelPlayer? {
+    fileprivate func nextPlayerAfter(_ player: GKGameModelPlayer?) -> GKGameModelPlayer? {
         guard let players = players as? [TTTPlayer] else { return nil }
         guard let player = player as? TTTPlayer else { return nil }
         

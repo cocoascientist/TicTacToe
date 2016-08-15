@@ -31,7 +31,7 @@ extension GameScene {
         }
     }
     
-    private func containsTouches(_ touches: Set<UITouch>) -> Bool {
+    fileprivate func containsTouches(_ touches: Set<UITouch>) -> Bool {
         guard let scene = scene else { fatalError("Button must be used within a scene.") }
         
         return touches.contains { touch in

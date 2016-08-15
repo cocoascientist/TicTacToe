@@ -11,11 +11,11 @@ import SpriteKit
 typealias ButtonAction = () -> Void
 
 class ButtonNode: SKNode {
-    private let delay = 0.20
+    fileprivate let delay = 0.20
     
-    private(set) var title: String
-    private(set) var size: CGSize
-    private(set) var action: ButtonAction
+    fileprivate(set) var title: String
+    fileprivate(set) var size: CGSize
+    fileprivate(set) var action: ButtonAction
     
     lazy var focusRing: SKSpriteNode = {
         let node = SKSpriteNode(imageNamed: "focusRing")
@@ -123,7 +123,7 @@ extension ButtonNode {
         isHighlighted = false
     }
     
-    private func containsTouches(_ touches: Set<UITouch>) -> Bool {
+    fileprivate func containsTouches(_ touches: Set<UITouch>) -> Bool {
         guard let scene = scene else { fatalError("Button must be used within a scene.") }
         
         return touches.contains { touch in

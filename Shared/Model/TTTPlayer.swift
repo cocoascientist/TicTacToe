@@ -10,8 +10,8 @@ import GameplayKit
 
 @objc class TTTPlayer: NSObject, GKGameModelPlayer {
     
-    private(set) var playerId: Int
-    private(set) var piece: TTTPiece
+    fileprivate(set) var playerId: Int
+    fileprivate(set) var piece: TTTPiece
     
     init(playerId: Int, piece: TTTPiece) {
         self.playerId = playerId

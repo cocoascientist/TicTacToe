@@ -10,9 +10,9 @@ import Foundation
 import MultipeerConnectivity
 
 class MulitpeerController: NSObject {
-    private let timeStarted = NSDate()
+    fileprivate let timeStarted = NSDate()
     
-    private let serviceType = "ajs-ttt-1"
+    fileprivate let serviceType = "ajs-ttt-1"
     
     lazy var peer: MCPeerID = {
         let displayName = UUID().uuidString
@@ -34,7 +34,7 @@ class MulitpeerController: NSObject {
     lazy var advertiser: MCNearbyServiceAdvertiser = {
         let advertiser = MCNearbyServiceAdvertiser(peer: self.peer, discoveryInfo: nil, serviceType: self.serviceType)
         
-        advertiser.delegate = self
+//        advertiser.delegate = self
         return advertiser
     }()
 }
@@ -43,7 +43,7 @@ extension MulitpeerController: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         
         var runningTime = -timeStarted.timeIntervalSinceNow
-        let data = NSData(bytes: &runningTime, length: sizeof(TimeInterval.self))
+        let data = NSData(bytes: &runningTime, length: MemoryLayout<TimeInterval>.size)
         let context = data as Data
         
         browser.invitePeer(peerID, to: session, withContext: context, timeout: 30)
@@ -53,31 +53,32 @@ extension MulitpeerController: MCNearbyServiceBrowserDelegate {
         print("lost peer: \(peerID)")
     }
     
-    func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: NSError) {
+    func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         print("error browsing for peers: \(error)")
     }
 }
 
-extension MulitpeerController: MCNearbyServiceAdvertiserDelegate {
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: (Bool, MCSession?) -> Void) {
-        
-        guard let context = context else { return }
-        let data = context as NSData
-        
-        let runningTime = -timeStarted.timeIntervalSinceNow
-        var peerRunningTime = TimeInterval()
-        data.getBytes(&peerRunningTime, length: sizeof(TimeInterval.self))
-        
-        let isPeerOlder = (peerRunningTime > runningTime)
-        
-        if isPeerOlder {
-            print("older")
-        } else {
-            print("younger")
-        }
-    }
-    
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: NSError) {
-        print("error starting advertiser: \(error)")
-    }
-}
+//extension MulitpeerController: MCNearbyServiceAdvertiserDelegate {
+//
+////    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: (Bool, MCSession?) -> Void) {
+////        
+////        guard let context = context else { return }
+////        let data = context as NSData
+////        
+////        let runningTime = -timeStarted.timeIntervalSinceNow
+////        var peerRunningTime = TimeInterval()
+////        data.getBytes(&peerRunningTime, length: MemoryLayout<TimeInterval>.size)
+////        
+////        let isPeerOlder = (peerRunningTime > runningTime)
+////        
+////        if isPeerOlder {
+////            print("older")
+////        } else {
+////            print("younger")
+////        }
+////    }
+//    
+//    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
+//        print("error starting advertiser: \(error)")
+//    }
+//}

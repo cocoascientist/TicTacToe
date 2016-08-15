@@ -12,7 +12,7 @@ import GameplayKit
 class InPlayStateMachine: GKStateMachine {
     
     var didWin: Bool = false
-    private(set) var moveCount: Int = 0
+    fileprivate(set) var moveCount: Int = 0
     
     // should be private
     // could be state class instead of type?
@@ -23,7 +23,7 @@ class InPlayStateMachine: GKStateMachine {
         self.didWin = false
         self.lastPlayerState = nil
         
-        self.enterState(SelectNextPlayerState.self)
+        self.enter(SelectNextPlayerState.self)
     }
     
     var glyphForState: String {

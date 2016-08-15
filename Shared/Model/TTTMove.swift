@@ -12,8 +12,8 @@ class TTTMove: NSObject, GKGameModelUpdate {
     
     internal(set) var value: Int = 0
     
-    private(set) var piece: TTTPiece
-    private(set) var index: Int
+    fileprivate(set) var piece: TTTPiece
+    fileprivate(set) var index: Int
     
     required init(index: Int, piece: TTTPiece) {
         self.index = index

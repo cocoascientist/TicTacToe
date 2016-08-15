@@ -13,9 +13,9 @@ class MenuViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
     
-    private let menuCellIdentifier = "MenuCellIdentifier"
+    fileprivate let menuCellIdentifier = "MenuCellIdentifier"
     
-    private var options: [String] = {
+    fileprivate var options: [String] = {
         return [
             NSLocalizedString("One Player", comment: "One Player"),
             NSLocalizedString("Two Player", comment: "Two Player"),
@@ -67,7 +67,7 @@ extension MenuViewController: UITableViewDataSource {
 extension MenuViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let identifier = String(GameViewController.self)
+        let identifier = String(describing: GameViewController.self)
         guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: identifier) as? GameViewController else {
             fatalError("missing \(identifier)")
         }
@@ -110,7 +110,7 @@ extension MenuViewController: GameCenterControllerDelegate {
         //
     }
     
-    func match(match: GKMatch, didReceiveData: NSData, fromPlayer: String) {
+    func match(_ match: GKMatch, didReceiveData: Data, fromPlayer: String) {
         print("data: \(didReceiveData)")
     }
 }
