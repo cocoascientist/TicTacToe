@@ -1,6 +1,6 @@
 //
 //  RoundCellView.swift
-//  TicTacToad
+//  TicTacToe
 //
 //  Created by Andrew Shepard on 1/12/17.
 //  Copyright © 2017 Andrew Shepard. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  MenuViewController.swift
-//  TicTacToad
+//  TicTacToe
 //
 //  Created by Andrew Shepard on 7/13/16.
 //  Copyright © 2016 Andrew Shepard. All rights reserved.

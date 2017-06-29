@@ -1,6 +1,6 @@
 //
 //  GameViewController.swift
-//  TicTacToad-tvOS
+//  TicTacToe
 //
 //  Created by Andrew Shepard on 6/27/16.
 //  Copyright (c) 2016 Andrew Shepard. All rights reserved.

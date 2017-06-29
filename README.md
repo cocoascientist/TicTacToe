@@ -1,4 +1,8 @@
-# TicTacToad
+# TicTacToe
+
+![Swift 3.0](https://img.shields.io/badge/swift-3.2-orange.svg)
+![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS-blue.svg)
+[![license MIT](https://img.shields.io/cocoapods/l/GROCloudStore.svg)](http://opensource.org/licenses/MIT)
 
 Tic-tac-toe for Apple platforms. written in Swift and makes use of SpriteKit and GameplayKit.
 
@@ -12,6 +16,10 @@ Tic-tac-toe for Apple platforms. written in Swift and makes use of SpriteKit and
 Clone the repo and open the project in Xcode.
 
 ## Design
+
+## Screenshot
+
+![screenshot](http://i.imgur.com/g62uMtw.gif)
 
 ## Custom SKNodes
 
