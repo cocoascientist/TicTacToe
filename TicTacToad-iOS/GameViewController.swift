@@ -27,6 +27,8 @@ class GameViewController: UIViewController {
         
         self.navigationController?.navigationBar.isHidden = true
         
+        self.setNeedsStatusBarAppearanceUpdate()
+        
         switch type {
         case .onePlayer:
             let size = skView.frame.size
@@ -34,8 +36,8 @@ class GameViewController: UIViewController {
             scene.presentationDelegate = self
             
             self.skView.presentScene(scene)
-        default:
-            print("nothing")
+        case .twoPlayer:
+            setupTwoPlayerGame()
         }
     }
 
@@ -59,5 +61,29 @@ class GameViewController: UIViewController {
 extension GameViewController: ScenePresentationDelegate {
     func shouldDismissScene(_ scene: SKScene) {
         let _ = self.navigationController?.popViewController(animated: true)
+    }
+}
+
+extension GameViewController {
+    fileprivate func setupTwoPlayerGame() {
+        let request = GKMatchRequest()
+        request.minPlayers = 2
+        request.maxPlayers = 2
+        
+        let viewController = GKTurnBasedMatchmakerViewController(matchRequest: request)
+        viewController.turnBasedMatchmakerDelegate = self
+        
+        self.present(viewController, animated: true, completion: nil)
+    }
+}
+
+extension GameViewController: GKTurnBasedMatchmakerViewControllerDelegate {
+    func turnBasedMatchmakerViewControllerWasCancelled(_ viewController: GKTurnBasedMatchmakerViewController) {
+        viewController.dismiss(animated: true, completion: nil)
+        let _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    func turnBasedMatchmakerViewController(_ viewController: GKTurnBasedMatchmakerViewController, didFailWithError error: Error) {
+        print("error: \(error)")
     }
 }

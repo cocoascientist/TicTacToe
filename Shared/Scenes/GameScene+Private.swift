@@ -32,7 +32,9 @@ extension GameScene {
     
     internal func setupEmptyGame() {
         positionPieces()
+        #if os(iOS)
         positionButtons()
+        #endif
         positionLabels()
         
         self.model.resetGameBoard()

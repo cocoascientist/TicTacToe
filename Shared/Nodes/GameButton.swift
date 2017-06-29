@@ -22,7 +22,7 @@ class GameButton: ButtonNode {
         return node
     }()
     
-    override init(title: String, size: CGSize, action: ButtonAction) {
+    override init(title: String, size: CGSize, action: @escaping ButtonAction) {
         super.init(title: title, size: size, action: action)
         
         addChild(self.label)

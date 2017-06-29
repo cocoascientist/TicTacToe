@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F728E74B1D2B3DE500102794 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F786B4E61D21DF18004706BC /* GameViewController.swift */; };
+		F73573521D98427200C6EA7D /* ScenePresentationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F773EDFE1D36ECCE00643BE0 /* ScenePresentationDelegate.swift */; };
 		F77021DA1D26EB9D00CEFFF5 /* TTTBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77021D61D26EB9D00CEFFF5 /* TTTBoard.swift */; };
 		F77021DB1D26EB9D00CEFFF5 /* TTTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77021D71D26EB9D00CEFFF5 /* TTTModel.swift */; };
 		F77021DC1D26EB9D00CEFFF5 /* TTTMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77021D81D26EB9D00CEFFF5 /* TTTMove.swift */; };
@@ -53,7 +54,6 @@
 		F770222D1D26ECA300CEFFF5 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F770220F1D26EC9300CEFFF5 /* MenuButton.swift */; };
 		F770222E1D26ECA400CEFFF5 /* GameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F770220E1D26EC9300CEFFF5 /* GameButton.swift */; };
 		F770222F1D26ECA400CEFFF5 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F770220F1D26EC9300CEFFF5 /* MenuButton.swift */; };
-		F773EDD31D36BBAB00643BE0 /* GameCenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F773EDD11D36BBAB00643BE0 /* GameCenterController.swift */; };
 		F773EDD41D36BBAB00643BE0 /* MulitpeerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F773EDD21D36BBAB00643BE0 /* MulitpeerController.swift */; };
 		F773EDD51D36BBAD00643BE0 /* GameCenterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F773EDD11D36BBAB00643BE0 /* GameCenterController.swift */; };
 		F773EDD61D36BBAD00643BE0 /* MulitpeerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F773EDD21D36BBAB00643BE0 /* MulitpeerController.swift */; };
@@ -94,6 +94,11 @@
 		F786B5211D224218004706BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F786B51F1D224218004706BC /* Main.storyboard */; };
 		F786B52D1D224299004706BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F786B4F51D21DF5B004706BC /* Assets.xcassets */; };
 		F7D071DA1D35E1BC0044E7E0 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D071D91D35E1BC0044E7E0 /* GameKit.framework */; };
+		F7E626EB1D9ADA4300922AAE /* MatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E626EA1D9ADA4300922AAE /* MatchesViewController.swift */; };
+		F7E626ED1D9AE42400922AAE /* MatchesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E626EC1D9AE42400922AAE /* MatchesDataSource.swift */; };
+		F7FF82A91E2801D500E598CC /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FF82A71E2801D500E598CC /* MenuTableViewCell.swift */; };
+		F7FF82AA1E2801D500E598CC /* MenuTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7FF82A81E2801D500E598CC /* MenuTableViewCell.xib */; };
+		F7FF82AC1E28052600E598CC /* RoundCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7FF82AB1E28052600E598CC /* RoundCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,7 +144,12 @@
 		F786B5201D224218004706BC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F786B5241D224218004706BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7D071D91D35E1BC0044E7E0 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/GameKit.framework; sourceTree = DEVELOPER_DIR; };
+		F7E626EA1D9ADA4300922AAE /* MatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesViewController.swift; sourceTree = "<group>"; };
+		F7E626EC1D9AE42400922AAE /* MatchesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchesDataSource.swift; sourceTree = "<group>"; };
 		F7EE22D71D21D9BF006C6029 /* TicTacToad-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TicTacToad-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7FF82A71E2801D500E598CC /* MenuTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		F7FF82A81E2801D500E598CC /* MenuTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuTableViewCell.xib; sourceTree = "<group>"; };
+		F7FF82AB1E28052600E598CC /* RoundCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,9 +194,14 @@
 				F786B4E01D21DF18004706BC /* AppDelegate.swift */,
 				F786B4E61D21DF18004706BC /* GameViewController.swift */,
 				F773EDFC1D36E3CD00643BE0 /* MenuViewController.swift */,
+				F7E626EA1D9ADA4300922AAE /* MatchesViewController.swift */,
+				F7E626EC1D9AE42400922AAE /* MatchesDataSource.swift */,
 				F786B4E81D21DF18004706BC /* Main.storyboard */,
 				F786B4ED1D21DF18004706BC /* LaunchScreen.storyboard */,
 				F786B4F01D21DF18004706BC /* Info.plist */,
+				F7FF82A71E2801D500E598CC /* MenuTableViewCell.swift */,
+				F7FF82A81E2801D500E598CC /* MenuTableViewCell.xib */,
+				F7FF82AB1E28052600E598CC /* RoundCellView.swift */,
 			);
 			path = "TicTacToad-iOS";
 			sourceTree = "<group>";
@@ -375,7 +390,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Andrew Shepard";
 				TargetAttributes = {
 					F786B4DD1D21DF18004706BC = {
@@ -383,7 +398,7 @@
 						DevelopmentTeam = 9XH5KEL8D8;
 						DevelopmentTeamName = "Andrew Shepard";
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;
@@ -395,6 +410,7 @@
 					};
 					F7EE22D61D21D9BF006C6029 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -425,6 +441,7 @@
 			files = (
 				F786B4EF1D21DF18004706BC /* LaunchScreen.storyboard in Resources */,
 				F786B4FB1D21DF5F004706BC /* Assets.xcassets in Resources */,
+				F7FF82AA1E2801D500E598CC /* MenuTableViewCell.xib in Resources */,
 				F786B4EA1D21DF18004706BC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,10 +484,14 @@
 				F773EDF11D36BBFF00643BE0 /* PlayerState.swift in Sources */,
 				F773EDFF1D36ECCE00643BE0 /* ScenePresentationDelegate.swift in Sources */,
 				F770222C1D26ECA300CEFFF5 /* GameButton.swift in Sources */,
+				F7E626EB1D9ADA4300922AAE /* MatchesViewController.swift in Sources */,
 				F77021E61D26EBC500CEFFF5 /* PositionNode.swift in Sources */,
 				F773EDE01D36BBC500643BE0 /* HexColors.swift in Sources */,
 				F773EDFA1D36BC3B00643BE0 /* GameScene+Private.swift in Sources */,
+				F7FF82AC1E28052600E598CC /* RoundCellView.swift in Sources */,
 				F770222D1D26ECA300CEFFF5 /* MenuButton.swift in Sources */,
+				F7E626ED1D9AE42400922AAE /* MatchesDataSource.swift in Sources */,
+				F7FF82A91E2801D500E598CC /* MenuTableViewCell.swift in Sources */,
 				F77022171D26EC9A00CEFFF5 /* GameScene+Input.swift in Sources */,
 				F773EDD61D36BBAD00643BE0 /* MulitpeerController.swift in Sources */,
 				F77022161D26EC9A00CEFFF5 /* GameScene.swift in Sources */,
@@ -528,7 +549,6 @@
 				F77021E11D26EBB600CEFFF5 /* ButtonNode.swift in Sources */,
 				F77021DB1D26EB9D00CEFFF5 /* TTTModel.swift in Sources */,
 				F770220A1D26EC6C00CEFFF5 /* GameScene+Input.swift in Sources */,
-				F773EDD31D36BBAB00643BE0 /* GameCenterController.swift in Sources */,
 				F77021DC1D26EB9D00CEFFF5 /* TTTMove.swift in Sources */,
 				F77022021D26EBF600CEFFF5 /* SelectNextPlayerState.swift in Sources */,
 				F773EDEF1D36BBFD00643BE0 /* PlayerState.swift in Sources */,
@@ -546,6 +566,7 @@
 				F77021DD1D26EB9D00CEFFF5 /* TTTPlayer.swift in Sources */,
 				F77021E21D26EBB600CEFFF5 /* GlyphNode.swift in Sources */,
 				F77022111D26EC9300CEFFF5 /* MenuButton.swift in Sources */,
+				F73573521D98427200C6EA7D /* ScenePresentationDelegate.swift in Sources */,
 				F77021FB1D26EBF600CEFFF5 /* CheckBoardState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -593,13 +614,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "TicTacToad-iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.andyshep.TicTacToad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9a64d051-8525-4ca1-9399-9bb75882b901";
-				PROVISIONING_PROFILE_SPECIFIER = 9XH5KEL8D8/TicTacToad;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -611,13 +633,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "TicTacToad-iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.andyshep.TicTacToad-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9a64d051-8525-4ca1-9399-9bb75882b901";
-				PROVISIONING_PROFILE_SPECIFIER = 9XH5KEL8D8/TicTacToad;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -672,8 +695,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -717,8 +742,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -751,6 +778,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.andyshep.TicTacToad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -765,6 +793,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.andyshep.TicTacToad;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

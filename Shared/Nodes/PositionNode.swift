@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class DebugLabel: SKLabelNode {
+private class DebugLabel: SKLabelNode {
     override init() {
         super.init()
         
@@ -16,6 +16,7 @@ class DebugLabel: SKLabelNode {
         self.fontName = Style.Font.debug.name
         self.zPosition = 100
         self.isUserInteractionEnabled = false
+        self.verticalAlignmentMode = .center
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,7 +29,7 @@ class PositionNode: SKSpriteNode {
     let row: Int
     let column: Int
     
-    lazy var debugLabel: DebugLabel = {
+    private lazy var debugLabel: DebugLabel = {
         let node = DebugLabel()
         
         node.text = "\(self.row), \(self.column)"
@@ -43,11 +44,10 @@ class PositionNode: SKSpriteNode {
         
         super.init(texture: nil, color: Color.clear, size: size)
         
-        self.addChild(debugLabel)
+//        self.addChild(debugLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

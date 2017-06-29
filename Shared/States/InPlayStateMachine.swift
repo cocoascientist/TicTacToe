@@ -11,16 +11,12 @@ import GameplayKit
 
 class InPlayStateMachine: GKStateMachine {
     
-    var didWin: Bool = false
-    fileprivate(set) var moveCount: Int = 0
-    
-    // should be private
-    // could be state class instead of type?
     var lastPlayerState: GKState.Type?
+    
+    fileprivate(set) var moveCount: Int = 0
     
     func resetToInitialState() {
         self.moveCount = 0
-        self.didWin = false
         self.lastPlayerState = nil
         
         self.enter(SelectNextPlayerState.self)

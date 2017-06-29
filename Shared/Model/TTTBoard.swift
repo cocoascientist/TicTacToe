@@ -250,13 +250,3 @@ struct TTTBoard {
         return score
     }
 }
-
-//extension TTTBoard: CustomStringConvertible {
-//    var description: String {
-//        let string = positions.reduce("") { (accumulated, obj: PositionMarker) -> String in
-//            return accumulated + obj.piece.glyph
-//        }
-//        
-//        return string
-//    }
-//}

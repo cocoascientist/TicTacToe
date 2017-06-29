@@ -76,7 +76,7 @@ open class GameCenterController: NSObject {
         if GKLocalPlayer.localPlayer().isAuthenticated == false {
             GKLocalPlayer.localPlayer().authenticateHandler = { (view, error) in
                 guard error == nil else {
-                    print("Authentication error: \(error?.localizedDescription)")
+                    print("Authentication error: \(String(describing: error?.localizedDescription))")
                     return
                 }
                 
@@ -144,7 +144,7 @@ extension GameCenterController {
         
         GKPlayer.loadPlayers(forIdentifiers: playerIDs) { (players, error) -> Void in
             guard error == nil else {
-                print("Error retrieving player info: \(error?.localizedDescription)")
+                print("Error retrieving player info: \(String(describing: error?.localizedDescription))")
                 self.matchStarted = false
                 self.delegate?.matchEnded()
                 return
@@ -156,7 +156,7 @@ extension GameCenterController {
             }
             
             for player in players {
-                print("Found player: \(player.alias)")
+                print("Found player: \(String(describing: player.alias))")
                 self.playersDict[player.playerID!] = player
             }
             
@@ -221,7 +221,7 @@ extension GameCenterController: GKMatchDelegate {
     public func match(_ match: GKMatch, didFailWithError error: Error?) {
         if self.match != match { return }
         
-        print("Match failed with error: \(error?.localizedDescription)")
+        print("Match failed with error: \(String(describing: error?.localizedDescription))")
         self.matchStarted = false
         delegate?.matchEnded()
     }

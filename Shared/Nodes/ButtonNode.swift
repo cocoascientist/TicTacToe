@@ -35,7 +35,7 @@ class ButtonNode: SKNode {
         return node
     }()
     
-    init(title: String, size: CGSize, action: ButtonAction) {
+    init(title: String, size: CGSize, action: @escaping ButtonAction) {
         
         self.title = title
         self.action = action
@@ -135,17 +135,17 @@ extension ButtonNode {
     
     #elseif os(OSX)
     
-    override func mouseDown(_ event: NSEvent) {
+    override func mouseDown(with event: NSEvent) {
         isHighlighted = true
     }
     
-    override func mouseUp(_ event: NSEvent) {
+    override func mouseUp(with event: NSEvent) {
         isHighlighted = false
         if containsLocationForEvent(event: event) {
             let delay = DispatchTime.now() + Double(Int64(self.delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.after(when: delay) { [unowned self] in
+            DispatchQueue.main.asyncAfter(deadline: delay, execute: { [unowned self] in
                 self.action()
-            }
+            })
         }
     }
     

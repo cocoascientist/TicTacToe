@@ -22,30 +22,48 @@ class MenuViewController: UIViewController {
             NSLocalizedString("Settings", comment: "Settings")
         ]
     }()
+    
+    fileprivate lazy var matchesViewController: MatchesViewController = {
+        let identifier = String(describing: MatchesViewController.self)
+        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: identifier) as? MatchesViewController else {
+            fatalError("missing \(identifier)")
+        }
+        
+        return viewController
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = NSLocalizedString("Main Menu", comment: "Main Menu")
+        self.navigationController?.navigationBar.barStyle = .black
+        self.navigationController?.navigationBar.isHidden = true
         
-        self.tableView.backgroundColor = Style.Colors.background
+        self.view.backgroundColor = Style.Colors.background
+        
+        self.tableView.bounces = false
+        self.tableView.backgroundColor = .clear
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: menuCellIdentifier)
+        let nib = UINib(nibName: "MenuTableViewCell", bundle: nil)
+        self.tableView.register(nib, forCellReuseIdentifier: menuCellIdentifier)
         
-        GameCenterController.shared.authenticateLocalUser()
+        self.tableView.separatorStyle = .none
+        
+//        GameCenterController.shared.authenticateLocalUser()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.navigationBar.isHidden = false
-        
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
     }
 }
 
@@ -55,10 +73,10 @@ extension MenuViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: menuCellIdentifier) else { fatalError() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: menuCellIdentifier) as? MenuTableViewCell else { fatalError() }
         
         let title = self.options[indexPath.row]
-        cell.textLabel?.text = title
+        cell.titleLabel.text = title
         
         return cell
     }
@@ -67,37 +85,30 @@ extension MenuViewController: UITableViewDataSource {
 extension MenuViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let identifier = String(describing: GameViewController.self)
-        guard let viewController = self.storyboard?.instantiateViewController(withIdentifier: identifier) as? GameViewController else {
-            fatalError("missing \(identifier)")
-        }
+        tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
         
-        if indexPath.row == 0 {
-            // one player
-            viewController.type = GameType.onePlayer
-            self.navigationController?.pushViewController(viewController, animated: true)
-        }
-        else if indexPath.row == 1 {
-            // two player
-//            viewController.type = GameType.twoPlayer
-//            self.navigationController?.pushViewController(viewController, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) { [unowned self] in
             
-            let request = GKMatchRequest()
-            request.minPlayers = 2
-            request.maxPlayers = 2
+            let identifier = String(describing: GameViewController.self)
+            guard let gameViewController = self.storyboard?.instantiateViewController(withIdentifier: identifier) as? GameViewController else {
+                fatalError("missing \(identifier)")
+            }
             
-            GKTurnBasedMatch.find(for: request, withCompletionHandler: { (match, error) in
-                guard error == nil else {
-                    return print("error: \(error)")
-                }
-                
-                guard let match = match else {
-                    return print("error, no match")
-                }
-                
-                print("match found: \(match)")
-            })
+            if indexPath.row == 0 {
+                // one player
+                gameViewController.type = GameType.onePlayer
+                self.navigationController?.pushViewController(gameViewController, animated: true)
+            }
+            else if indexPath.row == 1 {
+                // two player
+                gameViewController.type = GameType.twoPlayer
+                self.navigationController?.pushViewController(gameViewController, animated: true)
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75.0
     }
 }
 

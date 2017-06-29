@@ -27,6 +27,8 @@ extension GameScene {
             
             guard node is PositionNode else { return }
             
+            
+            
             self.handleUIEventOn(node)
         }
     }
@@ -43,7 +45,7 @@ extension GameScene {
     
     #elseif os(OSX)
     
-    override func mouseUp(_ event: NSEvent) {
+    override func mouseUp(with event: NSEvent) {
         if containsLocationForEvent(event: event) {
             guard let scene = scene else { return }
             let location = event.location(in: scene)

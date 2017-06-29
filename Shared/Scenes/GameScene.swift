@@ -139,6 +139,7 @@ class GameScene: SKScene {
 extension GameScene {
     func handleUIEventOn(_ node: SKNode) {
         guard let node = node as? PositionNode else { return }
+        guard node.children.count == 0 else { return }
         guard let player = model.activePlayer as? TTTPlayer else { return }
         
         let column = node.column
