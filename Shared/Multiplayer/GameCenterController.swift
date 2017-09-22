@@ -129,7 +129,7 @@ open class GameCenterController: NSObject {
 }
 
 extension GameCenterController {
-    internal func authenticationChanged(sender: NSNotification) {
+    @objc internal func authenticationChanged(sender: NSNotification) {
         if GKLocalPlayer.localPlayer().isAuthenticated && !authenticated {
             print("Authentication changed: player authenticated")
             authenticated = true

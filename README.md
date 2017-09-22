@@ -1,6 +1,6 @@
 # TicTacToe
 
-![Swift 3.0](https://img.shields.io/badge/swift-3.2-orange.svg)
+![Swift 4.0](https://img.shields.io/badge/swift-4.0-orange.svg)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS-blue.svg)
 [![license MIT](https://img.shields.io/badge/license-MIT-lightgray.svg)](http://opensource.org/licenses/MIT)
 
@@ -8,8 +8,8 @@ Tic-tac-toe for Apple platforms. Written in Swift with SpriteKit and GameplayKit
 
 ## Requirements
 
-* Xcode 8.3
-* Swift 3.2
+* Xcode 9
+* Swift 4
 
 ## Setup
 
