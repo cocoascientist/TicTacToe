@@ -10,12 +10,12 @@ import UIKit
 import GameKit
 
 class MatchesViewController: UIViewController {
-    
+
     let dataSource = MatchesDataSource()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         dataSource.loadMatches { (matches, error) in
             //
         }
@@ -25,7 +25,7 @@ class MatchesViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
 
     /*
     // MARK: - Navigation

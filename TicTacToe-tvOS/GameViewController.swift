@@ -11,25 +11,25 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-    
+
     lazy var skView: SKView = {
         guard let skView = self.view as? SKView else { fatalError() }
         return skView
     }()
-    
+
     lazy var sceneStateMachine: GKStateMachine = {
         let states = [
             MenuState(view: self.skView),
             OnePlayerState(view: self.skView),
             TwoPlayerState(view: self.skView)
         ]
-        
+
         return GKStateMachine(states: states)
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.sceneStateMachine.enterState(MenuState.self)
     }
 
