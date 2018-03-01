@@ -13,7 +13,7 @@ import GameplayKit
 protocol InPlayStateType {
     unowned var scene: SKScene { get }
     var model: TTTModel { get }
-    
+
     init(scene: SKScene)
 }
 
@@ -26,7 +26,7 @@ extension InPlayStateType where Self: GKState {
 
 class InPlayState: GKState, InPlayStateType {
     fileprivate(set) unowned var scene: SKScene
-    
+
     required init(scene: SKScene) {
         self.scene = scene
         super.init()

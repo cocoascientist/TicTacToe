@@ -9,12 +9,12 @@
 import GameplayKit
 
 class TTTMove: NSObject, GKGameModelUpdate {
-    
+
     internal(set) var value: Int = 0
-    
+
     fileprivate(set) var piece: TTTPiece
     fileprivate(set) var index: Int
-    
+
     required init(index: Int, piece: TTTPiece) {
         self.index = index
         self.piece = piece

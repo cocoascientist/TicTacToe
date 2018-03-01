@@ -13,12 +13,12 @@ import AppKit
 #endif
 
 #if os(iOS) || os(tvOS)
-    
+
 typealias Font = UIFont
 typealias Color = UIColor
-    
+
 #elseif os(OSX)
-    
+
 typealias Font = NSFont
 typealias Color = NSColor
 
