@@ -11,7 +11,7 @@ import SpriteKit
 import GameplayKit
 
 protocol InPlayStateType {
-    unowned var scene: SKScene { get }
+    var scene: SKScene { get }
     var model: TTTModel { get }
     
     init(scene: SKScene)

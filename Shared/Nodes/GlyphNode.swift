@@ -33,7 +33,7 @@ class GlyphNode: SKShapeNode {
     }
     
     lazy var glyphPath: CGPath? = {
-        guard self.glyph.characters.count > 0 else { return nil }
+        guard self.glyph.count > 0 else { return nil }
         
         var unichars = [UniChar](self.glyph.utf16)
         var glyphs = [CGGlyph](repeating: 0, count: unichars.count)

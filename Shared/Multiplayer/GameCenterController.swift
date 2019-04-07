@@ -45,7 +45,7 @@ public protocol GameCenterControllerDelegate: class {
 
 open class GameCenterController: NSObject {
     
-    open static let shared = GameCenterController()
+    public static let shared = GameCenterController()
     
     /// The match object provided by GameKit.
     fileprivate(set) var match: GKMatch!
@@ -73,8 +73,8 @@ open class GameCenterController: NSObject {
      */
     public func authenticateLocalUser() {
         print("Authenticating local user...")
-        if GKLocalPlayer.localPlayer().isAuthenticated == false {
-            GKLocalPlayer.localPlayer().authenticateHandler = { (view, error) in
+        if GKLocalPlayer.local.isAuthenticated == false {
+            GKLocalPlayer.local.authenticateHandler = { (view, error) in
                 guard error == nil else {
                     print("Authentication error: \(String(describing: error?.localizedDescription))")
                     return
@@ -130,7 +130,7 @@ open class GameCenterController: NSObject {
 
 extension GameCenterController {
     @objc internal func authenticationChanged(sender: NSNotification) {
-        if GKLocalPlayer.localPlayer().isAuthenticated && !authenticated {
+        if GKLocalPlayer.local.isAuthenticated && !authenticated {
             print("Authentication changed: player authenticated")
             authenticated = true
         } else {
@@ -140,7 +140,7 @@ extension GameCenterController {
     }
     
     fileprivate func lookupPlayers() {
-        let playerIDs = match.players.map { $0.playerID } as! [String]
+        let playerIDs = match.players.map { $0.playerID } 
         
         GKPlayer.loadPlayers(forIdentifiers: playerIDs) { (players, error) -> Void in
             guard error == nil else {
@@ -157,7 +157,7 @@ extension GameCenterController {
             
             for player in players {
                 print("Found player: \(String(describing: player.alias))")
-                self.playersDict[player.playerID!] = player
+                self.playersDict[player.playerID] = player
             }
             
             self.matchStarted = true
@@ -198,7 +198,7 @@ extension GameCenterController: GKMatchmakerViewControllerDelegate {
 extension GameCenterController: GKMatchDelegate {
     public func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
         if self.match != match { return }
-        guard let playerID = player.playerID else { return }
+        let playerID = player.playerID
         
         delegate?.match(match, didReceiveData: data, fromPlayer: playerID)
     }
@@ -207,9 +207,9 @@ extension GameCenterController: GKMatchDelegate {
         if self.match != match { return }
         
         switch state {
-        case .stateConnected where !matchStarted && match.expectedPlayerCount == 0:
+        case .connected where !matchStarted && match.expectedPlayerCount == 0:
             lookupPlayers()
-        case .stateDisconnected:
+        case .disconnected:
             matchStarted = false
             delegate?.matchEnded()
             self.match = nil

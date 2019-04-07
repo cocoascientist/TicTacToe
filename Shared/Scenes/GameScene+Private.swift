@@ -51,7 +51,7 @@ extension GameScene {
         
         let positions = self.children.filter {
             return $0 is PositionNode
-            }.flatMap {
+            }.compactMap {
                 return $0 as? PositionNode
             }.filter {
                 return $0.column == column && $0.row == row
@@ -74,7 +74,7 @@ extension GameScene {
         for row in 0..<dimension {
             for column in 0..<dimension {
                 let node = PositionNode(row: row, column: column, size: size)
-                node.name = "\(Array("abc".characters)[column])\(2-row)"
+                node.name = "\(Array("abc")[column])\(2-row)"
                 
                 let xPos = (CGFloat(column) * size.width * 1) - size.width
                 let yPos = (CGFloat(row) * size.height * -1) + size.height
