@@ -8,8 +8,8 @@ Tic-tac-toe for Apple platforms. Written in Swift with SpriteKit and GameplayKit
 
 ## Requirements
 
-* Xcode 9
-* Swift 4
+* Xcode 10.2
+* Swift 5
 
 ## Setup
 
